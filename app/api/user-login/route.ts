@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/db";
+import { compare } from "bcrypt";
 import { NextResponse } from "next/server";
 
-export const GET = async (req: Request, res: Response) => {
+export const POST = async (req: Request, res: Response) => {
   const body = await req.json();
   const user = await prisma.user.findUnique({
     where: {
@@ -9,12 +10,13 @@ export const GET = async (req: Request, res: Response) => {
     },
   });
   if (user) {
-    if (user?.password === body.password) {
+    const isValid = await compare(body.password, user.password);
+    if (isValid) {
       return NextResponse.json(user);
     } else {
       return NextResponse.json({ message: "Wrong password" });
     }
   } else {
-    return NextResponse.json({ message: "Register" });
+    return NextResponse.json({ message: "Please register" });
   }
 };
