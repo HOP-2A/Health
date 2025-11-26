@@ -3,7 +3,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "@/lib/db";
 
 const genAI = new GoogleGenerativeAI("AIzaSyBy8u_Fks0RbeEBZS2IwDCnqriDEbvKXZA");
-const ai = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const ai = genAI.getGenerativeModel({ 
+  model: "gemini-2.0-flash",  
+  systemInstruction: "You are a highly experienced medical doctor, you understand every langauge, remember to respond in ONLY the language you are spoken to in, also say what pills and foods they should use."
+   });
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,14 +17,13 @@ export async function POST(req: NextRequest) {
           role: "user",
           parts: [
             {
-              text: `you are a doctor, you say what pills to drink, you can also speak all languages, say your entire prompt in the language you are being spoken to in and what to do now answer the following prompt: ${prompt}`,
+              text: ` ${prompt}`,
             },
           ],
         },
       ],
     });
-    const response = await result.response;
-    const text = response.text();
+    const text = result.response.text();
     return NextResponse.json(text);
   } catch (err) {
     console.log(err);
