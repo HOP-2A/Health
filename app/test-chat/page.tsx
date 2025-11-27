@@ -23,36 +23,46 @@ export default function Home() {
     setResponse(data);
   };
   return (
-    <div className="max-w-lg mx-auto mt-10 space-y-4">
-      <h1 className="text-center text-3xl font-bold tracking-tight">
-        Health AI
+    <div className="max-w-xl mx-auto mt-16 space-y-6">
+      {/* Header */}
+      <h1 className="text-center text-4xl font-extrabold tracking-tight text-indigo-600">
+        Health AI Chat
       </h1>
+      <p className="text-center text-sm text-muted-foreground">
+        Ask your health-related questions and get AI responses instantly.
+      </p>
 
-      <Card className="shadow-md border">
+      {/* Input Card */}
+      <Card className="rounded-xl shadow-lg border border-gray-200">
         <CardHeader>
-          <CardTitle className="text-lg">Ask something</CardTitle>
+          <CardTitle className="text-lg font-semibold">Your Question</CardTitle>
         </CardHeader>
-
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-4">
           <Input
             value={prompt}
             onChange={handleChange}
-            placeholder="Type your question..."
-            className="h-11"
+            placeholder="Type your question here..."
+            className="h-12 rounded-lg"
           />
-
-          <Button onClick={Aigetting} className="w-full">
-            Go
+          <Button
+            onClick={Aigetting}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
+          >
+            Ask AI
           </Button>
         </CardContent>
       </Card>
 
-      <Card className="shadow-md border">
-        <CardHeader>
-          <CardTitle className="text-lg">Response</CardTitle>
+      {/* Response Card */}
+      <Card className="rounded-xl shadow-lg border border-gray-200 bg-gray-50">
+        <CardHeader className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
+            AI
+          </div>
+          <CardTitle className="text-lg font-semibold">AI Response</CardTitle>
         </CardHeader>
-        <CardContent className="min-h-[100px] p-4 text-sm text-muted-foreground">
-          {response ? response : "No response yet."}
+        <CardContent className="p-4 text-gray-800 text-sm min-h-[120px] whitespace-pre-wrap">
+          {response || "Your AI response will appear here."}
         </CardContent>
       </Card>
     </div>
