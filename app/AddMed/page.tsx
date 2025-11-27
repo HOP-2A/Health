@@ -72,8 +72,20 @@ export default function MedicinesPage() {
   };
 
   useEffect(() => {
-    fetchMedicines();
-  }, []);
+    // Define an async function inside useEffect
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/add-medicine");
+        if (!res.ok) throw new Error("Failed to fetch medicines");
+        const data = await res.json();
+        setMedicines(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData(); // Call the async function
+  }, []); // Empty dependency array means it runs once on mount
 
   const onSubmit = async (values: MedicineForm) => {
     await fetch("/api/add-medicine", {

@@ -22,11 +22,12 @@ export const POST = async (req: Request, res: Response) => {
 };
 export const DELETE = async (req: Request, res: Response) => {
   const body = await req.json();
-  const DeleteMedicine = prisma.medicine.delete({
+  const DeleteMedicine = await prisma.medicine.delete({
     where: {
       id: body.id,
     },
   });
+
   return NextResponse.json(DeleteMedicine);
 };
 export const PUT = async (req: Request, res: Response) => {

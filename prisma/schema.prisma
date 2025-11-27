@@ -46,7 +46,7 @@ model Medicine {
   price       Int
   stock       Int
   imageUrls   String[]
-  expiryDate  DateTime
+  github  DateTime
 
   orderItems OrderItem[]
 
