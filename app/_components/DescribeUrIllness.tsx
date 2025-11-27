@@ -1,7 +1,7 @@
 export default function DescribeUrIllness() {
   return (
     <div className="flex justify-center items-center min-h-[90vh] p-5">
-      <form className="backdrop-blur-lg bg-white/70 shadow-2xl border border-white/40 rounded-2xl p-10 w-full max-w-3xl animate-slideUp">
+      <form className="backdrop-blur-lg bg-gradient-to-br from-green-300 to-blue-300  flex flex-col items-center text-white shadow-2xl border border-white/40 rounded-2xl p-10 w-full max-w-3xl animate-slideUp">
         <h2 className="text-4xl font-extrabold mb-6 text-green-700 tracking-tight">
           Describe Your Illness
         </h2>

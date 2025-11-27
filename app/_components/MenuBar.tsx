@@ -5,9 +5,11 @@ export default function MenuBar() {
   return (
     <header className="backdrop-blur-md bg-white/70 w-full text-gray-800 sticky top-0 z-50 shadow-sm border-b border-white/40">
       <div className="max-w-6xl mx-auto flex items-center justify-between h-20 px-6">
-        <div className="text-3xl font-bold tracking-wide text-green-600 drop-shadow-sm">
-          Elixora
-        </div>
+        <Link href="/">
+          <div className="text-3xl font-bold tracking-wide text-green-600 drop-shadow-sm">
+            Elixora
+          </div>
+        </Link>
 
         <div className="flex items-center gap-3">
           <Link href="/search">

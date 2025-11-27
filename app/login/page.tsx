@@ -1,4 +1,5 @@
-const Page = () => {
-  return <div>chhh</div>;
-};
-export default Page;
+import Image from "next/image";
+
+export default function Home() {
+  return <div>Health!</div>;
+}
