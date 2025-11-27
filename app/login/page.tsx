@@ -1,16 +1,18 @@
 "use client";
 import { AnimatePresence, motion, Transition } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 const smooth: Transition = {
   type: "spring",
-  stiffness: 80,
-  damping: 18,
-  mass: 0.6,
+  stiffness: 90,
+  damping: 10,
+  mass: 0.8,
 };
 
 const Page = () => {
   const [role, setRole] = useState<"user" | "doctor">("user");
+  const router = useRouter();
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -128,7 +130,12 @@ const Page = () => {
                 </div>
                 <p className="text-sm mt-4 text-gray-600">
                   Don’t have an account?{" "}
-                  <span className="text-green-700 cursor-pointer">Sign Up</span>
+                  <span
+                    className="text-green-700 cursor-pointer"
+                    onClick={() => router.push("/signup")}
+                  >
+                    Sign Up
+                  </span>
                 </p>
                 <div className="absolute bottom-10 left-10 w-32 h-16 bg-green-600 rounded-full  opacity-70"></div>
                 <div className="absolute bottom-20 left-24 w-40 h-20 bg-green-600 rounded-full  opacity-60"></div>
@@ -184,7 +191,12 @@ const Page = () => {
                 </div>
                 <p className="text-sm mt-4 text-gray-600">
                   Don’t have an account?{" "}
-                  <span className="text-green-700 cursor-pointer">Sign Up</span>
+                  <span
+                    className="text-green-700 cursor-pointer"
+                    onClick={() => router.push("/signup")}
+                  >
+                    Sign Up
+                  </span>
                 </p>
               </div>
 

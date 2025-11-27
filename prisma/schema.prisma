@@ -33,7 +33,7 @@ model Doctor {
   profilePic      String?
   phoneNumber     String
   experienceYears Int
-
+  
   reviews   DoctorReview[]
   createdAt DateTime       @default(now())
 }

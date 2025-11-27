@@ -11,11 +11,10 @@ export const POST = async (req: Request, res: Response) => {
       username: body.username,
       email: body.email,
       password: hashedPassword,
-      profilePic: body.profilePic,
       phoneNumber: body.phoneNumber,
+      profilePic: body.profilePic,
       experienceYears: body.experienceYears,
     },
   });
   return NextResponse.json(createdDoctor);
 };
-

@@ -1,5 +1,6 @@
 "use client";
 import { AnimatePresence, motion, Transition } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 const smooth: Transition = {
@@ -10,43 +11,127 @@ const smooth: Transition = {
 };
 
 const Page = () => {
+  const router = useRouter();
   const [role, setRole] = useState<"user" | "doctor">("user");
-  const [input, setInput] = useState({
+  const [userInput, setUserInput] = useState({
     email: "",
+    username: "",
     password: "",
   });
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
+  const [doctorInput, setDoctorInput] = useState({
+    email: "",
+    username: "",
+    password: "",
+    phoneNumber: "",
+    experienceYear: 0,
+    profilePic: "",
+  });
+  const handleUserInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email") {
-      setInput((prev) => {
+      setUserInput((prev) => {
         return { ...prev, email: value };
       });
     }
     if (name === "password") {
-      setInput((prev) => {
+      setUserInput((prev) => {
         return { ...prev, password: value };
       });
     }
+    if (name === "username") {
+      setUserInput((prev) => {
+        return { ...prev, username: value };
+      });
+    }
   };
+  const userSignUp = async () => {
+    const user = fetch("api/user-create", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: userInput.email,
+        username: userInput.username,
+        password: userInput.password,
+      }),
+    });
+    console.log(user);
+  };
+  const doctorSignUp = async () => {
+    const doctor = fetch("api/doctor-create", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        email: doctorInput.email,
+        username: doctorInput.username,
+        password: doctorInput.password,
+        experienceYears: doctorInput.experienceYear,
+        phoneNumber: doctorInput.phoneNumber,
+        profilePic: doctorInput.profilePic,
+      }),
+    });
+    console.log(doctor);
+  };
+  const handleDoctorInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "email") {
+      setDoctorInput((prev) => {
+        return { ...prev, email: value };
+      });
+    }
+    if (name === "profilePic") {
+      setDoctorInput((prev) => {
+        return { ...prev, profilePic: value };
+      });
+    }
+    if (name === "experienceYear") {
+      setDoctorInput((prev) => {
+        return { ...prev, experienceYear: Number(value) };
+      });
+    }
+    if (name === "phoneNumber") {
+      setDoctorInput((prev) => {
+        return { ...prev, phoneNumber: value };
+      });
+    }
+    if (name === "password") {
+      setDoctorInput((prev) => {
+        return { ...prev, password: value };
+      });
+    }
+    if (name === "username") {
+      setDoctorInput((prev) => {
+        return { ...prev, username: value };
+      });
+    }
+  };
+  console.log(doctorInput);
   const changeRoleToDoc = () => {
     setRole("doctor");
-    setInput({
+    setUserInput({
       email: "",
       password: "",
+      username: "",
     });
   };
   const changeRoleToUser = () => {
     setRole("user");
-    setInput({
+    setDoctorInput({
       email: "",
       password: "",
+      experienceYear: 0,
+      username: "",
+      phoneNumber: "",
+      profilePic: "",
     });
   };
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gray-100">
-      <button onClick={() => changeRoleToDoc()}>Click</button>
-      <button onClick={() => changeRoleToUser()}>user</button>
+      {/* <button onClick={() => changeRoleToDoc()}>Click</button>
+      <button onClick={() => changeRoleToUser()}>user</button> */}
       <div className="w-[65%] h-[75%] rounded-[40px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex border border-green-500">
         <AnimatePresence mode="wait">
           {role === "user" ? (
@@ -74,37 +159,45 @@ const Page = () => {
                 <div className="absolute top-20 right-24 w-40 h-20 bg-green-600 rounded-full  opacity-50"></div>
 
                 <h2 className="text-3xl font-semibold mb-6 text-green-700">
-                  Welcome Back
+                  Create An Account
                 </h2>
                 <div className="flex flex-col gap-4">
                   <input
                     type="text"
                     name="email"
-                    onChange={handleInput}
+                    onChange={handleUserInput}
                     placeholder="Email"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <input
                     type="text"
                     name="username"
-                    onChange={handleInput}
+                    onChange={handleUserInput}
                     placeholder="Username"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <input
                     type="password"
                     name="password"
-                    onChange={handleInput}
+                    onChange={handleUserInput}
                     placeholder="Password"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
-                  <button className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition">
-                    Login
+                  <button
+                    className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
+                    onClick={userSignUp}
+                  >
+                    Sign Up
                   </button>
                 </div>
                 <p className="text-sm mt-4 text-gray-600">
-                  Don’t have an account?{" "}
-                  <span className="text-green-700 cursor-pointer">Log In</span>
+                  Already have an account?
+                  <span
+                    className="text-green-700 cursor-pointer"
+                    onClick={() => router.push("/login")}
+                  >
+                    Log In
+                  </span>
                 </p>
                 <div className="absolute bottom-10 left-10 w-32 h-16 bg-green-600 rounded-full  opacity-70"></div>
                 <div className="absolute bottom-20 left-24 w-40 h-20 bg-green-600 rounded-full  opacity-60"></div>
@@ -129,39 +222,56 @@ const Page = () => {
                 <div className="absolute top-10 right-10 w-32 h-16 bg-green-600 rounded-full  opacity-60"></div>
                 <div className="absolute top-20 right-24 w-40 h-20 bg-green-600 rounded-full  opacity-50"></div>
                 <h2 className="text-3xl font-semibold mb-6 text-green-700">
-                  Welcome Back
+                  Create An Account
                 </h2>
                 <div className="flex flex-col gap-4">
                   <input
                     type="email"
                     name="email"
-                    onChange={handleInput}
+                    onChange={handleDoctorInput}
                     placeholder="Email"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <input
-                    type="email"
-                    name="email"
-                    onChange={handleInput}
-                    placeholder="Email"
+                    type="text"
+                    name="username"
+                    onChange={handleDoctorInput}
+                    placeholder="Username"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <input
-                    type="email"
-                    name="email"
-                    onChange={handleInput}
-                    placeholder="Email"
+                    type="text"
+                    name="phoneNumber"
+                    onChange={handleDoctorInput}
+                    placeholder="Phone Number"
+                    className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                  <input
+                    type="text"
+                    name="profilePic"
+                    onChange={handleDoctorInput}
+                    placeholder="Profile Picture"
+                    className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                  <input
+                    type="number"
+                    name="experienceYear"
+                    onChange={handleDoctorInput}
+                    placeholder="Experience Year"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <input
                     type="password"
                     name="password"
-                    onChange={handleInput}
+                    onChange={handleDoctorInput}
                     placeholder="Password"
                     className="p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
-                  <button className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition">
-                    Login
+                  <button
+                    className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
+                    onClick={doctorSignUp}
+                  >
+                    Sign Up
                   </button>
                   <div className="absolute bottom-10 left-10 w-32 h-16 bg-green-600 rounded-full  opacity-70"></div>
                   <div className="absolute bottom-20 left-24 w-40 h-20 bg-green-600 rounded-full  opacity-60"></div>
@@ -170,8 +280,13 @@ const Page = () => {
                   <div className="absolute bottom-20 right-24 w-40 h-20 bg-green-600 rounded-full opacity-50"></div>
                 </div>
                 <p className="text-sm mt-4 text-gray-600">
-                  Already have an account
-                  <span className="text-green-700 cursor-pointer">Log In</span>
+                  Already have an account?
+                  <span
+                    className="text-green-700 cursor-pointer"
+                    onClick={() => router.push("/login")}
+                  >
+                    Log In
+                  </span>
                 </p>
               </div>
 
