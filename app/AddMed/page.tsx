@@ -104,7 +104,7 @@ export default function MedicinesPage() {
       }),
     });
     form.reset();
-    fetchMedicines();
+    await fetchMedicines();
   };
 
   const handleDelete = async (id: string) => {
@@ -113,7 +113,7 @@ export default function MedicinesPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     });
-    fetchMedicines();
+    await fetchMedicines();
   };
 
   return (
