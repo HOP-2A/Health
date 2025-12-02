@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -38,15 +37,15 @@ model Doctor {
 }
 
 model Medicine {
-  id          String      @id @default(nanoid())
-  name        String
-  description String
-  ageLimit    String
-  price       Int
-  stock       Int
-  imageUrls   String[]
-  orderItems  OrderItem[]
-
+  id            String                   @id @default(nanoid())
+  name          String
+  description   String
+  ageLimit      String
+  price         Int
+  stock         Int
+  imageUrls     String[]
+  orderItems    OrderItem[]
+  category      String?                  @default("anonymous")
   recommendedBy DoctorReviewToMedicine[]
 
   createdAt DateTime @default(now())
