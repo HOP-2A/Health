@@ -3,7 +3,7 @@ import UIProfilePage from "../_components/UIProfilepage";
 
 const Page = () => {
   return (
-    <div className="bg-gradient-to-br from-[#E3FDF5] to-[#D7FFE8] min-h-screen animate-fadeIn">
+    <div className="min-h-screen bg-gray-100 animate-fadeIn">
       <MenuBar />
       <UIProfilePage />
     </div>

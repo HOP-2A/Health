@@ -9,10 +9,10 @@ export default function UIProfilePage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#D8FFF1] via-[#E9FFF8] to-[#C8FDE8] flex justify-center items-center p-6">
-      <div className="w-full max-w-5xl h-[88vh] bg-white/40 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl overflow-hidden animate-fadeIn flex">
-        <div className="w-1/3 bg-gradient-to-br from-green-500 to-blue-600  relative text-white flex flex-col items-center p-10 justify-center">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <div className="min-h-screen w-full bg-gray-100 flex justify-center items-center p-6">
+      <div className="w-full max-w-5xl h-[88vh] bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl overflow-hidden animate-fadeIn flex">
+        <div className="w-1/3 bg-gradient-to-br from-green-500 to-green-700 relative text-white flex flex-col items-center p-10 justify-center">
+          <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
 
           <div className="relative z-10 flex flex-col items-center text-center">
             <div className="p-3 bg-white/20 backdrop-blur-xl rounded-full shadow-2xl border border-white/40">
@@ -49,7 +49,7 @@ export default function UIProfilePage() {
             </h3>
 
             <div className="space-y-6">
-              <div className="bg-white/80 backdrop-blur-xl border border-white/50 shadow-xl p-6 rounded-2xl">
+              <div className="bg-white/80 backdrop-blur-xl border border-green-200 shadow-xl p-6 rounded-2xl">
                 <h4 className="text-lg font-semibold text-gray-800">
                   Personal Information
                 </h4>
@@ -60,7 +60,7 @@ export default function UIProfilePage() {
                 </p>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-xl border border-white/50 shadow-xl p-6 rounded-2xl">
+              <div className="bg-white/80 backdrop-blur-xl border border-green-200 shadow-xl p-6 rounded-2xl">
                 <h4 className="text-lg font-semibold text-gray-800">
                   Health Preferences
                 </h4>
@@ -73,12 +73,12 @@ export default function UIProfilePage() {
           </div>
 
           <div className="flex gap-5 mt-10">
-            <button className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 shadow-xl hover:shadow-green-300 transition-all duration-300 flex items-center justify-center gap-3 text-lg">
+            <button className="flex-1 bg-green-500 text-white font-semibold py-3 rounded-xl hover:opacity-90 shadow-xl hover:shadow-green-300 transition-all duration-300 flex items-center justify-center gap-3 text-lg">
               <Edit size={22} />
               Edit Profile
             </button>
 
-            <button className="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold py-3 rounded-xl hover:opacity-90 shadow-xl hover:shadow-red-300 transition-all duration-300 flex items-center justify-center gap-3 text-lg">
+            <button className="flex-1 bg-red-600  text-white font-semibold py-3 rounded-xl hover:opacity-90 shadow-xl hover:shadow-red-300 transition-all duration-300 flex items-center justify-center gap-3 text-lg">
               <LogOut size={22} />
               Logout
             </button>

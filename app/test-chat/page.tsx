@@ -24,7 +24,6 @@ export default function Home() {
   };
   return (
     <div className="max-w-xl mx-auto mt-16 space-y-6">
-      {/* Header */}
       <h1 className="text-center text-4xl font-extrabold tracking-tight text-indigo-600">
         Health AI Chat
       </h1>
@@ -32,7 +31,6 @@ export default function Home() {
         Ask your health-related questions and get AI responses instantly.
       </p>
 
-      {/* Input Card */}
       <Card className="rounded-xl shadow-lg border border-gray-200">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Your Question</CardTitle>
@@ -53,7 +51,6 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* Response Card */}
       <Card className="rounded-xl shadow-lg border border-gray-200 bg-gray-50">
         <CardHeader className="flex items-center space-x-3">
           <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
