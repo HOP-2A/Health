@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: NextRequest) => {
   const body = await req.json();
   const addMedicine = await prisma.medicine.create({
     data: {
@@ -11,7 +11,6 @@ export const POST = async (req: Request, res: Response) => {
       price: body.price,
       stock: body.stock,
       imageUrls: body.imageUrls,
-      expiryDate: body.expiryDate,
     },
   });
   console.log(addMedicine, "aoisdaoisdoji");
@@ -20,7 +19,7 @@ export const POST = async (req: Request, res: Response) => {
     { status: 200 }
   );
 };
-export const DELETE = async (req: Request, res: Response) => {
+export const DELETE = async (req: NextRequest) => {
   const body = await req.json();
   const DeleteMedicine = await prisma.medicine.delete({
     where: {
@@ -30,7 +29,7 @@ export const DELETE = async (req: Request, res: Response) => {
 
   return NextResponse.json(DeleteMedicine);
 };
-export const PUT = async (req: Request, res: Response) => {
+export const PUT = async (req: NextRequest) => {
   const body = await req.json();
   const UpdatedMedicine = await prisma.medicine.update({
     where: {
@@ -43,12 +42,11 @@ export const PUT = async (req: Request, res: Response) => {
       price: body.price,
       stock: body.stock,
       imageUrls: body.imageUrls,
-      expiryDate: body.expiryDate,
     },
   });
   return NextResponse.json(UpdatedMedicine);
 };
-export const GET = async (req: Request, res: Response) => {
+export const GET = async () => {
   const getMedicine = await prisma.medicine.findMany();
   return NextResponse.json(getMedicine);
 };

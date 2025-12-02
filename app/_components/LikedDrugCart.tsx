@@ -32,14 +32,14 @@ export default function LikedDrugPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {likedItems.map((item) => (
+            {likedItems.map((item, index) => (
               <div
-                key={item.id}
+                key={index}
                 className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
               >
                 <div>
-                  <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                  <p className="text-gray-500 text-sm">{item.description}</p>
+                  <h3 className="font-semibold text-gray-800">{}</h3>
+                  <p className="text-gray-500 text-sm">{}</p>
                 </div>
 
                 <button className="p-2 rounded-lg hover:bg-red-100 transition">

@@ -184,7 +184,7 @@ export default function MedicinesPage() {
                       <Input
                         {...field}
                         type="number"
-                        value={field.value.toString()}
+                        // value={field.value.toString()}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         placeholder="Price in USD"
                       />
@@ -203,7 +203,7 @@ export default function MedicinesPage() {
                       <Input
                         {...field}
                         type="number"
-                        value={field.value.toString()}
+                        // value={field.value.toString()}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         placeholder="Available stock"
                       />

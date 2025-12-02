@@ -5,8 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -15,11 +15,10 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(nanoid())
-  username String
-  email    String @unique
-  password String
-
+  id        String    @id @default(nanoid())
+  username  String
+  email     String    @unique
+  clerkId   String
   illnesses Illness[]
   orders    Order[]
   createdAt DateTime  @default(now())
@@ -33,22 +32,20 @@ model Doctor {
   profilePic      String?
   phoneNumber     String
   experienceYears Int
-  
+
   reviews   DoctorReview[]
   createdAt DateTime       @default(now())
 }
 
 model Medicine {
-  id          String   @id @default(nanoid())
+  id          String      @id @default(nanoid())
   name        String
   description String
   ageLimit    String
   price       Int
   stock       Int
   imageUrls   String[]
-  github  DateTime
-
-  orderItems OrderItem[]
+  orderItems  OrderItem[]
 
   recommendedBy DoctorReviewToMedicine[]
 
@@ -69,7 +66,7 @@ model Illness {
 model DoctorReview {
   id        String   @id @default(nanoid())
   doctorId  String
-  illnessId String @unique
+  illnessId String   @unique
   notes     String
   createdAt DateTime @default(now())
 
@@ -112,4 +109,3 @@ model OrderItem {
   order    Order    @relation(fields: [orderId], references: [id])
   medicine Medicine @relation(fields: [medicineId], references: [id])
 }
- 
