@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/db";
 import { compare, hash } from "bcrypt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: Request, res: Response) => {
+export const POST = async (req: NextRequest) => {
   const body = await req.json();
   const saltRound = 10;
   const hashedPassword = await hash(body.password, saltRound);

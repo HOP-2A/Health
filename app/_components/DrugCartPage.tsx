@@ -42,46 +42,21 @@ export default function DrugCartPage() {
                 Add medicines or health products to see them listed here.
               </p>
 
-              <button
-                className="
-                  mt-6 bg-gradient-to-br from-green-500 to-green-700 
-                  text-white font-semibold py-3 px-6 rounded-xl
-                  shadow-[0_4px_10px_rgba(0,150,80,0.3)]
-                  hover:shadow-[0_0_15px_rgba(0,255,120,0.4)]
-                  hover:scale-[1.03] active:scale-[0.97]
-                  transition-all duration-300
-                "
+            <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
+              Browse Medicines
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {cartItems.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
               >
-                Browse Medicines
-              </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="cart-list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-4"
-            >
-              {cartItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 20, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.35, delay: index * 0.05 }}
-                  className="
-                    flex items-center justify-between
-                    bg-white/70 backdrop-blur-xl 
-                    border border-white/40 shadow-lg 
-                    rounded-2xl p-4 
-                    hover:shadow-green-300/30 hover:scale-[1.01]
-                    transition-all duration-300
-                  "
-                >
-                  <div>
-                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-500 text-sm">{item.description}</p>
-                  </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800">{}</h3>
+                  <p className="text-gray-500 text-sm">{}</p>
+                </div>
 
                   <motion.button
                     whileTap={{ scale: 0.85 }}
