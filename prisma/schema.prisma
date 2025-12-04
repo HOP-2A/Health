@@ -45,7 +45,7 @@ model Medicine {
   stock         Int
   imageUrls     String[]
   orderItems    OrderItem[]
-  category      String?                  @default("anonymous")
+  category      String
   recommendedBy DoctorReviewToMedicine[]
 
   createdAt DateTime @default(now())

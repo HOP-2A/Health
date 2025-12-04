@@ -35,13 +35,14 @@ export async function POST(req: Request) {
 
   /* ------------------------- USER CREATED ------------------------ */
   if (eventType === "user.created") {
-    await prisma.user.create({
+    const a = await prisma.user.create({
       data: {
         clerkId: user.id,
         email,
         username: firstName,
       },
     });
+    console.log(a, "gg");
   }
 
   return NextResponse.json({ ok: true });

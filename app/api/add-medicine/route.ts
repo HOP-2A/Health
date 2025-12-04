@@ -11,6 +11,7 @@ export const POST = async (req: NextRequest) => {
       price: body.price,
       stock: body.stock,
       imageUrls: body.imageUrls,
+      category: body.category,
     },
   });
   console.log(addMedicine, "aoisdaoisdoji");
