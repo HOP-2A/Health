@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import CallDrug from "./_components/CallDrug";
 import DescribeUrIllness from "./_components/DescribeUrIllness";
 import MenuBar from "./_components/MenuBar";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,10 @@ export default function Home() {
           </div>
         </motion.div>
       </AnimatePresence>
+    <div className="bg-gradient-to-br from-[#E3FDF5] to-[#D7FFE8] min-h-screen animate-fadeIn">
+      <MenuBar />
+      <DescribeUrIllness />
+      <CallDrug />
     </div>
   );
 }

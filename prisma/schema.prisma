@@ -52,14 +52,14 @@ model Medicine {
 }
 
 model Illness {
-  id        String   @id @default(nanoid())
+  id        String        @id @default(nanoid())
   userId    String
   name      String
   details   String?
-  createdAt DateTime @default(now())
-
-  user   User          @relation(fields: [userId], references: [id])
-  review DoctorReview?
+  createdAt DateTime      @default(now())
+  category  String
+  user      User          @relation(fields: [userId], references: [id])
+  review    DoctorReview?
 }
 
 model DoctorReview {
