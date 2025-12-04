@@ -1,39 +1,32 @@
 "use client";
+
+import { AnimatePresence, motion } from "framer-motion";
 import DescribeUrIllness from "./_components/DescribeUrIllness";
 import MenuBar from "./_components/MenuBar";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+
 export default function Home() {
-  const user = useUser();
-  console.log(user);
+  const pathname = usePathname();
+
   return (
-    <div className="bg-gradient-to-br from-[#E3FDF5] to-[#D7FFE8] min-h-screen animate-fadeIn">
-      <div>
-        <SignedOut>
-          <SignInButton>
-            <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-              Sign Up
-            </button>
-          </SignInButton>
-        </SignedOut>
-        <SignUpButton>
-          <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-            Sign Up
-          </button>
-        </SignUpButton>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-      <MenuBar />
-      <DescribeUrIllness />
+    <div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{
+            duration: 0.3,
+            ease: "easeInOut",
+          }}
+        >
+          <div className="min-h-screen bg-gray-100 animate-fadeIn">
+            <MenuBar />
+            <DescribeUrIllness />
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
