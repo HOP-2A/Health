@@ -38,38 +38,36 @@ export default function DrugCartPage() {
               <p className="mt-6 text-xl font-semibold text-gray-300">
                 Your cart is empty
               </p>
+
               <p className="text-gray-50 max-w-sm mt-2">
                 Add medicines or health products to see them listed here.
               </p>
 
-            <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
-              Browse Medicines
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {cartItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
-              >
-                <div>
-                  <h3 className="font-semibold text-gray-800">{}</h3>
-                  <p className="text-gray-500 text-sm">{}</p>
-                </div>
+              <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
+                Browse Medicines
+              </button>
+            </motion.div>
+          ) : (
+            <div className="space-y-4">
+              {cartItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
+                >
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    <p className="text-gray-500 text-sm">{item.description}</p>
+                  </div>
 
                   <motion.button
                     whileTap={{ scale: 0.85 }}
-                    className="
-                      p-2 rounded-lg bg-red-50 
-                      hover:bg-red-100 transition-all duration-300
-                    "
+                    className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-all duration-300"
                   >
                     <Trash2 className="text-red-500" />
                   </motion.button>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>

@@ -27,7 +27,7 @@ export default function LikedDrugPage() {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="p-6  backdrop-blur-xl rounded-2xl shadow-xl border border-white/40"
+                className="p-6 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40"
               >
                 <Heart
                   size={60}
@@ -42,33 +42,28 @@ export default function LikedDrugPage() {
                 Add medicines or health products to see them listed here.
               </p>
 
-            <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
-              Browse Medicines
-            </button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {likedItems.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
-              >
-                <div>
-                  <h3 className="font-semibold text-gray-800">{}</h3>
-                  <p className="text-gray-500 text-sm">{}</p>
-                </div>
+              <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
+                Browse Medicines
+              </button>
+            </motion.div>
+          ) : (
+            <div className="space-y-4">
+              {likedItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
+                >
+                  <div>
+                    <h3 className="font-semibold text-gray-800">{}</h3>
+                    <p className="text-gray-500 text-sm">{}</p>
+                  </div>
 
-                  <button
-                    className="
-                      p-2 rounded-lg bg-red-50 hover:bg-red-100 
-                      transition-all duration-300
-                    "
-                  >
+                  <button className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-all duration-300">
                     <Trash2 className="text-red-500" />
                   </button>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>
