@@ -37,7 +37,6 @@ model Doctor {
 }
 
 model Medicine {
-<<<<<<< HEAD
   id            String                   @id @default(nanoid())
   name          String
   description   String
@@ -47,33 +46,20 @@ model Medicine {
   imageUrls     String[]
   orderItems    OrderItem[]
   category      String
-=======
-  id          String   @id @default(nanoid())
-  name        String
-  description String
-  ageLimit    String
-  price       Int
-  stock       Int
-  imageUrls   String[]
-
-
-  orderItems OrderItem[]
-
->>>>>>> 5803c57 (hi)
   recommendedBy DoctorReviewToMedicine[]
 
   createdAt DateTime @default(now())
 }
 
 model Illness {
-  id        String   @id @default(nanoid())
+  id        String        @id @default(nanoid())
   userId    String
   name      String
   details   String?
-  createdAt DateTime @default(now())
-category String
-  user   User          @relation(fields: [userId], references: [id])
-  review DoctorReview?
+  createdAt DateTime      @default(now())
+  category  String
+  user      User          @relation(fields: [userId], references: [id])
+  review    DoctorReview?
 }
 
 model DoctorReview {
