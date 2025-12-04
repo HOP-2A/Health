@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,16 +11,16 @@ model User {
   id        String    @id @default(nanoid())
   username  String
   email     String    @unique
+  createdAt DateTime  @default(now())
   clerkId   String
   illnesses Illness[]
   orders    Order[]
-  createdAt DateTime  @default(now())
 }
 
 model Doctor {
-  id              String  @id @default(nanoid())
+  id              String         @id @default(nanoid())
   username        String
-  email           String  @unique
+  email           String         @unique
   password        String
   profilePic      String?
   phoneNumber     String
@@ -45,10 +39,9 @@ model Medicine {
   stock         Int
   imageUrls     String[]
   orderItems    OrderItem[]
+  createdAt     DateTime                 @default(now())
   category      String
   recommendedBy DoctorReviewToMedicine[]
-
-  createdAt DateTime @default(now())
 }
 
 model Illness {
@@ -57,54 +50,48 @@ model Illness {
   name      String
   details   String?
   createdAt DateTime      @default(now())
-  category  String
-  user      User          @relation(fields: [userId], references: [id])
   review    DoctorReview?
+  user      User          @relation(fields: [userId], references: [id])
 }
 
 model DoctorReview {
-  id        String   @id @default(nanoid())
+  id        String                   @id @default(nanoid())
   doctorId  String
-  illnessId String   @unique
+  illnessId String                   @unique
   notes     String
-  createdAt DateTime @default(now())
-
-  doctor  Doctor  @relation(fields: [doctorId], references: [id])
-  illness Illness @relation(fields: [illnessId], references: [id])
-
+  createdAt DateTime                 @default(now())
+  doctor    Doctor                   @relation(fields: [doctorId], references: [id])
+  illness   Illness                  @relation(fields: [illnessId], references: [id])
   medicines DoctorReviewToMedicine[]
 }
 
 model DoctorReviewToMedicine {
   doctorReviewId String
   medicineId     String
-
-  doctorReview DoctorReview @relation(fields: [doctorReviewId], references: [id])
-  medicine     Medicine     @relation(fields: [medicineId], references: [id])
+  doctorReview   DoctorReview @relation(fields: [doctorReviewId], references: [id])
+  medicine       Medicine     @relation(fields: [medicineId], references: [id])
 
   @@id([doctorReviewId, medicineId])
   @@map("DoctorReview_Medicine")
 }
 
 model Order {
-  id              String  @id @default(nanoid())
+  id              String      @id @default(nanoid())
   userId          String
   totalPrice      Int
-  status          String  @default("pending")
-  discountApplied Boolean @default(false)
-
-  user      User        @relation(fields: [userId], references: [id])
-  items     OrderItem[]
-  createdAt DateTime    @default(now())
+  status          String      @default("pending")
+  discountApplied Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
 }
 
 model OrderItem {
-  id         String @id @default(nanoid())
+  id         String   @id @default(nanoid())
   orderId    String
   medicineId String
-  quantity   Int    @default(1)
+  quantity   Int      @default(1)
   price      Int
-
-  order    Order    @relation(fields: [orderId], references: [id])
-  medicine Medicine @relation(fields: [medicineId], references: [id])
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
 }

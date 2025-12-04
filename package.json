@@ -10,7 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.35.5",
+    "@clerk/nextjs": "^6.35.6",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.0",
@@ -29,10 +29,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.66.1",
-<<<<<<< HEAD
     "svix": "^1.81.0",
-=======
->>>>>>> 5803c57 (hi)
     "tailwind-merge": "^3.4.0",
     "zod": "^4.1.13"
   },

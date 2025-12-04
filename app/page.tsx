@@ -33,12 +33,9 @@ export default function Home() {
           <div className="flex justify-center mt-46 px-4">
             <DescribeUrIllness />
           </div>
+          <CallDrug />
         </motion.div>
       </AnimatePresence>
-    <div className="bg-gradient-to-br from-[#E3FDF5] to-[#D7FFE8] min-h-screen animate-fadeIn">
-      <MenuBar />
-      <DescribeUrIllness />
-      <CallDrug />
     </div>
   );
 }
