@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "@/lib/db";
+import { useUser } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("AIzaSyD6-pRqtUlcwfz1WKdo6x5eJiiuDQ_5CWI");
+const genAI = new GoogleGenerativeAI("AIzaSyB-UQ-0lEhVi7eZsG2w3u6wh-Qof0cfu8o");
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
   systemInstruction:
@@ -11,7 +13,7 @@ const ai = genAI.getGenerativeModel({
 
 export async function POST(req: NextRequest) {
   try {
-    //  const user = useUser();
+    const user = currentUser();
 
     const { prompt } = await req.json();
     const result = await ai.generateContent({
@@ -41,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     const createdIllness = await prisma.illness.create({
       data: {
-        userId: "ENc1H6bzhrKh3tugcQ_Y0",
+        userId: "z0ZtxjexP4fUwKW9r877X",
         name: cooked.name,
         details: cooked.details,
       },
