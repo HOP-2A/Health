@@ -12,16 +12,16 @@ model User {
   username  String
   email     String    @unique
   createdAt DateTime  @default(now())
-  clerkId   String
+  clerkId   String    @unique
   illnesses Illness[]
   orders    Order[]
 }
 
 model Doctor {
-  id              String         @id @default(nanoid())
+  id              String  @id @default(nanoid())
   username        String
-  email           String         @unique
-  password        String
+  email           String  @unique
+  clerkId         String  @unique
   profilePic      String?
   phoneNumber     String
   experienceYears Int

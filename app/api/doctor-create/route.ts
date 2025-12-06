@@ -1,20 +1,30 @@
 import { prisma } from "@/lib/db";
-import { compare, hash } from "bcrypt";
+import { clerkClient } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
-  const saltRound = 10;
-  const hashedPassword = await hash(body.password, saltRound);
+
+  const clerk = await clerkClient();
+
+  const clerkUser = await clerk.users.createUser({
+    emailAddress: [body.email],
+    password: body.password,
+    username: body.username,
+    publicMetadata: {
+      role: "DOCTOR",
+    },
+  });
+
   const createdDoctor = await prisma.doctor.create({
     data: {
       username: body.username,
       email: body.email,
-      password: hashedPassword,
       phoneNumber: body.phoneNumber,
-      profilePic: body.profilePic,
       experienceYears: body.experienceYears,
+      clerkId: clerkUser.id,
     },
   });
+
   return NextResponse.json(createdDoctor);
 };

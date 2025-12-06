@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
 import { usePathname } from "next/navigation";
+import { useSignIn, useUser } from "@clerk/nextjs";
 const smooth: Transition = {
   type: "spring",
   stiffness: 90,
@@ -13,6 +14,9 @@ const smooth: Transition = {
 
 const Page = () => {
   const [role, setRole] = useState<"user" | "doctor">("user");
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const { user } = useUser();
+  console.log(user, "sss");
   const pathname = usePathname();
   const router = useRouter();
   const [input, setInput] = useState({
@@ -49,30 +53,35 @@ const Page = () => {
   };
   console.log(input);
   const login = async () => {
+    if (!isLoaded || !signIn) return;
     if (role === "user") {
-      const user = await fetch("api/user-login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: input.email,
+      try {
+        const result = await signIn.create({
+          identifier: input.email,
           password: input.password,
-        }),
-      });
-      console.log(user);
+        });
+
+        if (result.status === "complete") {
+          await setActive({ session: result.createdSessionId });
+          router.push("/");
+        }
+      } catch (err) {
+        console.error("Login failed", err);
+      }
     } else {
-      const user = await fetch("api/doctor-login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: input.email,
+      try {
+        const result = await signIn.create({
+          identifier: input.email,
           password: input.password,
-        }),
-      });
-      console.log(user);
+        });
+
+        if (result.status === "complete") {
+          await setActive({ session: result.createdSessionId });
+          router.push("/");
+        }
+      } catch (err) {
+        console.error("Login failed", err);
+      }
     }
   };
   return (
@@ -121,7 +130,7 @@ const Page = () => {
                   initial={{ opacity: 0, x: -120 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 120 }}
-                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                  transition={smooth}
                   className="w-full h-full flex"
                 >
                   <div className="w-[60%] h-full relative group">
@@ -186,7 +195,7 @@ const Page = () => {
                   initial={{ opacity: 0, x: 120 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -120 }}
-                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                  transition={smooth}
                   className="w-full h-full flex"
                 >
                   <div className="w-[40%] h-full flex flex-col justify-center px-10   relative">
