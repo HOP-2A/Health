@@ -282,10 +282,7 @@ export default function MedicinesPage() {
               )}
             </CardContent>
             <CardFooter>
-              <Button
-                variant="destructive"
-                onClick={() => handleDelete(med.id)}
-              >
+              <Button variant="secondary" onClick={() => handleDelete(med.id)}>
                 Delete
               </Button>
             </CardFooter>
