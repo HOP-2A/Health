@@ -13,6 +13,7 @@ export const POST = async (req: Request) => {
         price: body.price,
         stock: body.stock,
         imageUrls: body.imageUrls,
+        category: body.category,
       },
     });
 
