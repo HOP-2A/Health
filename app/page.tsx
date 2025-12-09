@@ -30,7 +30,7 @@ export default function Home() {
         >
           <MenuBar />
 
-          <div className="flex justify-center mt-36 px-4">
+          <div className="flex justify-center mt-46 px-4">
             <DescribeUrIllness />
           </div>
           <CallDrug />
@@ -39,3 +39,23 @@ export default function Home() {
     </div>
   );
 }
+<div
+  key={med.id}
+  className="w-[400px] h-[400px] rounded-2xl bg-white shadow-lg overflow-hidden flex flex-col items-center p-4 hover:shadow-2xl transition-shadow duration-300"
+>
+  <img
+    src={med.imageUrls[0]}
+    alt={med.name}
+    className="w-full h-48 object-cover rounded-xl mb-4"
+  />
+  <h2 className="text-xl font-semibold text-gray-800 text-center">
+    {med.name}
+  </h2>
+  <p className="text-gray-500 text-sm text-center mt-2 line-clamp-3">
+    {med.description}
+  </p>
+  <div className="mt-auto w-full flex justify-between text-gray-700 font-medium text-sm">
+    <span>Price: ${med.price}</span>
+    <span>Stock: {med.stock}</span>
+  </div>
+</div>;

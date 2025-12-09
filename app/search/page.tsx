@@ -5,9 +5,6 @@ import MenuBar from "../_components/MenuBar";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import MedCard from "../_components/MedCard";
-
 const Page = () => {
   interface Medicine {
     id: string;
@@ -47,7 +44,7 @@ const Page = () => {
   );
   return (
     <div
-      className="relative min-h-screen overflow-hidden"
+      className="w-[100vw] h-[100vh] flex flex-col gap-[100px]"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1551970634-086c4065fa85?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -62,29 +59,41 @@ const Page = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10"
+          className="relative z-10 "
         >
-          <motion.div
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
+          <div>
             <MenuBar />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-          >
+          </div>
+          <div>
             <SearchPageInput />
-          </motion.div>
-          <div className="w-[60vw] flex flex-wrap gap-10 mt-15 justify-center items-center ml-100">
-            {medicines.map((med) => (
-              <div key={med.id} className="  w-100">
-                <MedCard med={med} />
-              </div>
-            ))}
+          </div>
+          <div className="w-[100vw] flex justify-center">
+            <div className="h-[60vh] w-[60vw] flex flex-wrap gap-[50px] overflow-scroll   mt-[50px]">
+              {medicines.map((med) => {
+                return (
+                  <div
+                    key={med.id}
+                    className="w-[400px] h-[400px] rounded-2xl bg-white shadow-lg overflow-hidden flex flex-col items-center p-4 hover:shadow-2xl transition-shadow duration-300 "
+                  >
+                    <img
+                      src={med.imageUrls[0]}
+                      alt={med.name}
+                      className="w-full h-48 object-cover rounded-xl mb-4"
+                    />
+                    <h2 className="text-xl font-semibold text-gray-800 text-center">
+                      {med.name}
+                    </h2>
+                    <p className="text-gray-500 text-sm text-center mt-2 line-clamp-3">
+                      {med.description}
+                    </p>
+                    <div className="mt-auto w-full flex justify-between text-gray-700 font-medium text-sm">
+                      <span>Price: ${med.price}</span>
+                      <span>Stock: {med.stock}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
