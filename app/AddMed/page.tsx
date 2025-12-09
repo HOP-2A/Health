@@ -72,7 +72,6 @@ export default function MedicinesPage() {
   };
 
   useEffect(() => {
-    // Define an async function inside useEffect
     const fetchData = async () => {
       try {
         const res = await fetch("/api/add-medicine");
@@ -84,8 +83,8 @@ export default function MedicinesPage() {
       }
     };
 
-    fetchData(); // Call the async function
-  }, []); // Empty dependency array means it runs once on mount
+    fetchData();
+  }, []);
 
   const onSubmit = async (values: MedicineForm) => {
     await fetch("/api/add-medicine", {
@@ -122,7 +121,6 @@ export default function MedicinesPage() {
         Medicines Inventory
       </h1>
 
-      {/* Add medicine form */}
       <Card className="bg-gray-50 shadow-md border border-gray-200">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-gray-800">
@@ -184,7 +182,6 @@ export default function MedicinesPage() {
                       <Input
                         {...field}
                         type="number"
-                        // value={field.value.toString()}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         placeholder="Price in USD"
                       />
@@ -203,7 +200,6 @@ export default function MedicinesPage() {
                       <Input
                         {...field}
                         type="number"
-                        // value={field.value.toString()}
                         onChange={(e) => field.onChange(Number(e.target.value))}
                         placeholder="Available stock"
                       />
@@ -255,7 +251,6 @@ export default function MedicinesPage() {
         </CardContent>
       </Card>
 
-      {/* Medicines list */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {medicines.map((med) => (
           <Card key={med.id} className="shadow-lg border border-gray-200">

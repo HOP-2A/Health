@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
   try {
@@ -13,6 +13,7 @@ export const POST = async (req: Request) => {
         price: body.price,
         stock: body.stock,
         imageUrls: body.imageUrls,
+        category: body.category,
       },
     });
 

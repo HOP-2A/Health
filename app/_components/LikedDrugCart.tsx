@@ -1,11 +1,25 @@
 "use client";
 
 import { Heart, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUser } from "@clerk/nextjs";
 
 export default function LikedDrugPage() {
   const [likedItems, setLikedItems] = useState([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchLikes = async () => {
+      const res = await fetch(`/api/liked-med?userId=${user.id}`);
+      const data = await res.json();
+      setLikedItems(data.map((like: any) => like.medicine));
+    };
+
+    fetchLikes();
+  }, [user]);
 
   return (
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
@@ -53,10 +67,12 @@ export default function LikedDrugPage() {
                   key={index}
                   className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
                 >
-                  <div>
-                    <h3 className="font-semibold text-gray-800">{}</h3>
-                    <p className="text-gray-500 text-sm">{}</p>
-                  </div>
+                  <h3 className="font-semibold text-gray-800">
+                    {item.medicine.name}
+                  </h3>
+                  <p className="text-gray-500 text-sm">
+                    {item.medicine.price}₮
+                  </p>
 
                   <button className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-all duration-300">
                     <Trash2 className="text-red-500" />
