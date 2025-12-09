@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/db";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DescriptionPrompt() {
   const [prompt, setPrompt] = useState("");
@@ -28,7 +29,6 @@ export default function DescriptionPrompt() {
       const data = await res.json();
       console.log("AI response:", data);
 
-      // Reload the page after the response is returned
       window.location.reload();
     } catch (error) {
       console.error("Error sending prompt:", error);

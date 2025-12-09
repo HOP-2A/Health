@@ -52,6 +52,7 @@ model Illness {
   userId    String
   name      String
   details   String?
+  category  String 
   createdAt DateTime      @default(now())
   review    DoctorReview?
   user      User          @relation(fields: [userId], references: [id])
