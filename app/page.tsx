@@ -30,7 +30,7 @@ export default function Home() {
         >
           <MenuBar />
 
-          <div className="flex justify-center mt-46 px-4">
+          <div className="flex justify-center mt-36 px-4">
             <DescribeUrIllness />
           </div>
           <CallDrug />
