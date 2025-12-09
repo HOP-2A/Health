@@ -1,17 +1,17 @@
 import { prisma } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
-import CallDrug from "./CallDrug";
+import CallDrug from "./CallDrugAi";
 
 export default async function AiResponse() {
   //  const user = currentUser();
-
+  //create
   const response = await prisma.illness.findMany({
     where: {
       //    userId: user.id,
       userId: "z0ZtxjexP4fUwKW9r877X",
     },
   });
-
+  //delete
   const delte = await prisma.illness.deleteMany({
     where: {
       userId: "z0ZtxjexP4fUwKW9r877X",
@@ -51,7 +51,7 @@ export default async function AiResponse() {
           })}
           <div className="w-220 h-100 mt-30 pr-23">
             {loading === false ? (
-              <CallDrug />
+              <CallDrug category={r.category} />
             ) : (
               <div className="text-gray-200 font-semibold text-xl md:text-2xl lg:text-4xl p-6  bg-red-500/20 rounded-2xl shadow-lg border border-red-400 flex items-center justify-center ml-100">
                 Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү
