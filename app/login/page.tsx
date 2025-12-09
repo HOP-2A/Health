@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
 import { usePathname } from "next/navigation";
-import { useSignIn, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 const smooth: Transition = {
   type: "spring",
   stiffness: 90,
@@ -14,9 +14,8 @@ const smooth: Transition = {
 
 const Page = () => {
   const [role, setRole] = useState<"user" | "doctor">("user");
-  const { signIn, setActive, isLoaded } = useSignIn();
-  const { user } = useUser();
-  console.log(user, "sss");
+  const user = useUser();
+  console.log(user);
   const pathname = usePathname();
   const router = useRouter();
   const [input, setInput] = useState({
@@ -53,35 +52,18 @@ const Page = () => {
   };
   console.log(input);
   const login = async () => {
-    if (!isLoaded || !signIn) return;
     if (role === "user") {
-      try {
-        const result = await signIn.create({
-          identifier: input.email,
-          password: input.password,
-        });
-
-        if (result.status === "complete") {
-          await setActive({ session: result.createdSessionId });
-          router.push("/");
-        }
-      } catch (err) {
-        console.error("Login failed", err);
-      }
     } else {
-      try {
-        const result = await signIn.create({
-          identifier: input.email,
+      const res = await fetch("/api/doctor-login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: input.email,
           password: input.password,
-        });
-
-        if (result.status === "complete") {
-          await setActive({ session: result.createdSessionId });
-          router.push("/");
-        }
-      } catch (err) {
-        console.error("Login failed", err);
-      }
+        }),
+      });
     }
   };
   return (

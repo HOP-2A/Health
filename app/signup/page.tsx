@@ -3,7 +3,6 @@ import { AnimatePresence, motion, Transition } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
-import { useUser } from "@clerk/nextjs";
 
 const smooth: Transition = {
   type: "spring",
@@ -14,8 +13,6 @@ const smooth: Transition = {
 
 const Page = () => {
   const router = useRouter();
-  const user = useUser();
-  console.log(user);
   const [role, setRole] = useState<"user" | "doctor">("user");
   const pathname = usePathname();
   const [userInput, setUserInput] = useState({
@@ -303,7 +300,7 @@ const Page = () => {
                       />
                       <button
                         className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
-                        onClick={doctorSignUp}
+                        onClick={() => doctorSignUp()}
                       >
                         Sign Up
                       </button>
