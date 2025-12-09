@@ -15,7 +15,10 @@ model User {
   clerkId   String
   illnesses Illness[]
   orders    Order[]
+
+  likes     Like[]   
 }
+
 
 model Doctor {
   id              String         @id @default(nanoid())
@@ -29,7 +32,6 @@ model Doctor {
   reviews   DoctorReview[]
   createdAt DateTime       @default(now())
 }
-
 model Medicine {
   id            String                   @id @default(nanoid())
   name          String
@@ -42,7 +44,10 @@ model Medicine {
   createdAt     DateTime                 @default(now())
   category      String
   recommendedBy DoctorReviewToMedicine[]
+
+  likes         Like[]                
 }
+
 
 model Illness {
   id        String        @id @default(nanoid())
@@ -94,4 +99,17 @@ model OrderItem {
   price      Int
   medicine   Medicine @relation(fields: [medicineId], references: [id])
   order      Order    @relation(fields: [orderId], references: [id])
+}
+
+
+model Like {
+  id         String   @id @default(nanoid())
+  userId     String
+  medicineId String
+  createdAt  DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  medicine  Medicine @relation(fields: [medicineId], references: [id])
+
+  @@unique([userId, medicineId])
 }
