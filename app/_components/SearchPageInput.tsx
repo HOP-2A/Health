@@ -5,7 +5,7 @@ export default function SearchPageInput() {
     <div className="flex justify-center mt-20 px-4">
       <div className="w-full max-w-2xl">
         <h2 className="text-4xl font-extrabold text-gray-300  mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-          Search for Medicines
+          Эм хайх
         </h2>
         <div
           className="relative group 
@@ -21,7 +21,7 @@ export default function SearchPageInput() {
 
           <input
             type="text"
-            placeholder="Search medicines, drugs, symptoms..."
+            placeholder="та юу хайж байна вэ?"
             className="
               pl-14 pr-4 py-3 w-full 
               bg-transparent text-gray-800 placeholder-gray-500 text-lg
@@ -42,7 +42,7 @@ export default function SearchPageInput() {
             transition-all duration-300
           "
         >
-          Search
+          хайх
         </button>
       </div>
     </div>
