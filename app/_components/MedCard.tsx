@@ -53,7 +53,9 @@ export default function MedCard({ med }) {
           {med.price.toLocaleString()}₮
         </span>
 
-        <div className="mt-3 text-white/80 font-medium text-[15px]">Box:</div>
+        <div className="mt-3 text-white/80 font-medium text-[15px]">
+          тоо ширхэг:{med.stock}
+        </div>
 
         <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
           <button className="w-12 h-10 bg-white/20 text-xl text-white">
@@ -76,7 +78,7 @@ export default function MedCard({ med }) {
             active:scale-95 transition-all duration-200
           "
         >
-          Submit
+          захиалах
         </button>
       </CardContent>
     </Card>

@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import MedCard from "../_components/MedCard";
 
 const Page = () => {
   interface Medicine {
@@ -28,7 +29,6 @@ const Page = () => {
     setMedicines(data);
   };
   useEffect(() => {
-    // Define an async function inside useEffect
     const fetchData = async () => {
       try {
         const res = await fetch("/api/add-medicine");
@@ -40,8 +40,8 @@ const Page = () => {
       }
     };
 
-    fetchData(); // Call the async function
-  }, []); // Empty dependency array means it runs once on mount
+    fetchData();
+  }, []);
   const filteredMedicines = medicines.filter((med) =>
     med.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -79,38 +79,11 @@ const Page = () => {
           >
             <SearchPageInput />
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+          <div className="w-[60vw] flex flex-wrap gap-10 mt-15 justify-center items-center ml-100">
             {medicines.map((med) => (
-              <Card key={med.id} className="shadow-lg border border-gray-200">
-                <CardContent>
-                  <h2 className="text-xl font-bold text-gray-800">
-                    {med.name}
-                  </h2>
-                  <p className="text-gray-600">{med.description}</p>
-
-                  <div className="mt-2 text-sm text-gray-500 space-y-1">
-                    <p>Age Limit: {med.ageLimit}</p>
-                    <p>Price: ${med.price}</p>
-                    <p>Stock: {med.stock}</p>
-                    <p>
-                      Expiry: {new Date(med.expiryDate).toLocaleDateString()}
-                    </p>
-                  </div>
-
-                  {med.imageUrls.length > 0 && (
-                    <div className="flex gap-2 mt-3 overflow-x-auto">
-                      {med.imageUrls.map((url, idx) => (
-                        <img
-                          key={idx}
-                          src={url}
-                          alt={med.name}
-                          className="w-24 h-24 object-cover rounded border border-gray-300"
-                        />
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+              <div key={med.id} className="  w-100">
+                <MedCard med={med} />
+              </div>
             ))}
           </div>
         </motion.div>
