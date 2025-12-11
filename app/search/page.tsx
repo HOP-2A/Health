@@ -39,24 +39,6 @@ const Page = () => {
     setMedicines(meds);
   };
   useEffect(() => {
-<<<<<<< HEAD
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/add-medicine");
-        if (!res.ok) throw new Error("Failed to fetch medicines");
-        const data = await res.json();
-        setMedicines(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  const filteredMedicines = medicines.filter((med) =>
-    med.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-=======
     const findMecines = async () => {
       const res = await fetch("/api/find-med", {
         method: "POST",
@@ -73,7 +55,6 @@ const Page = () => {
 
     findMecines();
   }, [input]);
->>>>>>> f933012 (P)
   return (
     <div
       className="w-[100vw] h-[100vh] flex flex-col gap-[100px]"
