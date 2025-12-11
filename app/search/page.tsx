@@ -5,7 +5,9 @@ import MenuBar from "../_components/MenuBar";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, use, useEffect, useState } from "react";
+import MedCard from "../_components/MedCard";
+
 type medicine = {
   id: string;
   name: string;
@@ -16,6 +18,7 @@ type medicine = {
   imageUrls: string[];
   expiryDate: string;
 };
+
 const Page = () => {
   const pathname = usePathname();
   const [medicines, setMedicines] = useState<medicine[]>([]);
@@ -24,7 +27,6 @@ const Page = () => {
     const { value } = e.target;
     setInput(value);
   };
-
   const findMecines = async () => {
     const res = await fetch("/api/find-med", {
       method: "POST",
@@ -38,6 +40,7 @@ const Page = () => {
     const meds: medicine[] = await res.json();
     setMedicines(meds);
   };
+
   useEffect(() => {
     const findMecines = async () => {
       const res = await fetch("/api/find-med", {
@@ -129,40 +132,8 @@ const Page = () => {
             <div className="h-[60vh] w-[70vw] flex flex-wrap gap-[50px] overflow-scroll  justify-center mt-[50px]">
               {medicines.map((med) => {
                 return (
-                  <div
-                    key={med.id}
-                    className="w-[420px] bg-white/90 backdrop-blur-md rounded-3xl shadow-xl p-6 flex flex-col gap-4 transition-all duration-300 hover:shadow-2xl"
-                  >
-                    <div className="w-full h-56 bg-white rounded-2xl flex items-center justify-center overflow-hidden">
-                      <img
-                        src={med.imageUrls[0]}
-                        alt={med.name}
-                        className="h-full object-contain"
-                      />
-                    </div>
-                    <h2 className="text-2xl font-semibold text-gray-900">
-                      {med.name}
-                    </h2>
-
-                    <p className="text-green-500 font-bold text-2xl">
-                      {med.price.toLocaleString()}₮
-                    </p>
-                    <div className="mt-2">
-                      <p className="text-gray-600 font-medium mb-2">
-                        Stock:{med.stock}
-                      </p>
-
-                      <div className="flex items-center gap-2 bg-gray-100 rounded-full w-[150px] px-4 py-2">
-                        <button className="text-2xl text-gray-700">−</button>
-                        <span className="flex-1 text-center text-lg font-semibold">
-                          1
-                        </span>
-                        <button className="text-2xl text-gray-700">+</button>
-                      </div>
-                    </div>
-                    <button className="mt-4 w-full bg-green-500 text-white font-semibold text-xl py-3 rounded-2xl hover:bg-green-600 transition">
-                      Захиалах
-                    </button>
+                  <div key={med.id}>
+                    <MedCard med={med} />
                   </div>
                 );
               })}
