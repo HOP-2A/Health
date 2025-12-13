@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
 type medicine = {
   id: string;
   name: string;
@@ -22,8 +21,21 @@ type Order = {
   createdAt: Date;
 };
 
-export default function MedCard({ med }: { med: medicine }) {
+interface MedCardProps {
+  med: medicine;
+  isLiked: boolean;
+  onLikeChange: (id: string, liked: boolean) => void;
+  userId: string;
+}
+
+export default function MedCard({
+  med,
+  isLiked,
+  onLikeChange,
+  userId,
+}: MedCardProps) {
   const [price, setPrice] = useState<number>(0);
+  const [liked, setLiked] = useState(isLiked);
   const [orderItem, setOrderItem] = useState({
     orderId: "",
     medicineId: med.id,
@@ -48,32 +60,7 @@ export default function MedCard({ med }: { med: medicine }) {
         price: orderItem.price,
       }),
     });
-=======
-
-interface Medicine {
-  id: string;
-  name: string;
-  description: string;
-  ageLimit: string;
-  price: number;
-  stock: number;
-  imageUrls: string[];
-}
-
-interface MedCardProps {
-  med: Medicine;
-  isLiked: boolean;
-  onLikeChange: (id: string, liked: boolean) => void;
-  userId: string;
-}
-
-export default function MedCard({
-  med,
-  isLiked,
-  onLikeChange,
-  userId,
-}: MedCardProps) {
-  const [liked, setLiked] = useState(isLiked);
+  };
 
   useEffect(() => {
     setLiked(isLiked);
@@ -100,8 +87,8 @@ export default function MedCard({
     } catch (error) {
       console.error("Toggle Like Error:", error);
     }
->>>>>>> 0d2b704 (fixed like)
   };
+
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
@@ -112,6 +99,43 @@ export default function MedCard({
             className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
           />
         </div>
+
+        <button
+          onClick={toggleLike}
+          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full border border-gray-100 bg-gray-200 backdrop-blur-md hover:bg-gray-400 transition shadow-md"
+        >
+          {liked ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="red"
+              className="w-7 h-7 animate-heart"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
+          5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
+          3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+          6.86-8.55 11.54L12 21.35z"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              stroke="white"
+              fill="none"
+              className="w-7 h-7"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeWidth="2"
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
+            5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
+            3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+            6.86-8.55 11.54L12 21.35z"
+              />
+            </svg>
+          )}
+        </button>
 
         <h2 className="text-[18px] font-semibold text-white mt-2">
           {med.name}
@@ -158,7 +182,6 @@ export default function MedCard({
             +
           </button>
         </div>
-<<<<<<< HEAD
         <button
           type="submit"
           className="
@@ -170,11 +193,6 @@ export default function MedCard({
           onClick={() => addToCart()}
         >
           Сагсанд нэмэх
-=======
-
-        <button className="w-full mt-5 py-3 rounded-xl text-lg font-semibold bg-green-500 text-white shadow-md hover:bg-green-600 hover:shadow-lg active:scale-95 transition-all duration-200">
-          Submit
->>>>>>> 0d2b704 (fixed like)
         </button>
       </CardContent>
     </Card>
