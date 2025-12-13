@@ -69,7 +69,7 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
               key={m.id}
               className="md:basis-[20%] lg:basis-[35%] flex justify-center"
             >
-              <div className="p-2 w-55">
+              <div className="p-2 w-63">
                 <MedCard
                   med={m}
                   isLiked={likedItems.some((med) => med.id === m.id)}
