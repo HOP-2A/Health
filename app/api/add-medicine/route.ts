@@ -1,24 +1,33 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
-
+type medicine = {
+  name: string;
+  description: string;
+  ageLimit: string;
+  price: number;
+  stock: number;
+  imageUrls: string[];
+  category: string;
+};
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
 
-    const addMedicine = await prisma.medicine.create({
-      data: {
-        name: body.name,
-        description: body.description,
-        ageLimit: body.ageLimit,
-        price: body.price,
-        stock: body.stock,
-        imageUrls: body.imageUrls,
-        category: body.category,
-      },
+    const addMedicines = await prisma.medicine.createMany({
+      data: body.map((med: medicine) => ({
+        name: med.name,
+        description: med.description,
+        ageLimit: med.ageLimit,
+        price: med.price,
+        stock: med.stock,
+        imageUrls: med.imageUrls,
+        category: med.category,
+      })),
+      skipDuplicates: true,
     });
 
     return NextResponse.json(
-      { message: "Success", addMedicine },
+      { message: "Success", addMedicines },
       { status: 200 }
     );
   } catch (error) {

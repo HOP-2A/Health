@@ -30,8 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <SignInButton>sign in</SignInButton>
-      <UserButton />
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
