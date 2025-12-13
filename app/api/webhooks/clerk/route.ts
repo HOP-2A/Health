@@ -33,7 +33,6 @@ export async function POST(req: Request) {
   const phoneNumber = user.phone_numbers?.[0]?.phone_number ?? null;
   const firstName = user.first_name || "";
 
-  /* ------------------------- USER CREATED ------------------------ */
   if (eventType === "user.created") {
     const a = await prisma.user.create({
       data: {

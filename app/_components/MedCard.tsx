@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 type medicine = {
   id: string;
   name: string;
@@ -47,16 +48,62 @@ export default function MedCard({ med }: { med: medicine }) {
         price: orderItem.price,
       }),
     });
+=======
+
+interface Medicine {
+  id: string;
+  name: string;
+  description: string;
+  ageLimit: string;
+  price: number;
+  stock: number;
+  imageUrls: string[];
+}
+
+interface MedCardProps {
+  med: Medicine;
+  isLiked: boolean;
+  onLikeChange: (id: string, liked: boolean) => void;
+  userId: string;
+}
+
+export default function MedCard({
+  med,
+  isLiked,
+  onLikeChange,
+  userId,
+}: MedCardProps) {
+  const [liked, setLiked] = useState(isLiked);
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+
+  const toggleLike = async () => {
+    try {
+      if (liked) {
+        await fetch(`/api/liked-med?medicineId=${med.id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
+      } else {
+        await fetch(`/api/liked-med`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ medicineId: med.id, userId }),
+        });
+      }
+
+      setLiked(!liked);
+      onLikeChange(med.id, !liked);
+    } catch (error) {
+      console.error("Toggle Like Error:", error);
+    }
+>>>>>>> 0d2b704 (fixed like)
   };
   return (
-    <Card
-      className="
-        backdrop-blur-xl bg-white/20
-        rounded-2xl border border-white/30
-        shadow-md hover:shadow-xl
-        hover:bg-white/30 transition-all duration-300
-      "
-    >
+    <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
         <div className="w-full">
           <img
@@ -69,7 +116,6 @@ export default function MedCard({ med }: { med: medicine }) {
         <h2 className="text-[18px] font-semibold text-white mt-2">
           {med.name}
         </h2>
-
         <span className="text-[22px] font-bold text-[#80FF9F] mt-1">
           {med.price}₮
         </span>
@@ -112,6 +158,7 @@ export default function MedCard({ med }: { med: medicine }) {
             +
           </button>
         </div>
+<<<<<<< HEAD
         <button
           type="submit"
           className="
@@ -123,6 +170,11 @@ export default function MedCard({ med }: { med: medicine }) {
           onClick={() => addToCart()}
         >
           Сагсанд нэмэх
+=======
+
+        <button className="w-full mt-5 py-3 rounded-xl text-lg font-semibold bg-green-500 text-white shadow-md hover:bg-green-600 hover:shadow-lg active:scale-95 transition-all duration-200">
+          Submit
+>>>>>>> 0d2b704 (fixed like)
         </button>
       </CardContent>
     </Card>
