@@ -31,6 +31,9 @@ export default function MedCard({ med }: { med: medicine }) {
   });
 
   const addToCart = async () => {
+    setOrderItem((prev) => {
+      return { orderId: "", medicineId: med.id, quantity: 1, price: 0 };
+    });
     const res = await fetch("/api/create-orderItem", {
       method: "POST",
       headers: {
@@ -45,7 +48,6 @@ export default function MedCard({ med }: { med: medicine }) {
       }),
     });
   };
-  console.log(orderItem);
   return (
     <Card
       className="
