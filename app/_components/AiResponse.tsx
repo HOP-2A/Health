@@ -9,13 +9,13 @@ export default async function AiResponse() {
 
   const response: Illness[] = await prisma.illness.findMany({
     where: {
-      userId: "YZ_ZqBzcCx5bJoYlXrW-F",
+      userId: "test",
     },
   });
 
   const delte = await prisma.illness.deleteMany({
     where: {
-      userId: "YZ_ZqBzcCx5bJoYlXrW-F",
+      userId: "test",
     },
   });
 
@@ -48,20 +48,19 @@ export default async function AiResponse() {
               </div>
             );
           })}
-          <div className="w-220 h-100 mt-30 pr-23">
-            <div className="w-220 h-100 mt-30 pr-23">
-              {isLoading ? (
-                <div>Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү</div>
-              ) : (
-                <div>
-                  <div className="text-5xl text-amber-50">
-                    medicines that may help:
-                  </div>
-                  {<CallDrugAi category={response[0].category} />}
-                  <CallDrugAi category={"өвдөлт намдаагч"} />
+          <div className="w-220 h-100 mt-25 pr-23">
+            {isLoading ? (
+              <div className="w-full max-w-md my-6 p-4 ml-10 text-left text-lg font-medium text-green-800 bg-green-100 rounded-xl shadow-md border border-green-200 hover:bg-green-200 transition-all duration-200 mt-20">
+                Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү
+              </div>
+            ) : (
+              <div>
+                <div className="text-5xl text-amber-50 mt-10">
+                  medicines that may help:
                 </div>
-              )}
-            </div>
+                {<CallDrugAi category={response[0].category} />}
+              </div>
+            )}
           </div>
         </div>
       </form>
