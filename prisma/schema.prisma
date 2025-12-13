@@ -1,112 +1,112 @@
-  generator client {
-    provider = "prisma-client-js"
-  }
+generator client {
+  provider = "prisma-client-js"
+}
 
-  datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
-  }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-  model User {
-    id        String    @id @default(nanoid())
-    username  String
-    email     String    @unique
-    createdAt DateTime  @default(now())
-    clerkId   String
-    illnesses Illness[]
-    orders    Order[]
+model User {
+  id        String    @id @default(nanoid())
+  username  String
+  email     String    @unique
+  createdAt DateTime  @default(now())
+  clerkId   String    @unique
+  illnesses Illness[]
+  orders    Order[]
 
-    likes Like[]
-  }
+  likes Like[]
+}
 
-  model Doctor {
-    id              String         @id @default(nanoid())
-    username        String
-    email           String         @unique
-    profilePic      String?
-    phoneNumber     String
-    experienceYears Int
-    clerkId         String
-    reviews         DoctorReview[]
-    createdAt       DateTime       @default(now())
-  }
+model Doctor {
+  id              String         @id @default(nanoid())
+  username        String
+  email           String         @unique
+  profilePic      String?
+  phoneNumber     String
+  experienceYears Int
+  clerkId         String         @unique
+  reviews         DoctorReview[]
+  createdAt       DateTime       @default(now())
+}
 
-  model Medicine {
-    id            String                   @id @default(nanoid())
-    name          String
-    description   String
-    ageLimit      String
-    price         Int
-    stock         Int
-    imageUrls     String[]
-    orderItems    OrderItem[]
-    createdAt     DateTime                 @default(now())
-    category      String
-    recommendedBy DoctorReviewToMedicine[]
+model Medicine {
+  id            String                   @id @default(nanoid())
+  name          String
+  description   String
+  ageLimit      String
+  price         Int
+  stock         Int
+  imageUrls     String[]
+  orderItems    OrderItem[]
+  createdAt     DateTime                 @default(now())
+  category      String
+  recommendedBy DoctorReviewToMedicine[]
 
-    likes Like[]
-  }
+  likes Like[]
+}
 
-  model Illness {
-    id        String        @id @default(nanoid())
-    userId    String
-    name      String
-    details   String?
-    createdAt DateTime      @default(now())
-    review    DoctorReview?
-    user      User          @relation(fields: [userId], references: [id])
-  }
+model Illness {
+  id        String        @id @default(nanoid())
+  userId    String
+  name      String
+  details   String?
+  createdAt DateTime      @default(now())
+  review    DoctorReview?
+  user      User          @relation(fields: [userId], references: [id])
+}
 
-  model DoctorReview {
-    id        String                   @id @default(nanoid())
-    doctorId  String
-    illnessId String                   @unique
-    notes     String
-    createdAt DateTime                 @default(now())
-    doctor    Doctor                   @relation(fields: [doctorId], references: [id])
-    illness   Illness                  @relation(fields: [illnessId], references: [id])
-    medicines DoctorReviewToMedicine[]
-  }
+model DoctorReview {
+  id        String                   @id @default(nanoid())
+  doctorId  String
+  illnessId String                   @unique
+  notes     String
+  createdAt DateTime                 @default(now())
+  doctor    Doctor                   @relation(fields: [doctorId], references: [id])
+  illness   Illness                  @relation(fields: [illnessId], references: [id])
+  medicines DoctorReviewToMedicine[]
+}
 
-  model DoctorReviewToMedicine {
-    doctorReviewId String
-    medicineId     String
-    doctorReview   DoctorReview @relation(fields: [doctorReviewId], references: [id])
-    medicine       Medicine     @relation(fields: [medicineId], references: [id])
+model DoctorReviewToMedicine {
+  doctorReviewId String
+  medicineId     String
+  doctorReview   DoctorReview @relation(fields: [doctorReviewId], references: [id])
+  medicine       Medicine     @relation(fields: [medicineId], references: [id])
 
-    @@id([doctorReviewId, medicineId])
-    @@map("DoctorReview_Medicine")
-  }
+  @@id([doctorReviewId, medicineId])
+  @@map("DoctorReview_Medicine")
+}
 
-  model Order {
-    id              String      @id @default(nanoid())
-    userId          String
-    totalPrice      Int
-    status          String      @default("pending")
-    discountApplied Boolean     @default(false)
-    createdAt       DateTime    @default(now())
-    user            User        @relation(fields: [userId], references: [id])
-    items           OrderItem[]
-  }
+model Order {
+  id              String      @id @default(nanoid())
+  userId          String
+  totalPrice      Int
+  status          String      @default("pending")
+  discountApplied Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+}
 
-  model OrderItem {
-    id         String   @id @default(nanoid())
-    orderId    String
-    medicineId String
-    quantity   Int      @default(1)
-    price      Int
-    medicine   Medicine @relation(fields: [medicineId], references: [id])
-    order      Order    @relation(fields: [orderId], references: [id])
-  }
+model OrderItem {
+  id         String   @id @default(nanoid())
+  orderId    String
+  medicineId String
+  quantity   Int      @default(1)
+  price      Int
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
+}
 
-  model Like {
-    id         String   @id @default(nanoid())
-    userId     String
-    medicineId String
-    createdAt  DateTime @default(now())
+model Like {
+  id         String   @id @default(nanoid())
+  userId     String
+  medicineId String
+  createdAt  DateTime @default(now())
 
-    user     User     @relation(fields: [userId], references: [id])
-    medicine Medicine @relation(fields: [medicineId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+  medicine Medicine @relation(fields: [medicineId], references: [id])
 
-    @@unique([userId, medicineId])
-  }
+  @@unique([userId, medicineId])
+}

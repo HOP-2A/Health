@@ -4,9 +4,19 @@ import { Heart, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
+
+interface Medicine {
+  id: string;
+  name: string;
+  price: number;
+  imageUrls: string[];
+  ageLimit: number;
+  category: string;
+}
 
 export default function LikedDrugPage() {
-  const [likedItems, setLikedItems] = useState([]);
+  const [likedItems, setLikedItems] = useState<Medicine[]>([]);
   const { user } = useUser();
 
   useEffect(() => {
@@ -15,11 +25,25 @@ export default function LikedDrugPage() {
     const fetchLikes = async () => {
       const res = await fetch(`/api/liked-med?userId=${user.id}`);
       const data = await res.json();
-      setLikedItems(data.map((like: any) => like.medicine));
+      setLikedItems(data.map((d: { medicine: any }) => d.medicine));
     };
 
     fetchLikes();
   }, [user]);
+
+  const handleDelete = async (medicineId: string) => {
+    if (!user) return;
+
+    setLikedItems((prev) => prev.filter((m) => m.id !== medicineId));
+
+    await fetch(`/api/liked-med?medicineId=${medicineId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+      }),
+    });
+  };
 
   return (
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
@@ -55,28 +79,76 @@ export default function LikedDrugPage() {
               <p className="text-gray-50 max-w-sm mt-2">
                 Add medicines or health products to see them listed here.
               </p>
-
-              <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
-                Browse Medicines
-              </button>
+              <Link href="/search">
+                <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
+                  Browse Medicines
+                </button>
+              </Link>
             </motion.div>
           ) : (
             <div className="space-y-4">
-              {likedItems.map((item, index) => (
+              {likedItems.map((item) => (
                 <motion.div
-                  key={index}
-                  className="flex items-center justify-between bg-white/70 backdrop-blur-lg border border-white/40 shadow-lg rounded-2xl p-4"
+                  key={item.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="
+        flex items-center gap-4
+        bg-white/70 backdrop-blur-2xl
+        border border-white/40
+        shadow-[0_8px_30px_rgb(0,0,0,0.08)]
+        rounded-2xl p-4
+        hover:scale-[1.01]
+        transition-all
+      "
                 >
-                  <h3 className="font-semibold text-gray-800">
-                    {item.medicine.name}
-                  </h3>
-                  <p className="text-gray-500 text-sm">
-                    {item.medicine.price}₮
-                  </p>
+                  <div className="relative">
+                    <img
+                      src={item.imageUrls?.[0]}
+                      alt={item.name}
+                      className="w-16 h-16 rounded-xl object-cover"
+                    />
+                    <span className="absolute -top-2 -right-2 text-[10px] px-2 py-0.5 rounded-full bg-green-600 text-white shadow">
+                      {item.ageLimit}
+                    </span>
+                  </div>
 
-                  <button className="p-2 rounded-lg bg-red-50 hover:bg-red-100 transition-all duration-300">
-                    <Trash2 className="text-red-500" />
-                  </button>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {item.category}
+                    </p>
+                    <p className="text-lg font-bold text-green-600 mt-1">
+                      {item.price}₮
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="
+            p-2 rounded-xl
+            bg-red-50 text-red-500
+            hover:bg-red-100
+            transition
+          "
+                    >
+                      <Trash2 size={18} />
+                    </button>
+
+                    <button
+                      className="
+            px-3 py-1.5 text-xs font-semibold
+            rounded-xl
+            bg-green-50 text-green-700
+            hover:bg-green-100
+            transition
+          "
+                    >
+                      Сагсанд
+                    </button>
+                  </div>
                 </motion.div>
               ))}
             </div>

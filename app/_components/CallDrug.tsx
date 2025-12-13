@@ -9,6 +9,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
 import MedCard from "./MedCard";
 import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/providers/route";
 
 interface Medicine {
   id: string;
@@ -24,24 +25,23 @@ export default function CallDrug() {
   const [medData, setMedData] = useState<Medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
-  const { user } = useUser();
+  const { user: clerkUser } = useUser();
+  const { loading, user } = useAuth(clerkUser?.id);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      const medsRes = await fetch("/api/add-medicine");
-      const meds = await medsRes.json();
-      setMedData(meds);
+    if (!loading && user) {
+      const fetchAll = async () => {
+        const medsRes = await fetch("/api/add-medicine");
+        const meds = await medsRes.json();
+        setMedData(meds);
 
-      if (user) {
         const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
         const likes = await likeRes.json();
-
-        setLikedItems(likes.map((like: any) => like.medicine.id));
-      }
-    };
-
-    fetchAll();
-  }, [user]);
+        setLikedItems(likes.map((l: any) => l.medicine.id));
+      };
+      fetchAll();
+    }
+  }, [user, loading]);
 
   if (!medData.length) return <p className="text-center mt-8">Loading...</p>;
 
@@ -50,7 +50,7 @@ export default function CallDrug() {
       <Carousel
         opts={{ loop: true }}
         plugins={[autoplay.current]}
-        className="w-500 "
+        className="w-500"
       >
         <CarouselContent>
           {medData.map((m) => (
@@ -61,11 +61,11 @@ export default function CallDrug() {
               <div className="p-4 w-full">
                 <MedCard
                   med={m}
-                  isLiked={likedItems.some((med) => med.id === m.id)}
-                  userId={user?.id}
+                  userId={user?.id || ""}
+                  isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>
-                      liked ? [...prev, id] : prev.filter((like) => like !== id)
+                      liked ? [...prev, id] : prev.filter((item) => item !== id)
                     );
                   }}
                 />
