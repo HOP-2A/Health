@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import MenuBar from "../_components/MenuBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,7 +31,7 @@ interface Medicine {
   price: number;
   stock: number;
   imageUrls: string[];
-  expiryDate: string;
+  category: string;
 }
 
 const medicineSchema = z.object({
@@ -40,10 +40,8 @@ const medicineSchema = z.object({
   ageLimit: z.string().min(1, "Age limit is required"),
   price: z.number().min(0, "Price must be positive"),
   stock: z.number().min(0, "Stock must be positive"),
-  imageUrls: z.string().optional(),
-  expiryDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date",
-  }),
+  imageUrls: z.array(z.string()).optional(),
+  category: z.string().min(0, "category is required"),
 });
 
 type MedicineForm = z.infer<typeof medicineSchema>;
@@ -59,8 +57,8 @@ export default function MedicinesPage() {
       ageLimit: "",
       price: 0,
       stock: 0,
-      imageUrls: "",
-      expiryDate: "",
+      imageUrls: [""],
+      category: "",
     },
   });
 
@@ -96,10 +94,8 @@ export default function MedicinesPage() {
         ageLimit: values.ageLimit,
         price: values.price,
         stock: values.stock,
-        imageUrls: values.imageUrls
-          ? values.imageUrls.split(",").map((u) => u.trim())
-          : [],
-        expiryDate: new Date(values.expiryDate).toISOString(),
+        imageUrls: values.imageUrls,
+        category: values.category,
       }),
     });
     form.reset();
@@ -116,173 +112,194 @@ export default function MedicinesPage() {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto space-y-8">
-      <h1 className="text-4xl font-bold text-center text-green-700">
-        Medicines Inventory
-      </h1>
+    <div
+      className="relative min-h-screen  overflow-hidden"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1551970634-086c4065fa85?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <MenuBar />
+      <div className="p-8 max-w-4xl mx-auto space-y-8">
+        <h1 className="text-4xl font-bold text-center text-green-700">
+          эмийн сан
+        </h1>
 
-      <Card className="bg-gray-50 shadow-md border border-gray-200">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-800">
-            Add New Medicine
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="grid gap-4 sm:grid-cols-2"
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Medicine name" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Short description" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="ageLimit"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Age Limit</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="18+" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        placeholder="Price in USD"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="stock"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Stock</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        onChange={(e) => field.onChange(Number(e.target.value))}
-                        placeholder="Available stock"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="imageUrls"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URLs</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="https://example.com/image1.jpg,..."
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="expiryDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Expiry Date</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="date" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <Card className="bg-gray-50 shadow-md border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold text-gray-800">
+              шинэ эм нэмэх
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid gap-4 sm:grid-cols-2"
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Нэр</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Medicine name" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>дэлгэрэнгүй мэдээлэл</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="Short description" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="ageLimit"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>насний хязгаар</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="18+" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>үнэ</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          placeholder="Price in USD"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="stock"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>үлдсэн тоо</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                          placeholder="Available stock"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="imageUrls"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <Input
+                          value={field.value?.[0] ?? ""}
+                          onChange={(e) => field.onChange([e.target.value])}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ангилал</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder="example : drug" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <div className="sm:col-span-2 flex justify-end mt-2">
-                <Button
-                  type="submit"
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  Add Medicine
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {medicines.map((med) => (
-          <Card key={med.id} className="shadow-lg border border-gray-200">
-            <CardContent>
-              <h2 className="text-xl font-bold text-gray-800">{med.name}</h2>
-              <p className="text-gray-600">{med.description}</p>
-              <div className="mt-2 text-sm text-gray-500 space-y-1">
-                <p>Age Limit: {med.ageLimit}</p>
-                <p>Price: ${med.price}</p>
-                <p>Stock: {med.stock}</p>
-                <p>Expiry: {new Date(med.expiryDate).toLocaleDateString()}</p>
-              </div>
-              {med.imageUrls.length > 0 && (
-                <div className="flex gap-2 mt-3 overflow-x-auto">
-                  {med.imageUrls.map((url, idx) => (
-                    <img
-                      key={idx}
-                      src={url}
-                      alt={med.name}
-                      className="w-24 h-24 object-cover rounded border border-gray-300"
-                    />
-                  ))}
+                <div className="sm:col-span-2 flex justify-end mt-2">
+                  <Button
+                    type="submit"
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Add Medicine
+                  </Button>
                 </div>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button variant="secondary" onClick={() => handleDelete(med.id)}>
-                Delete
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {medicines.map((med) => (
+            <Card
+              key={med.id}
+              className="backdrop-blur-xl bg-white/20 shadow-lg border border-gray-200"
+            >
+              <CardContent>
+                <h2 className="text-xl font-bold text-gray-800">{med.name}</h2>
+                <p className="text-gray-400">{med.description}</p>
+                <div className="mt-2 text-sm text-gray-100 space-y-1">
+                  <p>насний хязгаар: {med.ageLimit}</p>
+                  <p>үнэ: ${med.price}</p>
+                  <p>үлдсэн тоо: {med.stock}</p>
+                  <p>Ангилал: {med.category}</p>
+                </div>
+                {med.imageUrls.length > 0 && (
+                  <div className="flex gap-2 mt-3 overflow-x-auto">
+                    {med.imageUrls.map((url, idx) => (
+                      <img
+                        key={idx}
+                        src={url}
+                        alt={med.name}
+                        className="w-24 h-24 object-cover rounded border border-gray-300"
+                      />
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+              <CardFooter>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleDelete(med.id)}
+                >
+                  Устгах
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
