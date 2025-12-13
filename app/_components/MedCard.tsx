@@ -145,7 +145,7 @@ export default function MedCard({
         </span>
 
         <div className="mt-3 text-white/80 font-medium text-[15px]">
-          тоо ширхэг:{med.stock}
+          тоо ширхэг:{med.stock} hi
         </div>
 
         <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
