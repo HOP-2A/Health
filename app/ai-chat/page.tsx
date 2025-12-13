@@ -20,7 +20,7 @@ export default function Home() {
 
       <div className="flex justify-center mt-10 px-4 ml-20 mr-20">
         <DescriptionPrompt />
-        <div className="h-150 w-25000">
+        <div className="h-1000 w-25000">
           <AiResponse />
         </div>
       </div>
