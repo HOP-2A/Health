@@ -7,9 +7,7 @@ export default function WritePrompt() {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setPrompt(value);
-    console.log(prompt);
   };
-  console.log(prompt);
 
   return (
     <div className="flex justify-center w-full px-4">

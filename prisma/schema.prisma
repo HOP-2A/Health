@@ -14,24 +14,22 @@ model User {
   createdAt DateTime  @default(now())
   clerkId   String
   illnesses Illness[]
+  Like      Like[]
   orders    Order[]
-
-  likes     Like[]   
 }
-
 
 model Doctor {
   id              String         @id @default(nanoid())
   username        String
   email           String         @unique
-  password        String
   profilePic      String?
   phoneNumber     String
   experienceYears Int
-
-  reviews   DoctorReview[]
-  createdAt DateTime       @default(now())
+  createdAt       DateTime       @default(now())
+  clerkId         String
+  reviews         DoctorReview[]
 }
+
 model Medicine {
   id            String                   @id @default(nanoid())
   name          String
@@ -40,22 +38,20 @@ model Medicine {
   price         Int
   stock         Int
   imageUrls     String[]
-  orderItems    OrderItem[]
   createdAt     DateTime                 @default(now())
   category      String
   recommendedBy DoctorReviewToMedicine[]
-
-  likes         Like[]                
+  Like          Like[]
+  orderItems    OrderItem[]
 }
-
 
 model Illness {
   id        String        @id @default(nanoid())
   userId    String
   name      String
   details   String?
-  category  String 
   createdAt DateTime      @default(now())
+  category  String
   review    DoctorReview?
   user      User          @relation(fields: [userId], references: [id])
 }
@@ -102,15 +98,13 @@ model OrderItem {
   order      Order    @relation(fields: [orderId], references: [id])
 }
 
-
 model Like {
-  id         String   @id @default(nanoid())
+  id         String   @id
   userId     String
   medicineId String
   createdAt  DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id])
-  medicine  Medicine @relation(fields: [medicineId], references: [id])
+  Medicine   Medicine @relation(fields: [medicineId], references: [id])
+  User       User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, medicineId])
 }

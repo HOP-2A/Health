@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -8,36 +7,52 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
+import MedCard from "./MedCard";
+import { useUser } from "@clerk/nextjs";
 
 interface Medicine {
   id: string;
   name: string;
   description: string;
   ageLimit: string;
-  category: string;
   price: number;
   stock: number;
   imageUrls: string[];
+  category: string;
 }
 
-export default function DescribeUrIllness({ category }) {
+type CallDrugAiProps = {
+  category: string;
+};
+
+export default function CallDrugAi({ category }: CallDrugAiProps) {
   const [medData, setMedData] = useState<Medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const [likedItems, setLikedItems] = useState<string[]>([]);
+  const { user } = useUser();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/add-medicine");
-        if (!res.ok) throw new Error("Failed to fetch medicines");
-        const data = await res.json();
-        setMedData(data);
-      } catch (error) {
-        console.error(error);
+    const fetchAll = async () => {
+      const medsRes = await fetch(`/api/find-category-medicine`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ category }),
+      });
+      const meds = await medsRes.json();
+      setMedData(meds);
+
+      if (user) {
+        const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
+        const likes = await likeRes.json();
+
+        setLikedItems(likes.map((like: any) => like.medicine.id));
       }
     };
 
-    fetchData();
-  }, []);
+    fetchAll();
+  }, [user, category]);
 
   if (!medData.length) return <p className="text-center mt-8">Loading...</p>;
 
@@ -46,28 +61,25 @@ export default function DescribeUrIllness({ category }) {
       <Carousel
         opts={{ loop: true }}
         plugins={[autoplay.current]}
-        className="w-full max-w-5xl"
+        className="w-200"
       >
         <CarouselContent>
           {medData.map((m) => (
             <CarouselItem
               key={m.id}
-              className="md:basis-1/2 lg:basis-1/3 flex justify-center"
+              className="md:basis-[20%] lg:basis-[35%] flex justify-center"
             >
-              <div className="p-2 w-full">
-                <Card>
-                  <CardContent className="flex flex-col items-center justify-center p-6">
-                    <img
-                      src={m.imageUrls[0]}
-                      alt={m.name}
-                      className="w-full h-40 object-cover rounded-md mb-2"
-                    />
-                    <span className="text-lg font-semibold">{m.name}</span>
-                    <span className="text-sm text-gray-500">
-                      ₹{m.price} | Stock: {m.stock}
-                    </span>
-                  </CardContent>
-                </Card>
+              <div className="p-2 w-55">
+                <MedCard
+                  med={m}
+                  isLiked={likedItems.some((med) => med.id === m.id)}
+                  userId={user?.id}
+                  onLikeChange={(id: string, liked: boolean) => {
+                    setLikedItems((prev) =>
+                      liked ? [...prev, id] : prev.filter((like) => like !== id)
+                    );
+                  }}
+                />
               </div>
             </CarouselItem>
           ))}

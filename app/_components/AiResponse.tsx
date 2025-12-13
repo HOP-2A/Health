@@ -1,29 +1,28 @@
 import { prisma } from "@/lib/db";
-import { currentUser } from "@clerk/nextjs/server";
-import CallDrug from "./CallDrugAi";
+import { auth } from "@clerk/nextjs/server";
+import CallDrugAi from "./CallDrugAi";
+import { Illness } from "@prisma/client";
 
 export default async function AiResponse() {
-  //  const user = currentUser();
-  //create
-  const response = await prisma.illness.findMany({
+  const session = await auth();
+  const userId = session.userId;
+
+  const response: Illness[] = await prisma.illness.findMany({
     where: {
-      //    userId: user.id,
-      userId: "z0ZtxjexP4fUwKW9r877X",
+      userId: "YZ_ZqBzcCx5bJoYlXrW-F",
     },
   });
-  //delete
+
   const delte = await prisma.illness.deleteMany({
     where: {
-      userId: "z0ZtxjexP4fUwKW9r877X",
+      userId: "YZ_ZqBzcCx5bJoYlXrW-F",
     },
   });
 
-  let loading = false;
-
-  if (!response.length) loading = true;
+  const isLoading = response.length === 0 || !response[0]?.category;
 
   return (
-    <div className="flex justify-center w-full px-4 h-195">
+    <div className="flex justify-center w-full  h-250">
       <form
         className="
           w-full max-w-4xl
@@ -50,13 +49,19 @@ export default async function AiResponse() {
             );
           })}
           <div className="w-220 h-100 mt-30 pr-23">
-            {loading === false ? (
-              <CallDrug category={r.category} />
-            ) : (
-              <div className="text-gray-200 font-semibold text-xl md:text-2xl lg:text-4xl p-6  bg-red-500/20 rounded-2xl shadow-lg border border-red-400 flex items-center justify-center ml-100">
-                Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү
-              </div>
-            )}
+            <div className="w-220 h-100 mt-30 pr-23">
+              {isLoading ? (
+                <div>Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү</div>
+              ) : (
+                <div>
+                  <div className="text-5xl text-amber-50">
+                    medicines that may help:
+                  </div>
+                  {<CallDrugAi category={response[0].category} />}
+                  <CallDrugAi category={"өвдөлт намдаагч"} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </form>

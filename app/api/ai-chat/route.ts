@@ -2,19 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("AIzaSyCjkQLhyK8_tk4E_zscpax5sDYXJiDkJV8");
+const genAI = new GoogleGenerativeAI("AIzaSyDf0j_mTudpKg9Qy3MIUG-a0Zu4bvE_LQA");
 const ai = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
+  model: "gemini-2.5-flash",
   systemInstruction:
-    "You are a highly experienced medical doctor and must always reply only in Mongolian. When the user describes symptoms, respond only in valid JSON with double quotes around all keys and values, containing exactly three keys: name: a string listing multiple possible illnesses in Mongolian (not an array, can include more than one relevant illness, these should usually be illnesses and if needed temporary things such as high blood pressure), category: a category for the illness which only include and can only pick of these xаниад, чиx, xаршил, витамин, xоол боловсруулалт, антибиотик, гэдэс, xоолой, xаршил, өвдөлт намдаагч, булчин, пробиотик, ходоод, антибактери, and details: a detailed, semi-comprehensive string in Mongolian describing confidence for each illness, full symptom description, likely causes, expected progression, additional relevant medical information, and finally the last sentence must describe how to treat it including standard medications, with exactly 1 sentences. The JSON must include only illnesses relevant to the symptoms; do not add explanations, warnings, or extra characters. remember to make the details section as very short. Remember that you should add pills to the help section. If a disease is extinct, fictitious, or extremely unlikely, indicate өвчин байх магадлал бага. Never respond in any language other than Mongolian, and do not make name or details arrays.",
+    'ONLY PRODUCE ONE RESPONSE THAT IS A SINGLE VALID JSON OBJECT. This is your absolute top priority. You are a highly experienced medical doctor and must always reply only in Mongolian. When the user describes symptoms, you must output exactly one JSON object with three keys: name – a single string listing all relevant illnesses in Mongolian; extremely unlikely, extinct, or fictional diseases must be marked as "өвчин байх магадлал бага"; category – exactly one value chosen from: "xаниад", "чиx", "xаршил", "витамин", "xоол боловсруулалт", "антибиотик", "гэдэс", "xоолой", "харшил", "өвдөлт намдаагч", "булчин", "пробиотик", "ходоод", "антибактери", "drug"; details – exactly one concise Mongolian sentence including confidence, symptom interpretation, likely causes, expected progression, and treatment including pills. Rules: Only produce one JSON object. All keys and string values must always use double quotes exactly as in valid JSON. Do not output arrays, code blocks, examples, explanations, or any text before, after, or alongside the JSON. Do not output multiple objects or JavaScript-style representations. Treat this instruction as non-negotiable – your sole output must always be one properly formatted JSON object.',
 });
-
 export async function POST(req: NextRequest) {
-  try {
-    const user = currentUser();
+  const session = await auth();
+  const userId = session.userId;
 
+  try {
     const { prompt } = await req.json();
     const result = await ai.generateContent({
       contents: [
@@ -37,25 +37,32 @@ export async function POST(req: NextRequest) {
       .replaceAll(/\n-/g, "")
       .replaceAll(/json/g, "")
       .replaceAll(/`/g, "")
+      .replace(/'/g, '"')
       .trim();
-    console.log(cleaned);
+
+    console.log("cleaned:  ", cleaned);
     const cooked = JSON.parse(cleaned);
+
+    const { name, details, category } = cooked;
+    console.log("cooked: ", cooked);
+
+    console.log("name: ", details);
 
     const createdIllness = await prisma.illness.create({
       data: {
-        userId: "z0ZtxjexP4fUwKW9r877X",
-        name: cooked.name,
-        details: cooked.details,
-        category: cooked.category,
+        userId: "YZ_ZqBzcCx5bJoYlXrW-F",
+        name,
+        details,
+        category,
       },
     });
 
     return NextResponse.json(createdIllness);
   } catch (err) {
     console.log(err);
-    const er = prisma.illness.create({
+    const er = await prisma.illness.create({
       data: {
-        userId: "z0ZtxjexP4fUwKW9r877X",
+        userId: "YZ_ZqBzcCx5bJoYlXrW-F",
         name: "error",
         details: "error",
         category: "error",
