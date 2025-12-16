@@ -84,7 +84,7 @@ const Page = () => {
             <div className="flex justify-center mt-20 px-4">
               <div className="w-full max-w-2xl">
                 <h2 className="text-4xl font-extrabold text-gray-300  mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-                  Search for Medicines
+                  Эм хайх
                 </h2>
                 <div
                   className="relative group 
@@ -101,10 +101,10 @@ const Page = () => {
                   <input
                     type="text"
                     onChange={(e) => handleInputValue(e)}
-                    placeholder="Search medicines, drugs, symptoms..."
+                    placeholder="Энд бичээд эмээ хайгаарай..."
                     className="
               pl-14 pr-4 py-3 w-full 
-              bg-transparent text-gray-800 placeholder-gray-500 text-lg
+              bg-transparent text-gray-800 placeholder-gray-800 text-lg
               focus:outline-none 
               group-hover:placeholder-gray-400 
               transition-all duration-300
@@ -123,7 +123,7 @@ const Page = () => {
           "
                   onClick={() => findMecines()}
                 >
-                  Search
+                  Хайх
                 </button>
               </div>
             </div>

@@ -25,7 +25,7 @@ export default function LikedDrugPage() {
     const fetchLikes = async () => {
       const res = await fetch(`/api/liked-med?userId=${user.id}`);
       const data = await res.json();
-      setLikedItems(data.map((d: { medicine: any }) => d.medicine));
+      setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
     };
 
     fetchLikes();
