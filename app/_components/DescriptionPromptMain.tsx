@@ -17,12 +17,12 @@ export default function DescriptionPromptMain({
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInternalValue(e.target.value);
-    onChange?.(e.target.value); // notify parent if provided
+    onChange?.(e.target.value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // prevent form reload
-    onSubmit?.(); // call parent handler if provided
+    e.preventDefault();
+    onSubmit?.();
   };
 
   return (

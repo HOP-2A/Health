@@ -52,13 +52,9 @@ export async function POST(req: NextRequest) {
       return Response.json(er);
     }
 
-    console.log("cleaned:  ", cleaned);
     const cooked = JSON.parse(cleaned);
 
     const { name, details, category } = cooked;
-    console.log("cooked: ", cooked);
-
-    console.log("name: ", details);
 
     const createdIllness = await prisma.illness.create({
       data: {
