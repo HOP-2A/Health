@@ -26,11 +26,13 @@ interface MedCardProps {
   isLiked: boolean;
   onLikeChange: (id: string, liked: boolean) => void;
   userId: string;
+  userClerckId: string;
 }
 
 export default function MedCard({
   med,
   isLiked,
+  userClerckId,
   onLikeChange,
   userId,
 }: MedCardProps) {
@@ -53,7 +55,7 @@ export default function MedCard({
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        userId: "eUz3kiMTJBGuh89oVvTlr",
+        userId,
         totalPrice: price,
         medicineId: orderItem.medicineId,
         quantity: orderItem.quantity,
@@ -67,12 +69,17 @@ export default function MedCard({
   }, [isLiked]);
 
   const toggleLike = async () => {
+    if (!userId) {
+      console.error("No userId");
+      return;
+    }
+
     try {
       if (liked) {
         await fetch(`/api/liked-med?medicineId=${med.id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ userId: userClerckId }),
         });
       } else {
         await fetch(`/api/liked-med`, {
