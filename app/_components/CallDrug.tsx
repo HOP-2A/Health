@@ -62,6 +62,7 @@ export default function CallDrug() {
                 <MedCard
                   med={m}
                   userId={user?.id || ""}
+                  userClerckId={user?.clerkId}
                   isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>
