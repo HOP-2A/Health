@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("AIzaSyAPF9-oQtWywKQKZxu1Kr7RFjsJMlsuGe4");
+const genAI = new GoogleGenerativeAI("");
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
   systemInstruction:
