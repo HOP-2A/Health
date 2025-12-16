@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function DescriptionPrompt() {
   const [prompt, setPrompt] = useState("");
@@ -9,8 +9,16 @@ export default function DescriptionPrompt() {
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
   };
+  useEffect(() => {
+    const storedPrompt = sessionStorage.getItem("prompt");
+    if (storedPrompt) {
+      setPrompt(storedPrompt);
+      sessionStorage.removeItem("prompt");
+      sendToAi(storedPrompt);
+    }
+  }, []);
 
-  const sendtoAi = async () => {
+  const sendToAi = async (prompt: string) => {
     try {
       setIsLoading(true);
 
@@ -74,7 +82,7 @@ export default function DescriptionPrompt() {
 
           <button
             type="button"
-            onClick={sendtoAi}
+            onClick={() => sendToAi(prompt)}
             className="
               w-full mt-6 py-3 rounded-xl text-lg font-semibold
               bg-green-500 text-white shadow-md

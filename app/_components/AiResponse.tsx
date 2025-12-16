@@ -43,8 +43,18 @@ export default async function AiResponse() {
           {response.map((r, i) => {
             return (
               <div key={r.id}>
-                <div>болоx магадгуй өвчин: {r.name}</div>{" "}
-                <div>дэлгэрэл: {r.details}</div>
+                {r.name === "overloaded" || "error" ? (
+                  <div>
+                    <div> {r.name}</div>
+                    <div> {r.details}</div>
+                  </div>
+                ) : (
+                  <div>
+                    {" "}
+                    <div>болоx магадгуй өвчин: {r.name}</div>
+                    <div>дэлгэрэл: {r.details}</div>
+                  </div>
+                )}
               </div>
             );
           })}

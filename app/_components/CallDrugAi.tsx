@@ -9,6 +9,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
 import MedCard from "./MedCard";
 import { useUser } from "@clerk/nextjs";
+import MedCardAi from "./MedCardAi";
 
 interface Medicine {
   id: string;
@@ -70,7 +71,7 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
               className="md:basis-[20%] lg:basis-[35%] flex justify-center"
             >
               <div className="p-2 w-63">
-                <MedCard
+                <MedCardAi
                   med={m}
                   isLiked={likedItems.some((med) => med.id === m.id)}
                   userId={user?.id}

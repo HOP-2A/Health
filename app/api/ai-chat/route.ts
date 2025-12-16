@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("AIzaSyCKZ6i1wzhKxhq2PgQ-cXavGh0LcSlkDGA");
+const genAI = new GoogleGenerativeAI("AIzaSyAPF9-oQtWywKQKZxu1Kr7RFjsJMlsuGe4");
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
   systemInstruction:
@@ -40,6 +40,18 @@ export async function POST(req: NextRequest) {
       .replace(/'/g, '"')
       .trim();
 
+    if ((cleaned.match(/"/g) || []).length > 6) {
+      const er = await prisma.illness.create({
+        data: {
+          userId: "test",
+          name: "error",
+          details: "error",
+          category: "ханиад",
+        },
+      });
+      return Response.json(er);
+    }
+
     console.log("cleaned:  ", cleaned);
     const cooked = JSON.parse(cleaned);
 
@@ -58,14 +70,25 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(createdIllness);
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.log(error);
+    if (error.message.includes("503")) {
+      const overload = await prisma.illness.create({
+        data: {
+          userId: "test",
+          name: "overloaded",
+          details: "please try again later",
+          category: "ханиад",
+        },
+      });
+      return Response.json(overload);
+    }
     const er = await prisma.illness.create({
       data: {
-        userId: "YZ_ZqBzcCx5bJoYlXrW-F",
+        userId: "test",
         name: "error",
         details: "error",
-        category: "error",
+        category: "ханиад",
       },
     });
     return Response.json(er);
