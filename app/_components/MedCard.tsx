@@ -1,7 +1,9 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 type medicine = {
   id: string;
   name: string;
@@ -42,13 +44,9 @@ export default function MedCard({
     orderId: "",
     medicineId: med.id,
     quantity: 1,
-    price: 0,
   });
-
+  const router = useRouter();
   const addToCart = async () => {
-    setOrderItem((prev) => {
-      return { orderId: "", medicineId: med.id, quantity: 1, price: 0 };
-    });
     const res = await fetch("/api/create-orderItem", {
       method: "POST",
       headers: {
@@ -59,9 +57,16 @@ export default function MedCard({
         totalPrice: price,
         medicineId: orderItem.medicineId,
         quantity: orderItem.quantity,
-        price: orderItem.price,
+        price: orderItem.quantity * med.price,
       }),
     });
+    setOrderItem((prev) => {
+      return { orderId: "", medicineId: med.id, quantity: 1 };
+    });
+    if (res.ok) {
+      router.push("/drugCart");
+      toast.success("Амжилттай сагсанд нэмлээ!");
+    }
   };
 
   useEffect(() => {
@@ -95,7 +100,7 @@ export default function MedCard({
       console.error("Toggle Like Error:", error);
     }
   };
-
+  console.log(orderItem);
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
@@ -152,7 +157,7 @@ export default function MedCard({
         </span>
 
         <div className="mt-3 text-white/80 font-medium text-[15px]">
-          тоо ширхэг:{med.stock} hi
+          тоо ширхэг:{med.stock}
         </div>
 
         <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
@@ -163,9 +168,6 @@ export default function MedCard({
               setOrderItem((prev) => {
                 return { ...prev, quantity: orderItem.quantity - 1 };
               });
-              setOrderItem((prev) => {
-                return { ...prev, price: orderItem.quantity * med.price };
-              });
             }}
           >
             -
@@ -173,16 +175,12 @@ export default function MedCard({
           <button className="w-12 h-10 bg-white/20 text-xl text-white">
             {orderItem.quantity}
           </button>
-          <div className="flex-1 text-center text-[16px] font-medium text-white"></div>
           <button
             className="w-12 h-10 bg-white/20 text-xl text-white"
             onClick={() => {
               setPrice(orderItem.quantity * med.price);
               setOrderItem((prev) => {
                 return { ...prev, quantity: orderItem.quantity + 1 };
-              });
-              setOrderItem((prev) => {
-                return { ...prev, price: orderItem.quantity * med.price };
               });
             }}
           >

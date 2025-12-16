@@ -48,7 +48,7 @@ export default function DrugCartPage() {
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
       <div className="w-full max-w-3xl relative z-10">
         <h2 className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-          Your Drug Cart
+          Таны эмийн сагс
         </h2>
 
         <AnimatePresence mode="wait">
@@ -73,18 +73,19 @@ export default function DrugCartPage() {
               </motion.div>
 
               <p className="mt-6 text-xl font-semibold text-gray-300">
-                Your cart is empty
+                Таны сагс хоосон байна
               </p>
 
               <p className="text-gray-50 max-w-sm mt-2">
-                Add medicines or health products to see them listed here.
+                Эм эсвэл эрүүл мэндийн бүтээгдэхүүнийг энд жагсаасан байдлаар
+                харахын тулд нэмнэ үү.
               </p>
 
               <button
                 className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300"
                 onClick={() => router.push("/search")}
               >
-                Browse Medicines
+                Эмнүүдийг үзэх
               </button>
             </motion.div>
           ) : (
@@ -116,10 +117,10 @@ export default function DrugCartPage() {
 
                     <div className="flex items-center gap-8 mt-4 text-base text-gray-700">
                       <span>
-                        Quantity: <b>{item.quantity}</b>
+                        Тоо хэмжээ: <b>{item.quantity}</b>
                       </span>
                       <span className="font-semibold text-lg">
-                        ₮ {item.price}
+                        {item.price}₮
                       </span>
                     </div>
                   </div>
