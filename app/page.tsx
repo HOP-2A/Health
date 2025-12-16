@@ -29,14 +29,6 @@ export default function Home() {
     >
       <MenuBar />
 
-<<<<<<< HEAD
-          <div className="flex justify-center mt-46 px-4">
-            <DescribeUrIllness />
-          </div>
-          <CallDrug />
-        </motion.div>
-      </AnimatePresence>
-=======
       <div className="flex justify-center mt-36 px-4">
         <DescriptionPromptMain
           value={prompt}
@@ -47,7 +39,6 @@ export default function Home() {
       </div>
 
       <CallDrug />
->>>>>>> a585a94 (almost finish i think)
     </div>
   );
 }
