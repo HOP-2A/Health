@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MenuBar from "../_components/MenuBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import DoctorMenuBar from "../_components/DoctorMenuBar";
 
 interface Medicine {
   id: string;
@@ -116,12 +116,12 @@ export default function MedicinesPage() {
       className="relative min-h-screen  overflow-hidden"
       style={{
         backgroundImage:
-          "url('https://images.unsplash.com/photo-1551970634-086c4065fa85?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('https://images.unsplash.com/photo-1488330890490-c291ecf62571?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <MenuBar />
+      <DoctorMenuBar />
       <div className="p-8 max-w-4xl mx-auto space-y-8">
         <h1 className="text-4xl font-bold text-center text-green-700">
           эмийн сан

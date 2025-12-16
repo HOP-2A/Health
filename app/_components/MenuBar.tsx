@@ -6,20 +6,20 @@ export default function MenuBar() {
     <header
       className="
         w-full sticky top-0 z-50
-        backdrop-blur-sm bg-white/20
-        border-b border-green-300/40
-        shadow-[0_4px_25px_rgba(0,200,120,0.25)]
+        backdrop-blur-sm bg-green-50/40
+        border-b border-green-300/50
+        shadow-[0_4px_25px_rgba(0,200,120,0.3)]
       "
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between h-25 px-6">
         <Link href="/">
           <div
             className="
-            text-4xl font-extrabold tracking-wide text-gray-300
-            drop-shadow-[0_0_10px_rgba(100,255,150,0.6)]
-            transition-transform duration-200
-            hover:scale-105 cursor-pointer
-          "
+              text-4xl font-extrabold tracking-wide text-green-900
+              drop-shadow-[0_0_15px_rgba(100,255,150,0.4)]
+              transition-transform duration-200
+              hover:scale-105 cursor-pointer
+            "
           >
             Mint
           </div>
@@ -52,10 +52,10 @@ export default function MenuBar() {
             <button
               className="
                 ml-3 px-6 py-2 rounded-full
-                bg-green-500 text-white font-semibold
-                shadow-md hover:bg-green-600
+                bg-green-600 text-white font-semibold
+                shadow-lg hover:bg-green-700
                 transition-all duration-200
-                hover:shadow-lg hover:scale-105 active:scale-95
+                hover:shadow-xl hover:scale-105 active:scale-95
               "
             >
               Sign In

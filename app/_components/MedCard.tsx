@@ -172,6 +172,7 @@ export default function MedCard({
           >
             -
           </button>
+
           <button className="w-12 h-10 bg-white/20 text-xl text-white">
             {orderItem.quantity}
           </button>
