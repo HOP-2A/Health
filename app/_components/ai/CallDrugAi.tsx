@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
-import MedCard from "./MedCard";
+import MedCard from "../MedCard";
 import { useUser } from "@clerk/nextjs";
 import MedCardAi from "./MedCardAi";
 
@@ -34,15 +34,21 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
 
   useEffect(() => {
     const fetchAll = async () => {
-      const medsRes = await fetch(`/api/find-category-medicine`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ category }),
-      });
-      const meds = await medsRes.json();
-      setMedData(meds);
+      if (category === "error") {
+        const medsRes = await fetch("/api/add-medicine");
+        const meds = await medsRes.json();
+        setMedData(meds);
+      } else {
+        const medsRes = await fetch(`/api/find-category-medicine`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }),
+        });
+        const meds = await medsRes.json();
+        setMedData(meds);
+      }
 
       if (user) {
         const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);

@@ -94,7 +94,7 @@ export default function MedCardAi({ med, isLiked, userId, onLikeChange }) {
 
         <button
           onClick={handleClick}
-          type="submit"
+          type="button"
           className="
             w-full mt-5 py-3 rounded-xl text-lg font-semibold
             bg-green-500 text-white shadow-md

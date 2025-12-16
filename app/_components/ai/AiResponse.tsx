@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import CallDrugAi from "./CallDrugAi";
+
 import { Illness } from "@prisma/client";
 
 export default async function AiResponse() {
@@ -8,6 +9,10 @@ export default async function AiResponse() {
   const userId = session.userId;
 
   const response: Illness[] = await prisma.illness.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 1,
     where: {
       userId: "test",
     },
@@ -43,10 +48,20 @@ export default async function AiResponse() {
           {response.map((r, i) => {
             return (
               <div key={r.id}>
-                {r.name === "overloaded" || "error" ? (
-                  <div>
-                    <div> {r.name}</div>
-                    <div> {r.details}</div>
+                {r.name === "overloaded" || r.name === "error" ? (
+                  <div className="flex h-full w-full items-center gap-6 rounded-2xl border border-red-200 bg-gradient-to-br from-red-50 to-pink-50 p-8 shadow-md">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600 text-3xl font-bold">
+                      !
+                    </div>
+
+                    <div className="flex flex-col justify-center">
+                      <div className="text-2xl font-semibold text-red-800">
+                        {r.name}
+                      </div>
+                      <div className="mt-2 text-base text-red-700 leading-relaxed max-w-xl">
+                        {r.details}
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <div>
@@ -68,7 +83,7 @@ export default async function AiResponse() {
                 <div className="text-5xl text-amber-50 mt-10">
                   medicines that may help:
                 </div>
-                {<CallDrugAi category={response[0].category} />}
+                <CallDrugAi category={response[0].category} />
               </div>
             )}
           </div>

@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
         data: {
           userId: "test",
           name: "error",
-          details: "error",
-          category: "ханиад",
+          details: "error503",
+          category: "error",
         },
       });
       return Response.json(er);
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
           userId: "test",
           name: "overloaded",
           details: "please try again later",
-          category: "ханиад",
+          category: "error",
         },
       });
       return Response.json(overload);
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
         userId: "test",
         name: "error",
         details: "error",
-        category: "ханиад",
+        category: "error",
       },
     });
     return Response.json(er);
