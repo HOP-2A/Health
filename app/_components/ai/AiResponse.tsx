@@ -65,7 +65,6 @@ export default async function AiResponse() {
                   </div>
                 ) : (
                   <div>
-                    {" "}
                     <div>болоx магадгуй өвчин: {r.name}</div>
                     <div>дэлгэрэл: {r.details}</div>
                   </div>
