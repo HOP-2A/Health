@@ -90,7 +90,10 @@ export default function MedCard({
         await fetch(`/api/liked-med`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ medicineId: med.id, userId }),
+          body: JSON.stringify({
+            medicineId: med.id,
+            userId: userClerckId,
+          }),
         });
       }
 
@@ -100,7 +103,7 @@ export default function MedCard({
       console.error("Toggle Like Error:", error);
     }
   };
-  console.log(orderItem);
+
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">

@@ -104,7 +104,7 @@ export default function MedCardAi({
       console.error("Toggle Like Error:", error);
     }
   };
-  console.log(orderItem);
+
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">

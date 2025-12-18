@@ -11,7 +11,6 @@ export default function UIProfilePage() {
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
-  console.log(formatted);
   const [openProfile, setOpenProfile] = useState(false);
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">

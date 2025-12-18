@@ -78,7 +78,6 @@ const Page = () => {
     if (doctor) {
       router.push("/");
     }
-    console.log(doctor);
   };
   const handleDoctorInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -113,8 +112,7 @@ const Page = () => {
       });
     }
   };
-  console.log(doctorInput, "doctor input");
-  console.log(userInput, "user input");
+
   const changeRoleToDoc = () => {
     setRole("doctor");
     setUserInput({

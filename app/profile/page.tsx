@@ -3,11 +3,8 @@
 import { motion } from "framer-motion";
 import MenuBar from "../_components/MenuBar";
 import UIProfilePage from "../_components/UIProfilepage";
-import { useUser } from "@clerk/nextjs";
 
 const Page = () => {
-  const user = useUser();
-  console.log(user);
   return (
     <div
       className="relative min-h-screen  overflow-hidden"
