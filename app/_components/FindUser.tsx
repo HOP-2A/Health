@@ -1,3 +1,6 @@
+"use client";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Search } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -7,10 +10,17 @@ type user = {
   email: string;
   clerkId: string;
 };
+type doctor = {
+  id: string;
+  username: string;
+  email: string;
+  clerkId: string;
+};
 
 export default function FindUser() {
   const [input, setInput] = useState("");
   const [users, setUsers] = useState<user[]>([]);
+  const [doctors, setDoctors] = useState<doctor[]>([]);
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setInput(value);
@@ -33,6 +43,23 @@ export default function FindUser() {
 
     findUsers();
   }, [input]);
+  useEffect(() => {
+    const findDoctors = async () => {
+      const res = await fetch("/api/find-doctor", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          input: input,
+        }),
+      });
+      const doctor: doctor[] = await res.json();
+      setDoctors(doctor);
+    };
+
+    findDoctors();
+  }, [input]);
 
   return (
     <div className="flex justify-center mt-20 px-4">
@@ -51,7 +78,6 @@ export default function FindUser() {
             className="absolute left-6 top-1/2 -translate-y-1/2 text-green-600 group-hover:text-green-700 transition-colors duration-300"
             size={30}
           />
-
           <input
             type="text"
             onChange={(e) => handleInputValue(e)}
@@ -63,7 +89,62 @@ export default function FindUser() {
               group-hover:placeholder-gray-400 
               transition-all duration-300
             "
-          />
+          />{" "}
+        </div>
+        <div className="flex flex-col md:flex-row justify-center gap-12">
+          <div className="w-1/2 flex justify-center">
+            <div className="h-[44vh] w-full max-w-[42vw] flex flex-col gap-4 overflow-y-auto justify-start mt-[50px]">
+              <div className="mb-4">
+                <h2 className="text-[34px] font-semibold text-white tracking-wide">
+                  Users
+                </h2>
+                <div className="h-[3px] w-16 bg-green-400 rounded-full mt-1" />
+              </div>
+
+              {users.map((user) => (
+                <Card
+                  key={user.id}
+                  className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300"
+                >
+                  <CardContent className="p-5">
+                    <h3 className="text-[18px] font-semibold text-white">
+                      {user.username}
+                    </h3>
+                    <span className="text-[20px] font-bold text-[#80FF9F]">
+                      {user.email}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-1/2 flex justify-center">
+            <div className="h-[44vh] w-full max-w-[42vw] flex flex-col gap-4 overflow-y-auto justify-start mt-[50px]">
+              <div className="mb-4">
+                <h2 className="text-[34px] font-semibold text-white tracking-wide">
+                  Doctors
+                </h2>
+                <div className="h-[3px] w-16 bg-blue-400 rounded-full mt-1" />
+              </div>
+
+              {doctors.map((user) => (
+                <Card
+                  key={user.id}
+                  className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300"
+                >
+                  <CardContent className="p-5">
+                    <h3 className="text-[18px] font-semibold text-white">
+                      {user.username}
+                    </h3>
+                    <span className="text-[20px] font-bold text-[#80FF9F]">
+                      {user.email}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
