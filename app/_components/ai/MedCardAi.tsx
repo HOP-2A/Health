@@ -2,48 +2,117 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+type medicine = {
+  id: string;
+  name: string;
+  description: string;
+  ageLimit: string;
+  price: number;
+  stock: number;
+  imageUrls: string[];
+  expiryDate: string;
+};
+type Order = {
+  id: string;
+  userId: string;
+  totalPrice: number;
+  status: string;
+  discountApplied: boolean;
+  createdAt: Date;
+};
 
-export default function MedCardAi({ med, isLiked, userId, onLikeChange }) {
+interface MedCardProps {
+  med: medicine;
+  isLiked: boolean;
+  onLikeChange: (id: string, liked: boolean) => void;
+  userId: string;
+  userClerckId: string;
+}
+
+export default function MedCardAi({
+  med,
+  isLiked,
+  userClerckId,
+  onLikeChange,
+  userId,
+}: MedCardProps) {
+  const [price, setPrice] = useState<number>(0);
   const [liked, setLiked] = useState(isLiked);
-  const router = useRouter();
+  const [orderItem, setOrderItem] = useState({
+    orderId: "",
+    medicineId: med.id,
+    quantity: 1,
+  });
 
+  const router = useRouter();
+  const addToCart = async () => {
+    const res = await fetch("/api/create-orderItem", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId,
+        totalPrice: price,
+        medicineId: orderItem.medicineId,
+        quantity: orderItem.quantity,
+        price: orderItem.quantity * med.price,
+      }),
+    });
+    setOrderItem((prev) => {
+      return { orderId: "", medicineId: med.id, quantity: 1 };
+    });
+    if (res.ok) {
+      router.push("/drugCart");
+      toast.success("Амжилттай сагсанд нэмлээ!");
+    }
+  };
   const handleClick = () => {
     router.push("/search");
   };
 
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
+
   const toggleLike = async () => {
-    if (!userId) return;
+    if (!userId) {
+      console.error("No userId");
+      return;
+    }
 
-    const url = liked
-      ? `/api/liked-med?userId=${userId}&medicineId=${med.id}`
-      : "/api/liked-med";
+    try {
+      if (liked) {
+        await fetch(`/api/liked-med?medicineId=${med.id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: userClerckId }),
+        });
+      } else {
+        await fetch(`/api/liked-med`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ medicineId: med.id, userId }),
+        });
+      }
 
-    await fetch(url, {
-      method: liked ? "DELETE" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, medicineId: med.id }),
-    });
-
-    setLiked(!liked);
-    onLikeChange(med.id, !liked);
+      setLiked(!liked);
+      onLikeChange(med.id, !liked);
+    } catch (error) {
+      console.error("Toggle Like Error:", error);
+    }
   };
-
+  console.log(orderItem);
   return (
-    <Card
-      className="
-        backdrop-blur-xl bg-white/20
-        rounded-2xl border border-white/30
-        shadow-md hover:shadow-xl
-        hover:bg-white/30 transition-all duration-300
-      "
-    >
+    <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
         <div className="w-full">
           <img
             src={med.imageUrls[0]}
             alt={med.name}
-            className="w-full h-64 object-cover rounded-2xl shadow-lg"
+            className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
           />
         </div>
 
@@ -87,11 +156,41 @@ export default function MedCardAi({ med, isLiked, userId, onLikeChange }) {
         <h2 className="text-[18px] font-semibold text-white mt-2">
           {med.name}
         </h2>
-
         <span className="text-[22px] font-bold text-[#80FF9F] mt-1">
-          {med.price.toLocaleString()}₮
+          {med.price}₮
         </span>
 
+        <div className="mt-3 text-white/80 font-medium text-[15px]">
+          тоо ширхэг:{med.stock}
+        </div>
+
+        <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
+          <button
+            className="w-12 h-10 bg-white/20 text-xl text-white"
+            onClick={() => {
+              setPrice(orderItem.quantity * med.price);
+              setOrderItem((prev) => {
+                return { ...prev, quantity: orderItem.quantity - 1 };
+              });
+            }}
+          >
+            -
+          </button>
+          <button className="w-12 h-10 bg-white/20 text-xl text-white">
+            {orderItem.quantity}
+          </button>
+          <button
+            className="w-12 h-10 bg-white/20 text-xl text-white"
+            onClick={() => {
+              setPrice(orderItem.quantity * med.price);
+              setOrderItem((prev) => {
+                return { ...prev, quantity: orderItem.quantity + 1 };
+              });
+            }}
+          >
+            +
+          </button>
+        </div>
         <button
           onClick={handleClick}
           type="button"

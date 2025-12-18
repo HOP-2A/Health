@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
         data: {
           userId: "test",
           name: "error",
-          details: "error503",
+          details: "error 503",
           category: "error",
         },
       });
