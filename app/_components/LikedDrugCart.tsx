@@ -31,6 +31,8 @@ export default function LikedDrugPage() {
     fetchLikes();
   }, [user]);
 
+  console.log(user);
+
   const handleDelete = async (medicineId: string) => {
     if (!user) return;
 
