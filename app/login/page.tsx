@@ -14,8 +14,6 @@ const smooth: Transition = {
 
 const Page = () => {
   const [role, setRole] = useState<"user" | "doctor">("user");
-  const user = useUser();
-  console.log(user);
   const pathname = usePathname();
   const router = useRouter();
   const [input, setInput] = useState({
@@ -23,7 +21,6 @@ const Page = () => {
     password: "",
   });
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
     const { name, value } = e.target;
     if (name === "email") {
       setInput((prev) => {
@@ -50,7 +47,7 @@ const Page = () => {
       password: "",
     });
   };
-  console.log(input);
+
   const login = async () => {
     if (role === "user") {
     } else {

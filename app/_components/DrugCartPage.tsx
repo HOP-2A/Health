@@ -38,7 +38,6 @@ export default function DrugCartPage() {
     findMedicines();
   }, []);
   const deleteMed = async (orderItemId: string) => {
-    console.log(orderItemId);
     await fetch(`/api/delete-orderItem/${orderItemId}`, {
       method: "DELETE",
     });

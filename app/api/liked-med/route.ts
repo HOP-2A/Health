@@ -28,21 +28,38 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-  const { userId, medicineId } = await req.json();
-  if (!userId) {
+  const { userId: clerkId, medicineId } = await req.json();
+
+  if (!clerkId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
   }
 
-  const existing = await prisma.like.findFirst({
-    where: { userId, medicineId },
+  const user = await prisma.user.findUnique({
+    where: { clerkId },
   });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  const existing = await prisma.like.findFirst({
+    where: {
+      userId: user.id,
+      medicineId,
+    },
+  });
+
   if (existing) {
-    return NextResponse.json({ message: "Already liked" }, { status: 200 });
+    return NextResponse.json({ message: "Already liked" });
   }
 
   const like = await prisma.like.create({
-    data: { userId, medicineId },
+    data: {
+      userId: user.id,
+      medicineId,
+    },
   });
+
   return NextResponse.json({ message: "Liked", like });
 };
 
