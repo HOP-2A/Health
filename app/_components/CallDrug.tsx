@@ -29,15 +29,16 @@ export default function CallDrug() {
   const { loading, user } = useAuth(clerkUser?.id);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading) {
       const fetchAll = async () => {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
         setMedData(meds);
-
-        const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
-        const likes = await likeRes.json();
-        setLikedItems(likes.map((l: any) => l.medicine.id));
+        if (user) {
+          const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
+          const likes = await likeRes.json();
+          setLikedItems(likes.map((l: any) => l.medicine.id));
+        }
       };
       fetchAll();
     }
