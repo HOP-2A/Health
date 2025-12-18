@@ -14,7 +14,6 @@ model User {
   createdAt DateTime  @default(now())
   clerkId   String    @unique
   illnesses Illness[]
-  Like      Like[]
   orders    Order[]
 
   likes Like[]
@@ -40,11 +39,12 @@ model Medicine {
   price         Int
   stock         Int
   imageUrls     String[]
+  orderItems    OrderItem[]
   createdAt     DateTime                 @default(now())
   category      String
   recommendedBy DoctorReviewToMedicine[]
-  Like          Like[]
-  orderItems    OrderItem[]
+
+  likes Like[]
 }
 
 model Illness {
@@ -53,9 +53,9 @@ model Illness {
   name      String
   details   String?
   createdAt DateTime      @default(now())
-  category  String
   review    DoctorReview?
   user      User          @relation(fields: [userId], references: [id])
+  category String
 }
 
 model DoctorReview {
@@ -101,7 +101,7 @@ model OrderItem {
 }
 
 model Like {
-  id         String   @id
+  id         String   @id @default(nanoid())
   userId     String
   medicineId String
   createdAt  DateTime @default(now())

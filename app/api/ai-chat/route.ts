@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("");
+const genAI = new GoogleGenerativeAI("your key");
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
   systemInstruction:
@@ -39,18 +39,6 @@ export async function POST(req: NextRequest) {
       .replaceAll(/`/g, "")
       .replace(/'/g, '"')
       .trim();
-
-    if ((cleaned.match(/"/g) || []).length > 6) {
-      const er = await prisma.illness.create({
-        data: {
-          userId: "test",
-          name: "error",
-          details: "error 503",
-          category: "error",
-        },
-      });
-      return Response.json(er);
-    }
 
     const cooked = JSON.parse(cleaned);
 

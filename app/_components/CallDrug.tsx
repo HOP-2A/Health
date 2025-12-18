@@ -26,6 +26,7 @@ export default function CallDrug() {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const { user: clerkUser } = useUser();
+
   const { loading, user } = useAuth(clerkUser?.id);
 
   useEffect(() => {

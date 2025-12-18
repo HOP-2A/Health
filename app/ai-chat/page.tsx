@@ -1,5 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
-import CallDrug from "../_components/CallDrug";
 import MenuBar from "../_components/MenuBar";
 import DescriptionPrompt from "../_components/ai/DescriptionPrompt";
 import AiResponse from "../_components/ai/AiResponse";

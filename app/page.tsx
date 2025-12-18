@@ -6,6 +6,7 @@ import DescribeUrIllness from "./_components/DescribeUrIllness";
 import MenuBar from "./_components/MenuBar";
 import CallDrug from "./_components/CallDrug";
 import DescriptionPromptMain from "./_components/DescriptionPromptMain";
+import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
   const router = useRouter();
