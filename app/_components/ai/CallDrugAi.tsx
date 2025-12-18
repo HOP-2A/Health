@@ -7,9 +7,13 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
-import MedCard from "./MedCard";
+import MedCardAi from "./MedCardAi";
 import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@/providers/route";
+
+type CallDrugAiProps = {
+  category: string;
+};
 
 interface Medicine {
   id: string;
@@ -21,20 +25,29 @@ interface Medicine {
   imageUrls: string[];
 }
 
-export default function CallDrug() {
+export default function CallDrugAi({ category }: CallDrugAiProps) {
   const [medData, setMedData] = useState<Medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const { user: clerkUser } = useUser();
-
   const { loading, user } = useAuth(clerkUser?.id);
 
   useEffect(() => {
     if (!loading && user) {
       const fetchAll = async () => {
-        const medsRes = await fetch("/api/add-medicine");
-        const meds = await medsRes.json();
-        setMedData(meds);
+        if (category === "error") {
+          const medsRes = await fetch("/api/add-medicine");
+        } else {
+          const medsRes = await fetch(`/api/find-category-medicine`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ category }),
+          });
+          const meds = await medsRes.json();
+          setMedData(meds);
+        }
 
         const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
         const likes = await likeRes.json();
@@ -60,7 +73,7 @@ export default function CallDrug() {
               className="md:basis-1/2 lg:basis-1/5 flex justify-center"
             >
               <div className="p-4 w-full">
-                <MedCard
+                <MedCardAi
                   med={m}
                   userId={user?.id || ""}
                   userClerckId={user?.clerkId}

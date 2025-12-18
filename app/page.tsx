@@ -1,17 +1,26 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import CallDrug from "./_components/CallDrug";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import DescribeUrIllness from "./_components/DescribeUrIllness";
 import MenuBar from "./_components/MenuBar";
-import { usePathname } from "next/navigation";
+import CallDrug from "./_components/CallDrug";
+import DescriptionPromptMain from "./_components/DescriptionPromptMain";
+import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
-  const pathname = usePathname();
+  const router = useRouter();
+  const [prompt, setPrompt] = useState("");
+
+  const handleSubmit = () => {
+    if (!prompt.trim()) return;
+    sessionStorage.setItem("prompt", prompt);
+    router.push("/ai-chat");
+  };
 
   return (
     <div
-      className="relative min-h-screen  overflow-hidden"
+      className="relative min-h-screen overflow-hidden"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1551970634-747846a548cb?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -19,23 +28,18 @@ export default function Home() {
         backgroundPosition: "center",
       }}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10 "
-        >
-          <MenuBar />
+      <MenuBar />
 
-          <div className="flex justify-center mt-46 px-4">
-            <DescribeUrIllness />
-          </div>
-          <CallDrug />
-        </motion.div>
-      </AnimatePresence>
+      <div className="flex justify-center mt-36 px-4">
+        <DescriptionPromptMain
+          value={prompt}
+          onChange={setPrompt}
+          onSubmit={handleSubmit}
+          submitLabel="Submit"
+        />
+      </div>
+
+      <CallDrug />
     </div>
   );
 }
