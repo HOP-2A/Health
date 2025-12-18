@@ -49,7 +49,7 @@ export default function LikedDrugPage() {
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
       <div className="w-full max-w-3xl relative z-10">
         <h2 className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-          Your Liked Drug List
+          Таны дуртай эмийн жагсаалт
         </h2>
 
         <AnimatePresence mode="wait">
@@ -74,14 +74,15 @@ export default function LikedDrugPage() {
               </motion.div>
 
               <p className="mt-6 text-xl font-semibold text-gray-300">
-                Your list is empty
+                Таны жагсаалт хоосон байна
               </p>
               <p className="text-gray-50 max-w-sm mt-2">
-                Add medicines or health products to see them listed here.
+                Эм эсвэл эрүүл мэндийн бүтээгдэхүүнийг энд жагсаасан харагдуулна
+                уу.
               </p>
               <Link href="/search">
                 <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
-                  Browse Medicines
+                  Эмийг үзэх
                 </button>
               </Link>
             </motion.div>
@@ -124,19 +125,7 @@ export default function LikedDrugPage() {
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="
-            p-2 rounded-xl
-            bg-red-50 text-red-500
-            hover:bg-red-100
-            transition
-          "
-                    >
-                      <Trash2 size={18} />
-                    </button>
-
+                  <div className="flex gap-2">
                     <button
                       className="
             px-3 py-1.5 text-xs font-semibold
@@ -148,6 +137,15 @@ export default function LikedDrugPage() {
                     >
                       Сагсанд
                     </button>
+
+                    <motion.button
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-4 rounded-2xl bg-red-50 hover:bg-red-100 transition"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <Trash2 size={26} className="text-red-500" />
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}

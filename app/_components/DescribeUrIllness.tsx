@@ -12,16 +12,16 @@ export default function DescribeUrIllness() {
         "
       >
         <h2 className="text-4xl font-extrabold mb-6 text-gray-300 tracking-tight">
-          Describe Your Illness
+          Өвчин эмгэгээ тодорхойл !!!
         </h2>
 
         <label className="block mb-2 text-gray-400 font-semibold w-full text-lg">
-          Please provide a detailed description of your symptoms:
+          Шинж тэмдгүүдийнхээ дэлгэрэнгүй тайлбарыг өгнө үү:
         </label>
 
         <textarea
           rows={6}
-          placeholder="Describe your illness here..."
+          placeholder="Өвчин эмгэгээ энд бичнэ үү..."
           className="
             w-full p-4 rounded-xl resize-none
             bg-gray-400 text-gray-800 placeholder-gray-500
@@ -40,7 +40,7 @@ export default function DescribeUrIllness() {
             active:scale-95 transition-all duration-200
           "
         >
-          Submit
+          хайх
         </button>
       </form>
     </div>
