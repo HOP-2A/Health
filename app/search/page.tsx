@@ -1,12 +1,13 @@
 "use client";
 
-import SearchPageInput from "../_components/SearchPageInput";
 import MenuBar from "../_components/MenuBar";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
-import { ChangeEvent, use, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import MedCard from "../_components/MedCard";
+import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@/providers/route";
 
 type medicine = {
   id: string;
@@ -22,7 +23,12 @@ type medicine = {
 const Page = () => {
   const pathname = usePathname();
   const [medicines, setMedicines] = useState<medicine[]>([]);
+  const [likedItems, setLikedItems] = useState<string[]>([]);
   const [input, setInput] = useState("");
+  const { user: clerkUser } = useUser();
+
+  const { loading, user } = useAuth(clerkUser?.id);
+
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setInput(value);
@@ -58,6 +64,20 @@ const Page = () => {
 
     findMecines();
   }, [input]);
+
+  useEffect(() => {
+    if (!loading) {
+      const fetchAll = async () => {
+        if (user) {
+          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
+          const likes = await likeRes.json();
+          setLikedItems(likes.map((l: any) => l.medicine.id));
+        }
+      };
+      fetchAll();
+    }
+  }, [user, loading]);
+
   return (
     <div
       className="w-[100vw] h-[100vh] flex flex-col gap-[100px]"
@@ -133,7 +153,19 @@ const Page = () => {
               {medicines.map((med) => {
                 return (
                   <div key={med.id}>
-                    <MedCard med={med} />
+                    <MedCard
+                      med={med}
+                      userId={user?.id || ""}
+                      userClerckId={user?.clerkId}
+                      isLiked={likedItems.includes(med.id)}
+                      onLikeChange={(id: string, liked: boolean) => {
+                        setLikedItems((prev) =>
+                          liked
+                            ? [...prev, id]
+                            : prev.filter((item) => item !== id)
+                        );
+                      }}
+                    />
                   </div>
                 );
               })}

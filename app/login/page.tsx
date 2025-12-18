@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
 import { usePathname } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 const smooth: Transition = {
   type: "spring",
   stiffness: 90,
@@ -153,7 +152,7 @@ const Page = () => {
                       </button>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Don’t have an account?{" "}
+                      Don’t have an account?
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}
@@ -214,7 +213,7 @@ const Page = () => {
                       <div className="absolute bottom-20 right-24 w-40 h-20 bg-green-600 rounded-full opacity-50"></div>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Don’t have an account?{" "}
+                      Don’t have an account?
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}

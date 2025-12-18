@@ -36,11 +36,9 @@ export default function CallDrug() {
         const meds = await medsRes.json();
         setMedData(meds);
         if (user) {
-          const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
+          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
           const likes = await likeRes.json();
           setLikedItems(likes.map((l: any) => l.medicine.id));
-
-          console.log(user.clerkId);
         }
       };
       fetchAll();
