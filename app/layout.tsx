@@ -9,6 +9,7 @@ import {
   UserProfile,
 } from "@clerk/nextjs";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/providers/AuthProvidor";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,30 +33,32 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Toaster
-            richColors
-            position="top-right"
-            toastOptions={{
-              style: {
-                fontSize: "16px",
-                padding: "20px 24px",
-                minWidth: "420px",
-                minHeight: "80px",
-                background: "#00ba1c",
-                color: "white",
-                border: "2px solid #059669",
-                borderRadius: "12px",
-                boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
-                fontWeight: "500",
-              },
-              duration: 4000,
-            }}
-          />
-          {children}
-        </body>
+        <AuthProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Toaster
+              richColors
+              position="top-right"
+              toastOptions={{
+                style: {
+                  fontSize: "16px",
+                  padding: "20px 24px",
+                  minWidth: "420px",
+                  minHeight: "80px",
+                  background: "#00ba1c",
+                  color: "white",
+                  border: "2px solid #059669",
+                  borderRadius: "12px",
+                  boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
+                  fontWeight: "500",
+                },
+                duration: 4000,
+              }}
+            />
+            {children}
+          </body>
+        </AuthProvider>
       </html>
     </ClerkProvider>
   );

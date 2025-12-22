@@ -3,6 +3,7 @@ import { AnimatePresence, motion, Transition } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
+import { useProvider } from "@/providers/AuthProvidor";
 
 const smooth: Transition = {
   type: "spring",
@@ -14,6 +15,7 @@ const smooth: Transition = {
 const Page = () => {
   const router = useRouter();
   const [role, setRole] = useState<"user" | "doctor">("user");
+  const { setDoctor } = useProvider();
   const pathname = usePathname();
   const [userInput, setUserInput] = useState({
     email: "",
@@ -75,6 +77,8 @@ const Page = () => {
         phoneNumber: doctorInput.phoneNumber,
       }),
     });
+    const doc = await doctor.json();
+    setDoctor(doc);
     if (doctor) {
       router.push("/");
     }

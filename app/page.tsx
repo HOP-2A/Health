@@ -16,6 +16,13 @@ export default function Home() {
     router.push("/ai-chat");
   };
 
+import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+
+export default function Home() {
+  const pathname = usePathname();
+  const userC = useUser();
+  console.log(userC);
   return (
     <div
       className="relative min-h-screen overflow-hidden"

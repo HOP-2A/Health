@@ -13,4 +13,13 @@ export const POST = async (req: NextRequest) => {
   });
 
   return NextResponse.json(users);
+
+export const POST = async (req: Request) => {
+  const body = await req.json();
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkId: body.clerkId,
+    },
+  });
+  return NextResponse.json(user);
 };
