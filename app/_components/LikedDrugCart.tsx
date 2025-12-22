@@ -125,26 +125,39 @@ export default function LikedDrugPage() {
                     </p>
                   </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      className="
-            px-3 py-1.5 text-xs font-semibold
-            rounded-xl
-            bg-green-50 text-green-700
-            hover:bg-green-100
-            transition
-          "
-                    >
-                      Сагсанд
-                    </button>
+                  <div className="flex items-center gap-3">
+                    <Link href="/search">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="
+        px-4 py-2
+        text-xs font-semibold
+        rounded-full
+        bg-green-100 text-green-700
+        hover:bg-green-200
+        shadow-sm hover:shadow
+        transition-all
+      "
+                      >
+                        Хайх
+                      </motion.button>
+                    </Link>
 
                     <motion.button
-                      whileHover={{ scale: 1.08 }}
+                      whileHover={{ scale: 1.1, rotate: -5 }}
                       whileTap={{ scale: 0.9 }}
-                      className="p-4 rounded-2xl bg-red-50 hover:bg-red-100 transition"
+                      className="
+      p-3
+      rounded-full
+      bg-red-100
+      hover:bg-red-200
+      shadow-sm hover:shadow
+      transition-all
+    "
                       onClick={() => handleDelete(item.id)}
                     >
-                      <Trash2 size={26} className="text-red-500" />
+                      <Trash2 size={22} className="text-red-600" />
                     </motion.button>
                   </div>
                 </motion.div>
