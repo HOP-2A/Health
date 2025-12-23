@@ -20,6 +20,17 @@ type medicine = {
   expiryDate: string;
 };
 
+type AppUser = {
+  id: string;
+  clerkId: string;
+};
+
+interface LikedItem {
+  medicine: {
+    id: string;
+  };
+}
+
 const Page = () => {
   const pathname = usePathname();
   const [medicines, setMedicines] = useState<medicine[]>([]);
@@ -27,7 +38,8 @@ const Page = () => {
   const [input, setInput] = useState("");
   const { user: clerkUser } = useUser();
 
-  const { loading, user } = useAuth(clerkUser?.id);
+  const { loading, user } = useAuth(clerkUser?.id ?? "");
+  const typedUser = user as AppUser | null;
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -68,10 +80,13 @@ const Page = () => {
   useEffect(() => {
     if (!loading) {
       const fetchAll = async () => {
-        if (user) {
-          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
+        if (typedUser) {
+          const likeRes = await fetch(
+            `/api/liked-med?userId=${typedUser.clerkId}`
+          );
           const likes = await likeRes.json();
-          setLikedItems(likes.map((l: any) => l.medicine.id));
+
+          setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
       };
       fetchAll();
@@ -155,8 +170,8 @@ const Page = () => {
                   <div key={med.id}>
                     <MedCard
                       med={med}
-                      userId={user?.id || ""}
-                      userClerckId={user?.clerkId}
+                      userId={typedUser?.id || ""}
+                      userClerckId={typedUser?.clerkId || ""}
                       isLiked={likedItems.includes(med.id)}
                       onLikeChange={(id: string, liked: boolean) => {
                         setLikedItems((prev) =>

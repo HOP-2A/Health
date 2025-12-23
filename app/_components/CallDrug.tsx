@@ -11,7 +11,7 @@ import MedCard from "./MedCard";
 import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@/providers/route";
 
-interface Medicine {
+type medicine = {
   id: string;
   name: string;
   description: string;
@@ -19,15 +19,29 @@ interface Medicine {
   price: number;
   stock: number;
   imageUrls: string[];
+  expiryDate: string;
+};
+
+type AppUser = {
+  id: string;
+  clerkId: string;
+};
+
+interface LikedItem {
+  medicine: {
+    id: string;
+  };
 }
 
 export default function CallDrug() {
-  const [medData, setMedData] = useState<Medicine[]>([]);
+  const [medData, setMedData] = useState<medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
+
   const { user: clerkUser } = useUser();
 
-  const { loading, user } = useAuth(clerkUser?.id);
+  const { loading, user } = useAuth(clerkUser?.id ?? "");
+  const typedUser = user as AppUser | null;
 
   useEffect(() => {
     if (!loading) {
@@ -35,10 +49,13 @@ export default function CallDrug() {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
         setMedData(meds);
-        if (user) {
-          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
+        if (typedUser) {
+          const likeRes = await fetch(
+            `/api/liked-med?userId=${typedUser.clerkId}`
+          );
           const likes = await likeRes.json();
-          setLikedItems(likes.map((l: any) => l.medicine.id));
+
+          setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
       };
       fetchAll();
@@ -63,8 +80,8 @@ export default function CallDrug() {
               <div className="p-4 w-full">
                 <MedCard
                   med={m}
-                  userId={user?.id || ""}
-                  userClerckId={user?.clerkId}
+                  userId={typedUser?.id || ""}
+                  userClerckId={typedUser?.clerkId || ""}
                   isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>
