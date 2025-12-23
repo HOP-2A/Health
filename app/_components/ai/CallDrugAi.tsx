@@ -65,7 +65,7 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
     }
   }, [user, loading]);
 
-  if (!medData.length) return <p className="text-center mt-8">Loading...</p>;
+  if (!medData.length) return <p className="text-center mt-30">Loading...</p>;
 
   return (
     <div className="flex justify-center mt-20">

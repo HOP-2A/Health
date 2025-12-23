@@ -39,7 +39,8 @@ export default function CallDoctor() {
 
     fetchAll();
   }, []);
-  if (!doctorData.length) return <p className="text-center mt-8">Loading...</p>;
+  if (!doctorData.length)
+    return <p className="text-center mt-30">Loading...</p>;
 
   return (
     <div className="flex justify-center mt-2 w-full">
