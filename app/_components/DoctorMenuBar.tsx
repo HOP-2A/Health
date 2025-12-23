@@ -29,7 +29,7 @@ export default function DoctorMenuBar() {
           {[
             { href: "/userSearch", icon: <UserRoundSearch size={27} /> },
             { href: "/AddMed", icon: <Cross size={27} /> },
-            { href: "/suggestedMed", icon: <Heart size={27} /> },
+            { href: "/Orders", icon: <Heart size={27} /> },
             { href: "/doctorProfile", icon: <UserRound size={27} /> },
           ].map((item, i) => (
             <Link key={i} href={item.href}>
