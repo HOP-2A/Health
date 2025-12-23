@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("AIzaSyDqwNQ0dMa5WBKMYOP_AhRDEmi_xBs-L7U");
+const genAI = new GoogleGenerativeAI("leaked");
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
   systemInstruction:
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         category,
       },
     });
-
+    console.log(createdIllness.category);
     return NextResponse.json(createdIllness);
   } catch (error: any) {
     console.log(error);
