@@ -11,7 +11,7 @@ import MedCard from "./MedCard";
 import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@/providers/route";
 
-interface Medicine {
+type medicine = {
   id: string;
   name: string;
   description: string;
@@ -19,15 +19,23 @@ interface Medicine {
   price: number;
   stock: number;
   imageUrls: string[];
+  expiryDate: string;
+};
+
+interface LikedItem {
+  medicine: {
+    id: string;
+  };
 }
 
 export default function CallDrug() {
-  const [medData, setMedData] = useState<Medicine[]>([]);
+  const [medData, setMedData] = useState<medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
+
   const { user: clerkUser } = useUser();
 
-  const { loading, user } = useAuth(clerkUser?.id);
+  const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   useEffect(() => {
     if (!loading) {
@@ -38,7 +46,8 @@ export default function CallDrug() {
         if (user) {
           const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
           const likes = await likeRes.json();
-          setLikedItems(likes.map((l: any) => l.medicine.id));
+
+          setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
       };
       fetchAll();
@@ -64,7 +73,7 @@ export default function CallDrug() {
                 <MedCard
                   med={m}
                   userId={user?.id || ""}
-                  userClerckId={user?.clerkId}
+                  userClerckId={user?.clerkId || ""}
                   isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>

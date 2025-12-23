@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 
+type AppUser = {
+  id: string;
+  clerkId: string;
+};
+
 export const useAuth = (clerkId: string | null) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 

@@ -89,7 +89,7 @@ export default function FindUser() {
               group-hover:placeholder-gray-400 
               transition-all duration-300
             "
-          />{" "}
+          />
         </div>
         <div className="flex flex-col md:flex-row justify-center gap-12">
           <div className="w-1/2 flex justify-center">
