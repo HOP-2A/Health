@@ -13,7 +13,7 @@ export const POST = async (req: NextRequest) => {
     const order = await prisma.order.create({
       data: {
         userId: body.userId,
-        totalPrice: body.totalPrice,
+        totalPrice: body.price,
       },
     });
     const orderItem = await prisma.orderItem.create({
@@ -41,6 +41,20 @@ export const POST = async (req: NextRequest) => {
           price: body.price,
         },
       });
+      const prevOrder = await prisma.order.findFirst({
+        where: {
+          id: previousOrder.id,
+        },
+      });
+      if (!prevOrder) throw new Error("prev order not found");
+      await prisma.order.update({
+        where: {
+          id: previousOrder.id,
+        },
+        data: {
+          totalPrice: Number(orderItem.price) + Number(prevOrder.totalPrice),
+        },
+      });
       const med = await prisma.medicine.findUnique({
         where: {
           id: body.medicineId,
@@ -63,7 +77,10 @@ export const POST = async (req: NextRequest) => {
         },
         data: {
           quantity: ordItem.quantity + body.quantity,
-          price: ordItem.price + body.price,
+          price: Number(ordItem.price) + Number(body.price),
+        },
+        include: {
+          medicine: true,
         },
       });
       const prevOrder = await prisma.order.findFirst({
@@ -77,7 +94,10 @@ export const POST = async (req: NextRequest) => {
           id: previousOrder.id,
         },
         data: {
-          totalPrice: Number(changedItem.price) + Number(prevOrder.totalPrice),
+          totalPrice:
+            Number(changedItem.price) +
+            Number(prevOrder.totalPrice) -
+            Number(ordItem.quantity * changedItem.medicine.price),
         },
       });
       const med = await prisma.medicine.findUnique({

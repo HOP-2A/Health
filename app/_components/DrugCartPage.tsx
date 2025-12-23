@@ -25,22 +25,25 @@ export default function DrugCartPage() {
   const [cartItems, setCartItems] = useState<orderItem[]>([]);
   const [totalP, setTotalP] = useState<number | null>(0);
   const router = useRouter();
-  const { doctor } = useProvider();
+  const { user } = useProvider();
+
   const findMedicines = async () => {
-    const res = await fetch(`/api/find-order/${doctor?.id}`);
+    const res = await fetch(`/api/find-order/${user?.id}`);
     const response = await res.json();
     setCartItems(response.items);
     setTotalP(response.order?.totalPrice);
   };
+
   useEffect(() => {
+    if (!user) return;
     const findMedicines = async () => {
-      const res = await fetch(`/api/find-order/${doctor?.id}`);
+      const res = await fetch(`/api/find-order/${user?.id}`);
       const response = await res.json();
       setCartItems(response.items);
       setTotalP(response.order?.totalPrice);
     };
     findMedicines();
-  }, []);
+  }, [user]);
   const deleteMed = async (orderItemId: string) => {
     await fetch(`/api/delete-orderItem/${orderItemId}`, {
       method: "DELETE",

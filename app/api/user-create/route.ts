@@ -7,11 +7,11 @@ export const POST = async (req: NextRequest) => {
   const clerkUser = await clerk.users.createUser({
     emailAddress: [body.email],
     password: body.password,
-    username: body.username,
     publicMetadata: {
       role: "USER",
     },
   });
+  console.log(clerkUser);
   const createdUser = await prisma.user.create({
     data: {
       username: body.username,

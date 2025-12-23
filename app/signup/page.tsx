@@ -14,6 +14,7 @@ const smooth: Transition = {
 
 const Page = () => {
   const router = useRouter();
+  const { find } = useProvider();
   const [role, setRole] = useState<"user" | "doctor">("user");
   const { setDoctor } = useProvider();
   const pathname = usePathname();
@@ -59,10 +60,12 @@ const Page = () => {
         password: userInput.password,
       }),
     });
+    find();
     if (user) {
       router.push("/");
     }
   };
+  console.log(userInput);
   const doctorSignUp = async () => {
     const doctor = await fetch("api/doctor-create", {
       method: "POST",
@@ -80,6 +83,7 @@ const Page = () => {
     const doc = await doctor.json();
     setDoctor(doc);
     if (doctor) {
+      find();
       router.push("/");
     }
   };
