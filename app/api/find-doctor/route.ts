@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server.js";
 
 export const POST = async (req: NextRequest) => {
   const { input } = await req.json();
-  const users = await prisma.doctor.findMany({
+  const filteredDoctors = await prisma.doctor.findMany({
     where: {
       username: {
         contains: input,
@@ -12,5 +12,11 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  return NextResponse.json(users);
+  return NextResponse.json(filteredDoctors);
+};
+
+export const GET = async (req: NextRequest) => {
+  const doctors = await prisma.doctor.findMany();
+
+  return NextResponse.json(doctors);
 };

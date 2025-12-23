@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import CallDoctor from "../CallDoctor";
 
 export default function DescriptionPrompt() {
   const [prompt, setPrompt] = useState("");
@@ -38,7 +39,7 @@ export default function DescriptionPrompt() {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full ml-5">
       {isLoading && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-50 pointer-events-none">
           <div className="flex flex-col items-center">
@@ -92,10 +93,8 @@ export default function DescriptionPrompt() {
           >
             Submit
           </button>
-
-          <div className="w-220 h-80 mt-10 text-9xl text-white">
-            ADD LATER: DOCTOR STUFF
-          </div>
+          <div className="text-[50px] text-white">Our doctors:</div>
+          <CallDoctor />
         </form>
       </div>
     </div>
