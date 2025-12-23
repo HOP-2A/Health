@@ -35,42 +35,50 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
   useEffect(() => {
     if (!loading && user) {
       const fetchAll = async () => {
-        if (category === "error") {
-          const medsRes = await fetch("/api/add-medicine");
-        } else {
-          const medsRes = await fetch(`/api/find-category-medicine`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ category }),
-          });
-          const meds = await medsRes.json();
-          setMedData(meds);
-        }
+        try {
+          let meds: Medicine[] = [];
 
-        const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
-        const likes = await likeRes.json();
-        setLikedItems(likes.map((l: any) => l.medicine.id));
+          if (category === "error") {
+            const res = await fetch("/api/add-medicine");
+            meds = await res.json();
+          } else {
+            const res = await fetch("/api/find-category-medicine", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ category }),
+            });
+            meds = await res.json();
+          }
+
+          setMedData(meds);
+
+          if (user?.id) {
+            const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
+            const likes = await likeRes.json();
+            setLikedItems(likes.map((l: any) => l.medicine.id));
+          }
+        } catch (err) {
+          console.error("Failed to fetch data:", err);
+        }
       };
       fetchAll();
     }
   }, [user, loading]);
 
-  if (!medData.length) return <p className="text-center mt-8">Loading...</p>;
+  if (!medData.length) return <p className="text-center mt-30">Loading...</p>;
 
   return (
     <div className="flex justify-center mt-20">
       <Carousel
         opts={{ loop: true }}
         plugins={[autoplay.current]}
-        className="w-500"
+        className="w-220"
       >
         <CarouselContent>
           {medData.map((m) => (
             <CarouselItem
               key={m.id}
-              className="md:basis-1/2 lg:basis-1/5 flex justify-center"
+              className="basis-full md:basis-1/3 flex justify-center"
             >
               <div className="p-4 w-full">
                 <MedCardAi

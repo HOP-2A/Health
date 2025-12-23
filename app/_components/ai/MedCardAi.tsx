@@ -47,28 +47,7 @@ export default function MedCardAi({
   });
 
   const router = useRouter();
-  const addToCart = async () => {
-    const res = await fetch("/api/create-orderItem", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        userId,
-        totalPrice: price,
-        medicineId: orderItem.medicineId,
-        quantity: orderItem.quantity,
-        price: orderItem.quantity * med.price,
-      }),
-    });
-    setOrderItem((prev) => {
-      return { orderId: "", medicineId: med.id, quantity: 1 };
-    });
-    if (res.ok) {
-      router.push("/drugCart");
-      toast.success("Амжилттай сагсанд нэмлээ!");
-    }
-  };
+
   const handleClick = () => {
     router.push("/search");
   };
@@ -106,19 +85,18 @@ export default function MedCardAi({
   };
 
   return (
-    <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
-      <CardContent className="p-5 relative">
-        <div className="w-full">
-          <img
-            src={med.imageUrls[0]}
-            alt={med.name}
-            className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
-          />
-        </div>
+    <Card className="backdrop-blur-xl bg-white/20 rounded-xl border border-white/30 shadow-md hover:shadow-lg transition-all duration-300">
+      <CardContent className="p-4 relative">
+        <img
+          src={med.imageUrls[0]}
+          alt={med.name}
+          className="w-full h-54 object-cover rounded-xl shadow"
+        />
 
         <button
           onClick={toggleLike}
-          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full border border-gray-100 bg-gray-200 backdrop-blur-md hover:bg-gray-400 transition shadow-md"
+          type="button"
+          className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 hover:bg-gray-400 transition"
         >
           {liked ? (
             <svg
@@ -153,53 +131,19 @@ export default function MedCardAi({
           )}
         </button>
 
-        <h2 className="text-[18px] font-semibold text-white mt-2">
+        <h2 className="text-base font-semibold text-white mt-2 truncate">
           {med.name}
         </h2>
-        <span className="text-[22px] font-bold text-[#80FF9F] mt-1">
-          {med.price}₮
-        </span>
 
-        <div className="mt-3 text-white/80 font-medium text-[15px]">
-          тоо ширхэг:{med.stock}
+        <span className="text-lg font-bold text-[#80FF9F]">{med.price}₮</span>
+
+        <div className="text-sm text-white/80 mt-1">
+          тоо ширхэг: {med.stock}
         </div>
 
-        <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
-          <button
-            className="w-12 h-10 bg-white/20 text-xl text-white"
-            onClick={() => {
-              setPrice(orderItem.quantity * med.price);
-              setOrderItem((prev) => {
-                return { ...prev, quantity: orderItem.quantity - 1 };
-              });
-            }}
-          >
-            -
-          </button>
-          <button className="w-12 h-10 bg-white/20 text-xl text-white">
-            {orderItem.quantity}
-          </button>
-          <button
-            className="w-12 h-10 bg-white/20 text-xl text-white"
-            onClick={() => {
-              setPrice(orderItem.quantity * med.price);
-              setOrderItem((prev) => {
-                return { ...prev, quantity: orderItem.quantity + 1 };
-              });
-            }}
-          >
-            +
-          </button>
-        </div>
         <button
           onClick={handleClick}
-          type="button"
-          className="
-            w-full mt-5 py-3 rounded-xl text-lg font-semibold
-            bg-green-500 text-white shadow-md
-            hover:bg-green-600 hover:shadow-lg
-            active:scale-95 transition-all duration-200
-          "
+          className="w-full mt-3 py-2 rounded-lg text-sm font-semibold bg-green-500 hover:bg-green-600 transition"
         >
           Search
         </button>

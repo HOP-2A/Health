@@ -27,25 +27,27 @@ export default async function AiResponse() {
   const isLoading = response.length === 0 || !response[0]?.category;
 
   return (
-    <div className="flex justify-center w-full  h-250">
+    <div className="flex justify-center w-full h-250">
       <form
         className="
-          w-full max-w-4xl
-          bg-[url('/your-image.jpg')] bg-cover bg-center
-          backdrop-blur-xl
-          border border-green-300 rounded-3xl shadow-[0_4px_20px_rgba(0,200,100,0.25)]
-          flex flex-col items-center p-10 text-gray-800
-          transition-all duration-300
-        "
+      w-full max-w-4xl
+      bg-[url('/your-image.jpg')] bg-cover bg-center
+      backdrop-blur-xl
+      border border-green-300 rounded-3xl shadow-[0_4px_20px_rgba(0,200,100,0.25)]
+      flex flex-col items-center p-10 text-gray-800
+      transition-all duration-300
+    "
       >
         <h2 className="text-4xl font-extrabold mb-6 text-gray-300 tracking-tight">
-          Ai Response
+          AI-ийн хариу
         </h2>
+
         <label className="block mb-2 text-gray-400 font-semibold w-full text-lg">
-          AI Response:
+          AI-ийн хариу:
         </label>
+
         <div className="bg-gray-400 h-41 border border-white p-5 rounded-2xl w-200">
-          {response.map((r, i) => {
+          {response.map((r) => {
             return (
               <div key={r.id}>
                 {r.name === "overloaded" || r.name === "error" ? (
@@ -56,7 +58,7 @@ export default async function AiResponse() {
 
                     <div className="flex flex-col justify-center">
                       <div className="text-2xl font-semibold text-red-800">
-                        {r.name}
+                        Алдаа гарлаа
                       </div>
                       <div className="mt-2 text-base text-red-700 leading-relaxed max-w-xl">
                         {r.details}
@@ -65,24 +67,28 @@ export default async function AiResponse() {
                   </div>
                 ) : (
                   <div>
-                    <div>болоx магадгуй өвчин: {r.name}</div>
-                    <div>дэлгэрэл: {r.details}</div>
+                    <div>Болзошгүй өвчин: {r.name}</div>
+                    <div>Дэлгэрэнгүй тайлбар: {r.details}</div>
                   </div>
                 )}
               </div>
             );
           })}
-          <div className="w-220 h-100 mt-25 pr-23">
+
+          <div className="mt-15 w-full flex justify-center">
             {isLoading ? (
-              <div className="w-full max-w-md my-6 p-4 ml-10 text-left text-lg font-medium text-green-800 bg-green-100 rounded-xl shadow-md border border-green-200 hover:bg-green-200 transition-all duration-200 mt-20">
+              <div className="w-full max-w-md p-3 text-left text-lg font-medium text-green-800 bg-green-100 rounded-xl shadow-md border border-green-200 mr-100 mt-4">
                 Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү
               </div>
             ) : (
-              <div>
-                <div className="text-5xl text-amber-50 mt-10">
-                  medicines that may help:
+              <div className="w-full text-center">
+                <h3 className="text-5xl text-amber-50 mb-2 leading-none">
+                  Танд тус болж магадгүй эмүүд:
+                </h3>
+
+                <div className="flex justify-center -mt-14">
+                  <CallDrugAi category={response?.[0]?.category} />
                 </div>
-                <CallDrugAi category={response[0].category} />
               </div>
             )}
           </div>
