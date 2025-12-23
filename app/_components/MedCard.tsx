@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { useProvider } from "@/providers/AuthProvidor";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -46,6 +47,8 @@ export default function MedCard({
     quantity: 1,
   });
   const router = useRouter();
+  const { user } = useProvider();
+  console.log(user);
   const addToCart = async () => {
     const res = await fetch("/api/create-orderItem", {
       method: "POST",
@@ -53,7 +56,7 @@ export default function MedCard({
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        userId,
+        userId: user?.id,
         totalPrice: price,
         medicineId: orderItem.medicineId,
         quantity: orderItem.quantity,

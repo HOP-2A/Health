@@ -21,11 +21,18 @@ export const POST = async (req: NextRequest) => {
 //   return NextResponse.json(doctors);
 // };
 
-export const GET = async (req: Request) => {
-  const body = await req.json();
+// export const GET = async (req: Request) => {
+//   const body = await req.json();
+//   return NextResponse.json(users);
+// };
+export const GET = async (
+  req: Request,
+  context: { params: Promise<{ clerkId: string }> }
+) => {
+  const params = await context.params;
   const doctor = await prisma.doctor.findUnique({
     where: {
-      clerkId: body.clerkId,
+      clerkId: params.clerkId,
     },
   });
   return NextResponse.json(doctor);

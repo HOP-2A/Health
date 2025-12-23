@@ -42,42 +42,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const { user: clerkUser } = useUser();
-  console.log(clerkUser);
   useEffect(() => {
     const find = async () => {
       if (!clerkUser?.id) return;
-      try {
-        if (clerkUser.publicMetadata.role === "USER") {
-          const res = await fetch("/api/find-user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              clerkId: clerkUser.id,
-            }),
-          });
-
-          if (!res.ok) throw new Error("Failed to fetch user");
-          const userData = await res.json();
-          setUser(userData);
-        } else {
-          const res = await fetch("/api/find-doctor", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              clerkId: clerkUser.id,
-            }),
-          });
-          if (!res.ok) throw new Error("Failed to fetch doctor");
-          const doctorData = await res.json();
-          console.log(doctorData);
-          setDoctor(doctorData);
-        }
-      } catch (error) {
-        console.error("Error fetching user/doctor data:", error);
+      if (clerkUser.publicMetadata.role === "USER") {
+        const res = await fetch(`/api/find-user/${clerkUser.id}`, {
+          method: "GET",
+        });
+        console.log("asefasdf");
+        const userData = await res.json();
+        setUser(userData);
+      } else {
+        const res = await fetch(`/api/find-doctor/${clerkUser.id}`, {
+          method: "GET",
+        });
+        const doctorData = await res.json();
+        console.log(doctorData);
+        setDoctor(doctorData);
       }
     };
 
