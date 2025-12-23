@@ -22,11 +22,6 @@ type medicine = {
   expiryDate: string;
 };
 
-type AppUser = {
-  id: string;
-  clerkId: string;
-};
-
 interface LikedItem {
   medicine: {
     id: string;
@@ -41,7 +36,6 @@ export default function CallDrug() {
   const { user: clerkUser } = useUser();
 
   const { loading, user } = useAuth(clerkUser?.id ?? "");
-  const typedUser = user as AppUser | null;
 
   useEffect(() => {
     if (!loading) {
@@ -49,10 +43,8 @@ export default function CallDrug() {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
         setMedData(meds);
-        if (typedUser) {
-          const likeRes = await fetch(
-            `/api/liked-med?userId=${typedUser.clerkId}`
-          );
+        if (user) {
+          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
           const likes = await likeRes.json();
 
           setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
@@ -80,8 +72,8 @@ export default function CallDrug() {
               <div className="p-4 w-full">
                 <MedCard
                   med={m}
-                  userId={typedUser?.id || ""}
-                  userClerckId={typedUser?.clerkId || ""}
+                  userId={user?.id || ""}
+                  userClerckId={user?.clerkId || ""}
                   isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>
