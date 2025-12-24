@@ -34,12 +34,8 @@ export default function CallDrug() {
   const [likedItems, setLikedItems] = useState<string[]>([]);
 
   const { user: clerkUser } = useUser();
-<<<<<<< HEAD
 
   const { loading, user } = useAuth(clerkUser?.id ?? "");
-=======
-  const { loading, user } = useAuth(clerkUser?.id);
->>>>>>> fb578b1 (P)
 
   useEffect(() => {
     if (!loading && user) {
@@ -47,19 +43,16 @@ export default function CallDrug() {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
         setMedData(meds);
-<<<<<<< HEAD
         if (user) {
           const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
           const likes = await likeRes.json();
 
           setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
-=======
 
         const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
         const likes = await likeRes.json();
         setLikedItems(likes.map((l: any) => l.medicine.id));
->>>>>>> fb578b1 (P)
       };
       fetchAll();
     }
