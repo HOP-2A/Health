@@ -28,7 +28,7 @@ export default function CallDoctor() {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const res = await fetch("/api/find-doctor");
+        const res = await fetch("/api/find-all-doctor");
         if (!res.ok) throw new Error("Failed to fetch doctors");
         const doctors = await res.json();
         setDoctorData(doctors);
