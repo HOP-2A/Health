@@ -22,5 +22,9 @@ export const GET = async (
       medicine: true,
     },
   });
-  return NextResponse.json(orderedItems);
+  const final = {
+    items: orderedItems,
+    order: order,
+  };
+  return NextResponse.json(final);
 };

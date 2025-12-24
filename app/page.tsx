@@ -15,7 +15,6 @@ export default function Home() {
     sessionStorage.setItem("prompt", prompt);
     router.push("/ai-chat");
   };
-
   return (
     <div
       className="relative min-h-screen overflow-hidden"

@@ -4,6 +4,7 @@ import { ShoppingCart, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useProvider } from "@/providers/AuthProvidor";
 type orderItem = {
   id: string;
   orderId: string;
@@ -22,21 +23,27 @@ type orderItem = {
 };
 export default function DrugCartPage() {
   const [cartItems, setCartItems] = useState<orderItem[]>([]);
+  const [totalP, setTotalP] = useState<number | null>(0);
   const router = useRouter();
+  const { user } = useProvider();
 
   const findMedicines = async () => {
-    const res = await fetch(`/api/find-order/eUz3kiMTJBGuh89oVvTlr`);
-    const meds = await res.json();
-    setCartItems(meds);
+    const res = await fetch(`/api/find-order/${user?.id}`);
+    const response = await res.json();
+    setCartItems(response.items);
+    setTotalP(response.order?.totalPrice);
   };
+
   useEffect(() => {
+    if (!user) return;
     const findMedicines = async () => {
-      const res = await fetch(`/api/find-order/eUz3kiMTJBGuh89oVvTlr`);
-      const meds = await res.json();
-      setCartItems(meds);
+      const res = await fetch(`/api/find-order/${user?.id}`);
+      const response = await res.json();
+      setCartItems(response.items);
+      setTotalP(response.order?.totalPrice);
     };
     findMedicines();
-  }, []);
+  }, [user]);
   const deleteMed = async (orderItemId: string) => {
     await fetch(`/api/delete-orderItem/${orderItemId}`, {
       method: "DELETE",
@@ -45,10 +52,24 @@ export default function DrugCartPage() {
   };
   return (
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
-      <div className="w-full max-w-3xl relative z-10">
-        <h2 className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-          Таны эмийн сагс
-        </h2>
+      <div className="w-full max-w-3xl relative z-10 ">
+        <div className="h-[100px] flex justify-around items-center">
+          <div>
+            <p className="flex gap-[10px]">
+              <span className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
+                Нийт дүн:
+              </span>
+              <span className="text-4xl font-extrabold text-green-200 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
+                {totalP}₮
+              </span>
+            </p>
+          </div>
+          <div>
+            <button className="mb-2.5 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl">
+              Захиалах
+            </button>
+          </div>
+        </div>
 
         <AnimatePresence mode="wait">
           {cartItems.length === 0 ? (

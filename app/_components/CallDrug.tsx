@@ -38,7 +38,7 @@ export default function CallDrug() {
   const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && user) {
       const fetchAll = async () => {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
@@ -49,6 +49,10 @@ export default function CallDrug() {
 
           setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
+
+        const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
+        const likes = await likeRes.json();
+        setLikedItems(likes.map((l: any) => l.medicine.id));
       };
       fetchAll();
     }
