@@ -49,10 +49,6 @@ export default function CallDrug() {
 
           setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
-
-        const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
-        const likes = await likeRes.json();
-        setLikedItems(likes.map((l: any) => l.medicine.id));
       };
       fetchAll();
     }
