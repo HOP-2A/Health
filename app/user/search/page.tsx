@@ -1,11 +1,11 @@
 "use client";
 
-import MenuBar from "../_components/MenuBar";
+import MenuBar from "@/app/_components/MenuBar";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
-import MedCard from "../_components/MedCard";
+import MedCard from "@/app/_components/MedCard";
 import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@/providers/route";
 

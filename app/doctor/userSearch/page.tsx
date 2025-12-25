@@ -2,8 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import DoctorMenuBar from "../_components/DoctorMenuBar";
-import FindUser from "../_components/FindUser";
+import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
+import FindUser from "@/app/_components/FindUser";
 
 export default function Page() {
   const pathname = usePathname();

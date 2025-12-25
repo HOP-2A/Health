@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import MenuBar from "../../_components/MenuBar";
+import MenuBar from "../../../_components/MenuBar";
 import { toast } from "sonner";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";

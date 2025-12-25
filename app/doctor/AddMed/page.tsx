@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import DoctorMenuBar from "../_components/DoctorMenuBar";
+import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
 
 interface Medicine {
   id: string;
