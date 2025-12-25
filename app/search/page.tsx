@@ -87,7 +87,7 @@ const Page = () => {
 
   return (
     <div
-      className="w-[100vw] h-[100vh] flex flex-col gap-[100px]"
+      className="w-[100vw] h-[100%] flex flex-col gap-[100px]"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1551970634-747846a548cb?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -156,7 +156,7 @@ const Page = () => {
             </div>
           </div>
           <div className="w-[100%] flex justify-center">
-            <div className="h-[60vh] w-[70vw] flex flex-wrap gap-[50px] overflow-scroll  justify-center mt-[50px]">
+            <div className="h-[80vh] w-[70vw] flex flex-wrap gap-[50px] overflow-scroll  justify-center mt-[50px]">
               {medicines.map((med) => {
                 return (
                   <div key={med.id}>
