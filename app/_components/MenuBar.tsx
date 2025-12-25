@@ -29,10 +29,10 @@ export default function MenuBar() {
 
         <div className="flex items-center gap-4">
           {[
-            { href: "/search", icon: <Search size={27} /> },
-            { href: "/drugCart", icon: <ShoppingCart size={27} /> },
-            { href: "/likedDrug", icon: <Heart size={27} /> },
-            { href: "/profile", icon: <UserRound size={27} /> },
+            { href: "/user/search", icon: <Search size={27} /> },
+            { href: "/user/drugCart", icon: <ShoppingCart size={27} /> },
+            { href: "/user/likedDrug", icon: <Heart size={27} /> },
+            { href: "/user/profile", icon: <UserRound size={27} /> },
           ].map((item, i) => (
             <Link key={i} href={item.href}>
               <button

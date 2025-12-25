@@ -34,12 +34,14 @@ type ContextType = {
   doctor: Doctor | null;
   setUser: Dispatch<SetStateAction<null | User>>;
   setDoctor: Dispatch<SetStateAction<null | Doctor>>;
+  loading: boolean;
   find: () => Promise<void>;
 };
 
 export const AuthContext = createContext<ContextType | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const { user: clerkUser } = useUser();
@@ -61,6 +63,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
         setDoctor(doctorData);
       }
+      setLoading(false);
     };
 
     find();
@@ -88,6 +91,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setUser,
     doctor,
     setDoctor,
+    loading,
     find,
   };
 

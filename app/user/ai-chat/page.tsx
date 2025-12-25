@@ -1,6 +1,6 @@
-import MenuBar from "../_components/MenuBar";
-import DescriptionPrompt from "../_components/ai/DescriptionPrompt";
-import AiResponse from "../_components/ai/AiResponse";
+import MenuBar from "@/app/_components/MenuBar";
+import DescriptionPrompt from "@/app/_components/ai/DescriptionPrompt";
+import AiResponse from "@/app/_components/ai/AiResponse";
 
 export default function Home() {
   return (

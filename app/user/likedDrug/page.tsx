@@ -1,8 +1,8 @@
 "use client";
 
+import LikedDrugPage from "@/app/_components/LikedDrugCart";
+import MenuBar from "@/app/_components/MenuBar";
 import { motion } from "framer-motion";
-import MenuBar from "../_components/MenuBar";
-import UIProfilePage from "../_components/UIProfilepage";
 
 const Page = () => {
   return (
@@ -23,13 +23,7 @@ const Page = () => {
         <MenuBar />
 
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-          >
-            <UIProfilePage />
-          </motion.div>
+          <LikedDrugPage />
         </div>
       </motion.div>
     </div>
