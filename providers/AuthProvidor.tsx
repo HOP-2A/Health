@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         const res = await fetch(`/api/find-user/${clerkUser.id}`, {
           method: "GET",
         });
-        console.log("asefasdf");
+
         const userData = await res.json();
         setUser(userData);
       } else {
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           method: "GET",
         });
         const doctorData = await res.json();
-        console.log(doctorData);
+
         setDoctor(doctorData);
       }
     };
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const res = await fetch(`/api/find-user/${clerkUser.id}`, {
         method: "GET",
       });
-      console.log("asefasdf");
+
       const userData = await res.json();
       setUser(userData);
     } else {
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         method: "GET",
       });
       const doctorData = await res.json();
-      console.log(doctorData);
+
       setDoctor(doctorData);
     }
   };

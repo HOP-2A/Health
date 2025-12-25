@@ -38,7 +38,7 @@ export default function CallDrug() {
   const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading) {
       const fetchAll = async () => {
         const medsRes = await fetch("/api/add-medicine");
         const meds = await medsRes.json();
