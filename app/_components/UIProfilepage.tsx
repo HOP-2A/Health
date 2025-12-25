@@ -2,7 +2,7 @@
 
 import { useProvider } from "@/providers/AuthProvidor";
 import { UserProfile, useUser } from "@clerk/nextjs";
-import { Mail, Phone, Calendar, Edit, LogOut, User } from "lucide-react";
+import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
   id: string;
@@ -16,8 +16,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 export default function UIProfilePage() {
@@ -29,6 +27,8 @@ export default function UIProfilePage() {
 
   const [openProfile, setOpenProfile] = useState(false);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const [orderItems, setOrderItems] = useState<Medicine[]>([]);
   const { user } = useProvider();
   const { user: clerkUser } = useUser();
   useEffect(() => {
@@ -39,9 +39,15 @@ export default function UIProfilePage() {
       const data = await res.json();
       setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
     };
-
+    const getOrder = async () => {
+      const res = await fetch(`/api/find-order/${user.id}`);
+      const datas = await res.json();
+      setOrderItems(datas.items.map((d: { medicine: Medicine }) => d.medicine));
+    };
+    getOrder();
     fetchLikes();
   }, [user]);
+  console.log(orderItems, "asdfas");
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div
@@ -107,13 +113,53 @@ export default function UIProfilePage() {
             </h3>
             <Carousel
               opts={{ loop: true }}
+              plugins={[autoplayy.current]}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2.5">
+                {likedItems.map((med, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="pl-2.5 md:basis-1/2 lg:basis-1/3"
+                  >
+                    <div className="w-full h-[300px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
+                      <div className="w-full h-[180px] flex items-center justify-center">
+                        <img
+                          className="max-w-full max-h-full object-contain"
+                          src={med.imageUrls[0]}
+                          alt={med.name}
+                        />
+                      </div>
+                      <div className="w-full text-center">
+                        <div className="text-[20px] font-bold truncate">
+                          {med.name}
+                        </div>
+                        <div className="flex gap-[3px] justify-center">
+                          <div className="text-[18px]">Үнэ:</div>
+                          <div className="text-[18px] text-green-600">
+                            {med.price}₮
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+          <div className="flex justify-center flex-col ">
+            <h3 className="text-3xl font-semibold mb-8 text-white  tracking-tight">
+              Захиалсан эмнүүд
+            </h3>
+            <Carousel
+              opts={{ loop: true }}
               plugins={[autoplay.current]}
               className="w-full"
             >
               <CarouselContent className="-ml-2.5">
-                {likedItems.map((med) => (
+                {orderItems.map((med, index) => (
                   <CarouselItem
-                    key={med.id}
+                    key={index}
                     className="pl-2.5 md:basis-1/2 lg:basis-1/3"
                   >
                     <div className="w-full h-[300px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
