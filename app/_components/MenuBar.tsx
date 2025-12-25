@@ -1,7 +1,9 @@
+import { useProvider } from "@/providers/AuthProvidor";
 import { Search, ShoppingCart, Heart, UserRound } from "lucide-react";
 import Link from "next/link";
 
 export default function MenuBar() {
+  const { user } = useProvider();
   return (
     <header
       className="
@@ -47,20 +49,23 @@ export default function MenuBar() {
               </button>
             </Link>
           ))}
-
-          <Link href="/login">
-            <button
-              className="
+          {!user ? (
+            <Link href="/login">
+              <button
+                className="
                 ml-3 px-6 py-2 rounded-full
                 bg-green-600 text-white font-semibold
                 shadow-lg hover:bg-green-700
                 transition-all duration-200
                 hover:shadow-xl hover:scale-105 active:scale-95
               "
-            >
-              Sign In
-            </button>
-          </Link>
+              >
+                Sign In
+              </button>
+            </Link>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </header>

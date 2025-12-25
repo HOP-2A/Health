@@ -35,7 +35,7 @@ export default function UIProfilePage() {
     if (!user) return;
 
     const fetchLikes = async () => {
-      const res = await fetch(`/api/liked-med?userId=${user.id}`);
+      const res = await fetch(`/api/liked-med?userId=${clerkUser?.id}`);
       const data = await res.json();
       setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
     };
