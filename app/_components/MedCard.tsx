@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useProvider } from "@/providers/AuthProvidor";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -48,7 +49,7 @@ export default function MedCard({
   });
   const router = useRouter();
   const { user } = useProvider();
-  console.log(user);
+
   const addToCart = async () => {
     const res = await fetch("/api/create-orderItem", {
       method: "POST",
@@ -110,13 +111,15 @@ export default function MedCard({
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
-        <div className="w-full">
-          <img
-            src={med.imageUrls[0]}
-            alt={med.name}
-            className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
-          />
-        </div>
+        <Link href={`/About/${med.id}`}>
+          <div className="w-full">
+            <img
+              src={med.imageUrls[0]}
+              alt={med.name}
+              className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
+            />
+          </div>
+        </Link>
 
         <button
           onClick={toggleLike}
@@ -162,37 +165,48 @@ export default function MedCard({
           {med.price}₮
         </span>
 
-        <div className="mt-3 text-white/80 font-medium text-[15px]">
-          тоо ширхэг:{med.stock}
-        </div>
+        {med.stock > 0 ? (
+          <p className="text-green-200 font-medium mb-8">
+            тоо ширхэг: ({med.stock} available)
+          </p>
+        ) : (
+          <p className="text-red-200 font-medium mb-8"> Out of stock</p>
+        )}
+        <div className="flex place-content-between">
+          <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
+            <button
+              className="w-12 h-10 bg-white/20 text-xl text-white"
+              onClick={() => {
+                setPrice(orderItem.quantity * med.price);
+                setOrderItem((prev) => {
+                  return { ...prev, quantity: orderItem.quantity - 1 };
+                });
+              }}
+            >
+              -
+            </button>
 
-        <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
-          <button
-            className="w-12 h-10 bg-white/20 text-xl text-white"
-            onClick={() => {
-              setPrice(orderItem.quantity * med.price);
-              setOrderItem((prev) => {
-                return { ...prev, quantity: orderItem.quantity - 1 };
-              });
-            }}
+            <button className="w-12 h-10 bg-white/20 text-xl text-white">
+              {orderItem.quantity}
+            </button>
+            <button
+              className="w-12 h-10 bg-white/20 text-xl text-white"
+              onClick={() => {
+                setPrice(orderItem.quantity * med.price);
+                setOrderItem((prev) => {
+                  return { ...prev, quantity: orderItem.quantity + 1 };
+                });
+              }}
+            >
+              +
+            </button>
+          </div>
+          <Link
+            href={`/About/${med.id}`}
+            className="inline-block px-4 py-2 mt-2 text-white bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 text-center hover:bg-white/30 transition-colors"
           >
-            -
-          </button>
-
-          <button className="w-12 h-10 bg-white/20 text-xl text-white">
-            {orderItem.quantity}
-          </button>
-          <button
-            className="w-12 h-10 bg-white/20 text-xl text-white"
-            onClick={() => {
-              setPrice(orderItem.quantity * med.price);
-              setOrderItem((prev) => {
-                return { ...prev, quantity: orderItem.quantity + 1 };
-              });
-            }}
-          >
-            +
-          </button>
+            харах
+          </Link>
         </div>
         <button
           type="submit"

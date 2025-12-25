@@ -65,7 +65,7 @@ const Page = () => {
       router.push("/");
     }
   };
-  console.log(userInput);
+
   const doctorSignUp = async () => {
     const doctor = await fetch("api/doctor-create", {
       method: "POST",

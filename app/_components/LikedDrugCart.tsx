@@ -126,7 +126,7 @@ export default function LikedDrugPage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Link href="/search">
+                    <Link href={`/About/${item.id}`}>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -140,7 +140,7 @@ export default function LikedDrugPage() {
         transition-all
       "
                       >
-                        Хайх
+                        харах
                       </motion.button>
                     </Link>
 
