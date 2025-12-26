@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useProvider } from "@/providers/AuthProvidor";
+
 type orderItem = {
   id: string;
   orderId: string;
@@ -21,9 +22,9 @@ type orderItem = {
     imageUrls: string[];
   };
 };
+
 export default function DrugCartPage() {
   const [cartItems, setCartItems] = useState<orderItem[]>([]);
-  const [totalP, setTotalP] = useState<number | null>(0);
   const router = useRouter();
   const { user } = useProvider();
 
@@ -31,7 +32,6 @@ export default function DrugCartPage() {
     const res = await fetch(`/api/find-order/${user?.id}`);
     const response = await res.json();
     setCartItems(response.items);
-    setTotalP(response.order?.totalPrice);
   };
 
   useEffect(() => {
@@ -40,16 +40,19 @@ export default function DrugCartPage() {
       const res = await fetch(`/api/find-order/${user?.id}`);
       const response = await res.json();
       setCartItems(response.items);
-      setTotalP(response.order?.totalPrice);
     };
     findMedicines();
   }, [user]);
+
+  const totalP = cartItems.reduce((sum, item) => sum + item.price, 0);
+
   const deleteMed = async (orderItemId: string) => {
     await fetch(`/api/delete-orderItem/${orderItemId}`, {
       method: "DELETE",
     });
     findMedicines();
   };
+
   return (
     <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
       <div className="w-full max-w-3xl relative z-10 ">
