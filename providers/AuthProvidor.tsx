@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           method: "GET",
         });
         const doctorData = await res.json();
-
         setDoctor(doctorData);
       }
       setLoading(false);

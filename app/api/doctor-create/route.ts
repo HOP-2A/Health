@@ -15,7 +15,11 @@ export const POST = async (req: NextRequest) => {
       role: "DOCTOR",
     },
   });
-
+  await prisma.user.delete({
+    where: {
+      clerkId: clerkUser.id,
+    },
+  });
   const createdDoctor = await prisma.doctor.create({
     data: {
       username: body.username,

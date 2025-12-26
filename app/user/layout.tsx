@@ -9,13 +9,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user } = useProvider();
+  const { user, doctor } = useProvider();
   const router = useRouter();
   useEffect(() => {
-    if (user === null) return;
-    if (!user) router.replace("/doctor");
-  }, [user, router]);
-
+    if (doctor === null) return;
+    console.log("hi");
+    if (doctor) {
+      router.replace("/doctor");
+    }
+  }, [doctor, router]);
+  console.log(doctor);
   if (user === null) {
     return (
       <div className="h-screen flex items-center justify-center">
