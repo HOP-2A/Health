@@ -108,7 +108,7 @@ export default function MedicineDetail() {
 
     if (res.ok) {
       toast.success("Амжилттай сагсанд нэмлээ!");
-      router.push("/drugCart");
+      router.push("/user/drugCart");
     }
   };
 
@@ -245,7 +245,7 @@ export default function MedicineDetail() {
                   key={med.id}
                   className="bg-white p-4 rounded-lg shadow hover:shadow-lg hover:scale-105 transition-transform duration-200"
                 >
-                  <Link href={`/About/${med.id}`}>
+                  <Link href={`/user/About/${med.id}`}>
                     <div>
                       <img
                         src={med.imageUrls[0]}

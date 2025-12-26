@@ -47,7 +47,7 @@ export default function UIProfilePage() {
     getOrder();
     fetchLikes();
   }, [user]);
-  console.log(orderItems, "asdfas");
+
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div

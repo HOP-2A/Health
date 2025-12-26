@@ -41,7 +41,6 @@ export async function POST(req: Request) {
         username: firstName,
       },
     });
-    console.log(a, "gg");
   }
 
   return NextResponse.json({ ok: true });

@@ -103,7 +103,7 @@ export default function DrugCartPage() {
 
               <button
                 className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300"
-                onClick={() => router.push("/search")}
+                onClick={() => router.push("/user/search")}
               >
                 Эмнүүдийг үзэх
               </button>

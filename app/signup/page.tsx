@@ -62,7 +62,7 @@ const Page = () => {
     });
     find();
     if (user) {
-      router.push("/");
+      router.push("/user");
     }
   };
 
@@ -84,7 +84,7 @@ const Page = () => {
     setDoctor(doc);
     if (doctor) {
       find();
-      router.push("/");
+      router.push("/doctor");
     }
   };
   const handleDoctorInput = (e: ChangeEvent<HTMLInputElement>) => {

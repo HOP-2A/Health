@@ -68,7 +68,7 @@ export default function MedCard({
       return { orderId: "", medicineId: med.id, quantity: 1 };
     });
     if (res.ok) {
-      router.push("/drugCart");
+      router.push("/user/drugCart");
       toast.success("Амжилттай сагсанд нэмлээ!");
     }
   };
@@ -111,7 +111,7 @@ export default function MedCard({
   return (
     <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
       <CardContent className="p-5 relative">
-        <Link href={`/About/${med.id}`}>
+        <Link href={`/user/About/${med.id}`}>
           <div className="w-full">
             <img
               src={med.imageUrls[0]}
@@ -202,7 +202,7 @@ export default function MedCard({
             </button>
           </div>
           <Link
-            href={`/About/${med.id}`}
+            href={`/user/About/${med.id}`}
             className="inline-block px-4 py-2 mt-2 text-white bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 text-center hover:bg-white/30 transition-colors"
           >
             харах
