@@ -16,7 +16,8 @@ model User {
   illnesses Illness[]
   orders    Order[]
 
-  likes Like[]
+  likes         Like[]
+  doctorReviews DoctorReview[]
 }
 
 model Doctor {
@@ -55,15 +56,17 @@ model Illness {
   createdAt DateTime      @default(now())
   review    DoctorReview?
   user      User          @relation(fields: [userId], references: [id])
-  category String
+  category  String
 }
 
 model DoctorReview {
   id        String                   @id @default(nanoid())
   doctorId  String
   illnessId String                   @unique
+  userId    String
   notes     String
   createdAt DateTime                 @default(now())
+  user      User                     @relation(fields: [userId], references: [id])
   doctor    Doctor                   @relation(fields: [doctorId], references: [id])
   illness   Illness                  @relation(fields: [illnessId], references: [id])
   medicines DoctorReviewToMedicine[]

@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
+import UIProfilePage from "@/app/_components/DoctorProfile";
 export default function Page() {
   const pathname = usePathname();
   return (
@@ -25,6 +26,15 @@ export default function Page() {
           className="relative z-10 "
         >
           <DoctorMenuBar />
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+            >
+              <UIProfilePage />
+            </motion.div>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>
