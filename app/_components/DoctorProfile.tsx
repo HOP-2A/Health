@@ -1,6 +1,7 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
+<<<<<<< HEAD
 import { UserProfile, useUser } from "@clerk/nextjs";
 import {
   Mail,
@@ -11,6 +12,10 @@ import {
   Timer,
   CircleUserRound,
 } from "lucide-react";
+=======
+import { useClerk, UserProfile, useUser } from "@clerk/nextjs";
+import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
+>>>>>>> 859f669 (d)
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
   id: string;
@@ -20,6 +25,7 @@ type Medicine = {
   ageLimit: number;
   category: string;
 };
+<<<<<<< HEAD
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import type { User as userType } from "@/providers/AuthProvidor";
@@ -52,6 +58,46 @@ export default function UIProfilePage() {
   }, [doctor]);
   const { user: clerkUser } = useUser();
 
+=======
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+export default function DoctorProfile() {
+  const [likedItems, setLikedItems] = useState<Medicine[]>([]);
+  const { user } = useProvider();
+  const { signOut } = useClerk();
+
+  const formatted = user?.createdAt
+    ? new Date(user.createdAt).toISOString().slice(0, 10)
+    : "";
+
+  const [openProfile, setOpenProfile] = useState(false);
+  const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const [orderItems, setOrderItems] = useState<Medicine[]>([]);
+
+  const { user: clerkUser } = useUser();
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchLikes = async () => {
+      const res = await fetch(`/api/liked-med?userId=${clerkUser?.id}`);
+      const data = await res.json();
+      setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
+    };
+    const getOrder = async () => {
+      const res = await fetch(`/api/find-order/${user.id}`);
+      const datas = await res.json();
+      setOrderItems(datas.items.map((d: { medicine: Medicine }) => d.medicine));
+    };
+    getOrder();
+    fetchLikes();
+  }, [user]);
+  console.log(orderItems, "asdfas");
+>>>>>>> 859f669 (d)
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div
@@ -86,7 +132,11 @@ export default function UIProfilePage() {
           </div>
 
           <h2 className="mt-6 text-3xl font-bold text-gray-800 tracking-tight drop-shadow-sm">
+<<<<<<< HEAD
             {doctor?.username}
+=======
+            {user?.username}
+>>>>>>> 859f669 (d)
           </h2>
 
           <p className="mt-2 text-sm text-green-700/70 font-medium">
@@ -94,6 +144,7 @@ export default function UIProfilePage() {
           </p>
 
           <div className="mt-10 w-full space-y-5 text-left px-2 text-sm">
+<<<<<<< HEAD
             <p className="flex items-center gap-3 text-[18px] text-gray-700">
               <Mail size={30} className="text-green-600" />
               {doctor?.email}
@@ -108,6 +159,17 @@ export default function UIProfilePage() {
             <p className="flex items-center gap-3 text-[18px] text-gray-700">
               <Timer size={37} className="text-green-600" />{" "}
               {doctor?.experienceYears} Жил
+=======
+            <p className="flex items-center gap-3 text-gray-700">
+              <Mail size={30} className="text-green-600" />
+              {user?.email}
+            </p>
+            <p className="flex items-center gap-3 text-gray-700">
+              <Phone size={30} className="text-green-600" /> 99689696
+            </p>
+            <p className="flex items-center gap-3 text-gray-700">
+              <User size={30} className="text-green-600" /> {user?.username}
+>>>>>>> 859f669 (d)
             </p>
           </div>
         </div>
@@ -117,6 +179,7 @@ export default function UIProfilePage() {
                       bg-cover bg-center bg-no-repeat w-[100%]"
         >
           <div className="flex justify-center flex-col ">
+<<<<<<< HEAD
             <h3 className="text-3xl font-semibold mb-8 text-white ">
               Таний үзсэн өвчтөнүүд
             </h3>
@@ -143,6 +206,40 @@ export default function UIProfilePage() {
                 })}
               </CarouselContent>
             </Carousel>
+=======
+            <h3 className="text-3xl font-semibold mb-8 text-white  tracking-tight">
+              what to add...
+            </h3>
+          </div>
+
+          <div className="flex gap-7   mt-10 w-[70%]">
+            <button
+              className="flex-1 py-3 rounded-lg bg-green-600 text-white font-medium
+                           flex items-center justify-center gap-3
+                           hover:bg-green-500 hover:shadow-lg 
+                           transition-transform duration-200 hover:scale-105 w-[50%]"
+              onClick={() => setOpenProfile(true)}
+            >
+              <Edit size={22} />
+              Edit Profile
+            </button>
+
+            <button
+              onClick={() => signOut({ redirectUrl: "/" })}
+              className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium
+                           flex items-center justify-center gap-3
+                           hover:bg-red-500 hover:shadow-lg
+                           transition-transform duration-200 hover:scale-105"
+            >
+              <LogOut size={22} />
+              Logout
+            </button>
+            {openProfile && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <UserProfile />
+              </div>
+            )}
+>>>>>>> 859f669 (d)
           </div>
         </div>
       </div>
