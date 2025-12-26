@@ -49,7 +49,7 @@ export default function MedCardAi({
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/search");
+    router.push("/user/search");
   };
 
   useEffect(() => {

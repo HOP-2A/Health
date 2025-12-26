@@ -12,7 +12,7 @@ export default function DoctorMenuBar() {
       "
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between h-25 px-6">
-        <Link href="/doctorMain">
+        <Link href="/doctor/doctorMain">
           <div
             className="
             text-4xl font-extrabold tracking-wide text-gray-300
@@ -27,10 +27,10 @@ export default function DoctorMenuBar() {
 
         <div className="flex items-center gap-4">
           {[
-            { href: "/userSearch", icon: <UserRoundSearch size={27} /> },
-            { href: "/AddMed", icon: <Cross size={27} /> },
-            { href: "/Orders", icon: <Heart size={27} /> },
-            { href: "/doctorProfile", icon: <UserRound size={27} /> },
+            { href: "/doctor/userSearch", icon: <UserRoundSearch size={27} /> },
+            { href: "/doctor/AddMed", icon: <Cross size={27} /> },
+            { href: "/doctor/Orders", icon: <Heart size={27} /> },
+            { href: "/doctor/doctorProfile", icon: <UserRound size={27} /> },
           ].map((item, i) => (
             <Link key={i} href={item.href}>
               <button

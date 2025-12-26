@@ -80,7 +80,7 @@ export default function LikedDrugPage() {
                 Эм эсвэл эрүүл мэндийн бүтээгдэхүүнийг энд жагсаасан харагдуулна
                 уу.
               </p>
-              <Link href="/search">
+              <Link href="/user/search">
                 <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
                   Эмийг үзэх
                 </button>
@@ -126,7 +126,7 @@ export default function LikedDrugPage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <Link href={`/About/${item.id}`}>
+                    <Link href={`/user/About/${item.id}`}>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}

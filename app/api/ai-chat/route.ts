@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         category,
       },
     });
-    console.log(createdIllness.category);
+
     return NextResponse.json(createdIllness);
   } catch (error: any) {
     console.log(error);

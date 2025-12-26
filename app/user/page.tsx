@@ -13,7 +13,7 @@ export default function Home() {
   const handleSubmit = () => {
     if (!prompt.trim()) return;
     sessionStorage.setItem("prompt", prompt);
-    router.push("/ai-chat");
+    router.push("/user/ai-chat");
   };
   return (
     <div
