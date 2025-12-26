@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import UIProfilePage from "@/app/_components/DoctorProfile";
 <<<<<<< HEAD
 import Footer from "@/app/_components/Footer";
@@ -11,7 +12,13 @@ import Footer from "@/app/_components/Footer";
 =======
 import DoctorProfile from "../../_components/DoctorProfile";
 >>>>>>> 3fba245 (d)
+<<<<<<< HEAD
 >>>>>>> e457fac (D)
+=======
+=======
+
+>>>>>>> 5f95440 (d)
+>>>>>>> c7aab63 (d)
 export default function Page() {
   const pathname = usePathname();
   return (
@@ -30,6 +37,7 @@ export default function Page() {
         >
           <DoctorMenuBar />
 <<<<<<< HEAD
+<<<<<<< HEAD
           <div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -42,6 +50,8 @@ export default function Page() {
 =======
           <DoctorProfile />
 >>>>>>> 3fba245 (d)
+=======
+>>>>>>> 5f95440 (d)
         </motion.div>
       </AnimatePresence>
       <Footer />

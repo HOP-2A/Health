@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Search } from "lucide-react";
+import { Search, Users } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
 type user = {
@@ -98,6 +98,7 @@ export default function FindUser() {
                 <h2 className="text-[34px] font-semibold text-white tracking-wide">
                   Users
                 </h2>
+                <Users />
                 <div className="h-[3px] w-16 bg-green-400 rounded-full mt-1" />
               </div>
 
