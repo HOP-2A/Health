@@ -9,18 +9,18 @@ export default function DoctorLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { doctor, loading } = useProvider();
+  const { user, doctor } = useProvider();
   const router = useRouter();
 
   useEffect(() => {
-    if (loading) return;
-
-    if (!doctor) {
+    if (user === null) return;
+    console.log("hi");
+    if (user) {
       router.replace("/user");
     }
-  }, [doctor, loading, router]);
-
-  if (loading) {
+  }, [user, router]);
+  console.log(user);
+  if (doctor === null) {
     return (
       <div className="h-screen flex items-center justify-center">
         Loading...
@@ -28,5 +28,5 @@ export default function DoctorLayout({
     );
   }
 
-  return <>{children}</>;
+  return <div>{children}</div>;
 }

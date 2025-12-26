@@ -14,9 +14,8 @@ const smooth: Transition = {
 
 const Page = () => {
   const router = useRouter();
-  const { find } = useProvider();
   const [role, setRole] = useState<"user" | "doctor">("user");
-  const { setDoctor } = useProvider();
+  const { setDoctor, setUser } = useProvider();
   const pathname = usePathname();
   const [userInput, setUserInput] = useState({
     email: "",
@@ -60,8 +59,9 @@ const Page = () => {
         password: userInput.password,
       }),
     });
-    find();
-    if (user) {
+    const usr = await user.json();
+    setUser(usr);
+    if (user.ok) {
       router.push("/user");
     }
   };
@@ -82,8 +82,7 @@ const Page = () => {
     });
     const doc = await doctor.json();
     setDoctor(doc);
-    if (doctor) {
-      find();
+    if (doctor.ok) {
       router.push("/doctor");
     }
   };
@@ -229,7 +228,7 @@ const Page = () => {
                       />
                       <button
                         className="mt-3 w-full p-3 bg-green-600 hover:bg-green-700 text-white rounded-xl transition"
-                        onClick={userSignUp}
+                        onClick={() => userSignUp()}
                       >
                         Sign Up
                       </button>
