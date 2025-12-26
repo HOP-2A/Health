@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(createdIllness);
   } catch (error: any) {
-    console.log(error);
+    console.error(error);
     if (error.message.includes("503")) {
       const overload = await prisma.illness.create({
         data: {
