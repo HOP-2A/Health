@@ -12,26 +12,18 @@ type Medicine = {
   ageLimit: number;
   category: string;
 };
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 export default function UIProfilePage() {
-  const [likedItems, setLikedItems] = useState<Medicine[]>([]);
   const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
-  const [openProfile, setOpenProfile] = useState(false);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
-  const [orderItems, setOrderItems] = useState<Medicine[]>([]);
   const { doctor } = useProvider();
   const { user: clerkUser } = useUser();
-
+  
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div
@@ -96,7 +88,11 @@ export default function UIProfilePage() {
           className="w-2/3 p-10 flex flex-col justify-between 
                       bg-cover bg-center bg-no-repeat w-[100%]"
         >
-          <div className="flex justify-center flex-col "></div>
+          <div className="flex justify-center flex-col ">
+            <h3 className="text-3xl font-semibold mb-8 text-white ">
+              Таний үзсэн өвчтөнүүд
+            </h3>
+          </div>
         </div>
       </div>
     </div>
