@@ -119,8 +119,8 @@ model Like {
 model UserMessage {
   id String @id @default(nanoid())
   userId String
-  illnessId String
-  illness Illness @relation(fields: [illnessId], references: [id])
+  illnessId String?
+  illness Illness? @relation(fields: [illnessId], references: [id])
   chat String
   user User @relation(fields: [userId] , references: [id])
   doctorId String
