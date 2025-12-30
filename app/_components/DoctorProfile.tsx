@@ -2,7 +2,15 @@
 
 import { useProvider } from "@/providers/AuthProvidor";
 import { UserProfile, useUser } from "@clerk/nextjs";
-import { Mail, Phone, Edit, LogOut, User, Timer } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Edit,
+  LogOut,
+  User,
+  Timer,
+  CircleUserRound,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
   id: string;
@@ -13,6 +21,16 @@ type Medicine = {
   category: string;
 };
 import Autoplay from "embla-carousel-autoplay";
+import { Carousel, CarouselContent } from "@/components/ui/carousel";
+import type { User as userType } from "@/providers/AuthProvidor";
+type reviews = {
+  id: string;
+  doctorId: string;
+  illnessId: string;
+  userId: string;
+  notes: string;
+  user: userType;
+};
 export default function UIProfilePage() {
   const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -20,10 +38,20 @@ export default function UIProfilePage() {
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+  const [doctorReviews, setDoctorReviews] = useState<reviews[]>([]);
   const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const { doctor } = useProvider();
+  useEffect(() => {
+    if (doctor == null) return;
+    const findReviews = async () => {
+      const res = await fetch(`/api/doctor-review/${doctor?.id}`);
+      const revs = await res.json();
+      setDoctorReviews(revs);
+    };
+    findReviews();
+  }, [doctor]);
   const { user: clerkUser } = useUser();
-  
+
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div
@@ -92,6 +120,29 @@ export default function UIProfilePage() {
             <h3 className="text-3xl font-semibold mb-8 text-white ">
               Таний үзсэн өвчтөнүүд
             </h3>
+            <Carousel
+              opts={{ loop: true }}
+              plugins={[autoplay.current]}
+              className="w-full"
+            >
+              <CarouselContent>
+                {doctorReviews.map((rev, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="pl-4.5 md:basis-1/2 lg:basis-1/3"
+                    >
+                      <div className="w-[200px] h-[200px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
+                        <CircleUserRound size={90} />
+                        <div className="font-bold text-[30px] text-green-400">
+                          {rev.user?.username}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </CarouselContent>
+            </Carousel>
           </div>
         </div>
       </div>

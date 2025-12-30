@@ -120,7 +120,7 @@ export default function UIProfilePage() {
                 {likedItems.map((med, index) => (
                   <CarouselItem
                     key={index}
-                    className="pl-2.5 md:basis-1/2 lg:basis-1/3"
+                    className="pl-4.5 md:basis-1/2 lg:basis-1/3"
                   >
                     <div className="w-full h-[300px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
                       <div className="w-full h-[180px] flex items-center justify-center">
@@ -156,7 +156,7 @@ export default function UIProfilePage() {
               plugins={[autoplay.current]}
               className="w-full"
             >
-              <CarouselContent className="-ml-2.5">
+              <CarouselContent className="-ml-4.5">
                 {orderItems.map((med, index) => (
                   <CarouselItem
                     key={index}

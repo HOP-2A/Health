@@ -1,5 +1,11 @@
 import { useProvider } from "@/providers/AuthProvidor";
-import { UserRoundSearch, Cross, Heart, UserRound } from "lucide-react";
+import {
+  UserRoundSearch,
+  Cross,
+  Heart,
+  UserRound,
+  MessageCircleReply,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function DoctorMenuBar() {
@@ -31,7 +37,7 @@ export default function DoctorMenuBar() {
           {[
             { href: "/doctor/userSearch", icon: <UserRoundSearch size={27} /> },
             { href: "/doctor/AddMed", icon: <Cross size={27} /> },
-            { href: "/doctor/Orders", icon: <Heart size={27} /> },
+            { href: "/doctor/Review", icon: <MessageCircleReply size={27} /> },
             { href: "/doctor/doctorProfile", icon: <UserRound size={27} /> },
           ].map((item, i) => (
             <Link key={i} href={item.href}>

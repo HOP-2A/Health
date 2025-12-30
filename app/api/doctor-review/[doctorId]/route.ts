@@ -1,11 +1,15 @@
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (
+  req: NextRequest,
+  context: { params: { doctorId: string } }
+) => {
   const body = await req.json();
+  const { doctorId } = await context.params;
   const createdReview = await prisma.doctorReview.create({
     data: {
-      doctorId: body.doctorId,
+      doctorId,
       illnessId: body.illnessId,
       userId: body.userId,
       notes: body.notes,
@@ -21,6 +25,10 @@ export const GET = async (
   const doctorReviews = await prisma.doctorReview.findMany({
     where: {
       doctorId,
+    },
+    include: {
+      user: true,
+      illness: true,
     },
   });
   return NextResponse.json(doctorReviews);
