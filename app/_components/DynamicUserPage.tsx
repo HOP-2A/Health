@@ -56,7 +56,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
     };
 
     findUsers();
-  }, [user]);
+  }, []);
   useEffect(() => {
     const fetchLikes = async () => {
       const res = await fetch(`/api/liked-med?userId=${clerkId}`);
@@ -70,7 +70,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
     };
     getOrder();
     fetchLikes();
-  }, [user]);
+  }, []);
 
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
@@ -113,9 +113,6 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
             <p className="flex items-center gap-3 text-gray-700">
               <Mail size={30} className="text-green-600" />
               {user?.email}
-            </p>
-            <p className="flex items-center gap-3 text-gray-700">
-              <Phone size={30} className="text-green-600" /> 99689696
             </p>
             <p className="flex items-center gap-3 text-gray-700">
               <User className="text-green-600" /> {user?.username}

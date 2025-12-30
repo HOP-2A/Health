@@ -56,7 +56,7 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
     };
 
     findDoctors();
-  }, [doctor]);
+  }, []);
 
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">

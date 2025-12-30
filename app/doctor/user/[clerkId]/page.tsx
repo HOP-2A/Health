@@ -5,6 +5,7 @@ import MenuBar from "@/app/_components/MenuBar";
 
 import DynamicUserPage from "@/app/_components/DynamicUserPage";
 import { useParams } from "next/navigation";
+import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
 
 const Page = () => {
   const { clerkId } = useParams<{ clerkId: string }>();
@@ -23,7 +24,7 @@ const Page = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        <MenuBar />
+        <DoctorMenuBar />
 
         <div>
           <motion.div
