@@ -1,15 +1,9 @@
 import { prisma } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
-
-export const GET = async (req: NextRequest) => {
-  const doctors = await prisma.doctor.findMany();
-
-  return NextResponse.json(doctors);
-};
+import { NextRequest, NextResponse } from "next/server.js";
 
 export const POST = async (req: NextRequest) => {
   const { input } = await req.json();
-  const filteredDoctors = await prisma.doctor.findMany({
+  const filteredUsers = await prisma.user.findMany({
     where: {
       OR: [
         { username: { contains: input, mode: "insensitive" } },
@@ -18,5 +12,5 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  return NextResponse.json(filteredDoctors);
+  return NextResponse.json(filteredUsers);
 };
