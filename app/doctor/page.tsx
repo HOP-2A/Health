@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import DoctorMenuBar from "../_components/DoctorMenuBar";
+import GetAllUser from "../_components/GetAllUser";
 
 export default function Page() {
   const pathname = usePathname();
@@ -27,6 +28,8 @@ export default function Page() {
         >
           <DoctorMenuBar />
         </motion.div>
+
+        <GetAllUser />
       </AnimatePresence>
     </div>
   );

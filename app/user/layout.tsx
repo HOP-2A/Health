@@ -13,12 +13,12 @@ export default function RootLayout({
   const router = useRouter();
   useEffect(() => {
     if (doctor === null) return;
-    console.log("hi");
+
     if (doctor) {
       router.replace("/doctor");
     }
   }, [doctor, router]);
-  console.log(doctor);
+
   if (user === null) {
     return (
       <div className="h-screen flex items-center justify-center">
