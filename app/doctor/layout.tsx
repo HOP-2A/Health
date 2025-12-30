@@ -14,12 +14,12 @@ export default function DoctorLayout({
 
   useEffect(() => {
     if (user === null) return;
-    console.log("hi");
+
     if (user) {
       router.replace("/user");
     }
   }, [user, router]);
-  console.log(user);
+
   if (doctor === null) {
     return (
       <div className="h-screen flex items-center justify-center">

@@ -20,7 +20,6 @@ export const GET = async (
   context: { params: Promise<{ clerkId: string }> }
 ) => {
   const params = await context.params;
-  console.log(params.clerkId);
 
   const doctor = await prisma.doctor.findUnique({
     where: {
