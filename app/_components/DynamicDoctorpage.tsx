@@ -129,7 +129,7 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
             </p>
           </div>
         </div>
-
+        <div>ADD SOMETHING</div>
         <div
           className="w-full p-8 flex flex-col gap-12 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/path-to-your-image.jpg')` }}
