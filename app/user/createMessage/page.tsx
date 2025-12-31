@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import MenuBar from "@/app/_components/MenuBar";
 import { Doctor as dType, useProvider } from "@/providers/AuthProvidor";
-import { Shield, ShieldUser } from "lucide-react";
+import { ShieldUser } from "lucide-react";
 import { toast } from "sonner";
+import Footer from "@/app/_components/Footer";
 export default function Home() {
   const [doctors, setDoctors] = useState<dType[]>([]);
   const [dName, setDName] = useState("");
@@ -97,6 +97,7 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

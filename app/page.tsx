@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import MenuBar from "./_components/MenuBar";
 import CallDrug from "./_components/CallDrug";
 import DescriptionPromptMain from "./_components/DescriptionPromptMain";
+import Footer from "./_components/Footer";
 
 export default function Home() {
   const router = useRouter();
@@ -37,6 +38,7 @@ export default function Home() {
       </div>
 
       <CallDrug />
+      <Footer />
     </div>
   );
 }

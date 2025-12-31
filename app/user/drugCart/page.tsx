@@ -1,6 +1,7 @@
 "use client";
 
 import DrugCartPage from "@/app/_components/DrugCartPage";
+import Footer from "@/app/_components/Footer";
 import MenuBar from "@/app/_components/MenuBar";
 import { motion } from "framer-motion";
 
@@ -26,6 +27,7 @@ const Page = () => {
           <DrugCartPage />
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 };

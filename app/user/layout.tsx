@@ -19,12 +19,12 @@ export default function RootLayout({
     }
   }, [doctor, router]);
 
-  if (user === null) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  // if (user === null) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center">
+  //       Loading...
+  //     </div>
+  //   );
+  // }
   return <div>{children}</div>;
 }
