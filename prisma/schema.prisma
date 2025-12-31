@@ -15,8 +15,9 @@ model User {
   clerkId   String    @unique
   illnesses Illness[]
   orders    Order[]
-
-  likes Like[]
+  likes         Like[]
+  doctorReviews DoctorReview[]
+  userMessages UserMessage[]
 }
 
 model Doctor {
@@ -29,6 +30,7 @@ model Doctor {
   clerkId         String         @unique
   reviews         DoctorReview[]
   createdAt       DateTime       @default(now())
+  userMessages UserMessage[]
 }
 
 model Medicine {
@@ -55,15 +57,18 @@ model Illness {
   createdAt DateTime      @default(now())
   review    DoctorReview?
   user      User          @relation(fields: [userId], references: [id])
-  category String
+  category  String
+  userMessages UserMessage[]
 }
 
 model DoctorReview {
   id        String                   @id @default(nanoid())
   doctorId  String
   illnessId String                   @unique
+  userId    String
   notes     String
   createdAt DateTime                 @default(now())
+  user      User                     @relation(fields: [userId], references: [id])
   doctor    Doctor                   @relation(fields: [doctorId], references: [id])
   illness   Illness                  @relation(fields: [illnessId], references: [id])
   medicines DoctorReviewToMedicine[]
@@ -110,4 +115,15 @@ model Like {
   medicine Medicine @relation(fields: [medicineId], references: [id])
 
   @@unique([userId, medicineId])
+}
+model UserMessage {
+  id String @id @default(nanoid())
+  userId String
+  illnessId String?
+  illness Illness? @relation(fields: [illnessId], references: [id])
+  replied Boolean @default(false)
+  chat String
+  user User @relation(fields: [userId] , references: [id])
+  doctorId String
+  doctor Doctor @relation(fields: [doctorId], references: [id])
 }
