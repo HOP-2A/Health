@@ -54,7 +54,8 @@ export default function CallDrug() {
     }
   }, [user, loading]);
 
-  if (!medData.length) return <p className="text-center mt-8">Loading...</p>;
+  if (!medData.length)
+    return <p className="text-center h-140 mt-8">Loading...</p>;
 
   return (
     <div className="flex justify-center mt-20">
