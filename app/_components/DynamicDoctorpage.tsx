@@ -2,8 +2,17 @@
 
 import { useProvider } from "@/providers/AuthProvidor";
 
-import { Mail, Phone, Edit, LogOut, User, Clock } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  Edit,
+  LogOut,
+  User,
+  Clock,
+  CircleUserRound,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import type { User as userType } from "@/providers/AuthProvidor";
 type Medicine = {
   id: string;
   name: string;
@@ -31,6 +40,15 @@ type doctor = {
   clerkId: string;
 };
 
+type reviews = {
+  id: string;
+  doctorId: string;
+  illnessId: string;
+  userId: string;
+  notes: string;
+  user: userType;
+};
+
 import Autoplay from "embla-carousel-autoplay";
 import { number } from "zod";
 export default function DynamicDoctorPage({ clerkId }: ClerkId) {
@@ -42,7 +60,7 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [doctor, setDoctor] = useState<doctor>();
-
+  const [doctorReviews, setDoctorReviews] = useState<reviews[]>([]);
   useEffect(() => {
     const findDoctors = async () => {
       const res = await fetch(`/api/find-doctor/${clerkId}`, {
@@ -57,6 +75,16 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
 
     findDoctors();
   }, []);
+  useEffect(() => {
+    console.log(doctor?.id);
+    if (doctor == null) return;
+    const findReviews = async () => {
+      const res = await fetch(`/api/doctor-review/${doctor.id}`);
+      const revs = await res.json();
+      setDoctorReviews(revs);
+    };
+    findReviews();
+  }, [doctor]);
 
   return (
     <div className="min-h-screen w-full flex justify-center p-8 ">
@@ -125,11 +153,22 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
               <span className="w-8 flex justify-center text-green-600">
                 <Clock size={24} />
               </span>
-              {doctor?.experienceYears} years
+              {doctor?.experienceYears} Жил
             </p>
           </div>
         </div>
-        <div>ADD SOMETHING</div>
+        {doctorReviews.map((rev, index) => {
+          return (
+            <div key={index} className="pl-4.5 md:basis-1/2 lg:basis-1/3">
+              <div className="w-[200px] h-[200px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
+                <CircleUserRound size={90} />
+                <div className="font-bold text-[30px] text-green-400">
+                  {rev.user?.username}
+                </div>
+              </div>
+            </div>
+          );
+        })}
         <div
           className="w-full p-8 flex flex-col gap-12 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/path-to-your-image.jpg')` }}
