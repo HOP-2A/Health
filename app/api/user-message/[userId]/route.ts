@@ -7,12 +7,25 @@ export const POST = async (
 ) => {
   const body = await req.json();
   const { userId } = await context.params;
+  const illness = await prisma.illness.findFirst({
+    where: {
+      userId,
+    },
+  });
+  const doctor = await prisma.doctor.findFirst({
+    where: {
+      username: body.doctorName,
+    },
+  });
+
+  if (!doctor) throw new Error("doctor not found");
+
   const createdMessage = await prisma.userMessage.create({
     data: {
       userId: userId,
-      illnessId: body.illnessId,
+      illnessId: illness?.id,
       chat: body.chat,
-      doctorId: body.doctorId,
+      doctorId: doctor.id,
     },
   });
   return NextResponse.json(createdMessage);
@@ -21,7 +34,7 @@ export const GET = async (
   req: NextRequest,
   context: { params: { userId: string } }
 ) => {
-  const { userId } = context.params;
+  const { userId } = await context.params;
   const messages = await prisma.userMessage.findMany({
     where: {
       userId,

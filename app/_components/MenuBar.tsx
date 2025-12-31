@@ -1,5 +1,5 @@
 import { useProvider } from "@/providers/AuthProvidor";
-import { Search, ShoppingCart, Heart, UserRound } from "lucide-react";
+import { Search, ShoppingCart, Heart, UserRound, Send } from "lucide-react";
 import Link from "next/link";
 
 export default function MenuBar() {
@@ -32,6 +32,7 @@ export default function MenuBar() {
             { href: "/user/search", icon: <Search size={27} /> },
             { href: "/user/drugCart", icon: <ShoppingCart size={27} /> },
             { href: "/user/likedDrug", icon: <Heart size={27} /> },
+            { href: "/user/createMessage", icon: <Send size={27} /> },
             { href: "/user/profile", icon: <UserRound size={27} /> },
           ].map((item, i) => (
             <Link key={i} href={item.href}>

@@ -18,7 +18,7 @@ export type User = {
   clerkId: string;
 };
 
-type Doctor = {
+export type Doctor = {
   id: string;
   username: string;
   email: string;

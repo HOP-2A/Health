@@ -121,6 +121,7 @@ model UserMessage {
   userId String
   illnessId String?
   illness Illness? @relation(fields: [illnessId], references: [id])
+  replied Boolean @default(false)
   chat String
   user User @relation(fields: [userId] , references: [id])
   doctorId String

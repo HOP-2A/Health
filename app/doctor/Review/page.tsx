@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useProvider } from "@/providers/AuthProvidor";
 import { User as userType } from "@/providers/AuthProvidor";
 import { CircleUser } from "lucide-react";
+import { toast } from "sonner";
 export type reviews = {
   id: string;
   doctorId: string;
@@ -29,11 +30,37 @@ export type message = {
   chat: string;
   user: userType;
   illness: illness;
+  replied: boolean;
 };
 export default function Page() {
   const pathname = usePathname();
   const { doctor } = useProvider();
   const [doctorReviews, setDoctorReviews] = useState<message[]>([]);
+  const createDoctorReview = async (
+    illnessId: string,
+    userId: string,
+    notes: string,
+    userMessageId: string
+  ) => {
+    const doctorReview = await fetch(`/api/doctor-review/${doctor?.id}`, {
+      method: "POST",
+      body: JSON.stringify({
+        illnessId,
+        userId,
+        notes,
+        messageId: userMessageId,
+      }),
+    });
+    if (doctorReview.ok) {
+      findReviews();
+      toast.success("Амжилттай зөвөлгөө бичлээ.");
+    }
+  };
+  const findReviews = async () => {
+    const res = await fetch(`/api/usermessage-doc/${doctor?.id}`);
+    const revs = await res.json();
+    setDoctorReviews(revs);
+  };
   useEffect(() => {
     if (doctor == null) return;
     const findReviews = async () => {
@@ -43,6 +70,8 @@ export default function Page() {
     };
     findReviews();
   }, [doctor]);
+  const [note, setNote] = useState("");
+  console.log(note);
   return (
     <div
       className="relative min-h-screen  overflow-hidden"
@@ -65,62 +94,66 @@ export default function Page() {
           <DoctorMenuBar />
           <div className="w-[100vw] h-[100vh] flex justify-center items-center">
             <div className="w-[80%] h-[80%] flex overflow-scroll flex-wrap gap-[50px] justify-around">
-              {doctorReviews.map((rev, index) => (
-                <div
-                  key={index}
-                  className="bg-white/95 backdrop-blur-sm rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden max-w-md"
-                >
-                  {/* Header - User Info */}
-                  <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-3">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-white rounded-full p-1.5">
-                        <CircleUser size={28} className="text-green-600" />
+              {doctorReviews.map((rev, index) => {
+                if (rev.replied == true) {
+                  return <div key={index}></div>;
+                } else {
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white rounded-lg border border-gray-200 p-4 max-w-md space-y-4 h-[400px]"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                          <CircleUser size={20} className="text-green-600" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-gray-900">
+                            {rev.user.username}
+                          </h3>
+                          <p className="text-sm text-gray-500">Өвчтөн</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-bold text-lg text-white">
-                          {rev.user.username}
-                        </h3>
-                        <p className="text-green-100 text-xs">Өвчтөн</p>
+
+                      <div className="space-y-2">
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">
+                            {rev.illness.name}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {rev.illness.details}
+                          </p>
+                        </div>
+
+                        <p className="text-sm text-gray-700 italic">
+                          Хэрэглэгчийн чат: {rev.chat}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <textarea
+                          placeholder="Зөвлөгөө бичих..."
+                          className="w-full border border-gray-300 rounded p-2 text-sm min-h-[80px] focus:border-green-500 focus:outline-none resize-none"
+                          onChange={(e) => setNote(e.target.value)}
+                        />
+                        <button
+                          className="w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded transition-colors"
+                          onClick={() =>
+                            createDoctorReview(
+                              rev.illnessId,
+                              rev.userId,
+                              note,
+                              rev.id
+                            )
+                          }
+                        >
+                          Илгээх
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4 space-y-3">
-                    {/* Illness Info */}
-                    <div className="bg-red-50 border-l-4 border-red-400 p-3 rounded-r">
-                      <p className="font-semibold text-red-900 text-sm mb-1">
-                        Өвчний нэр: {rev.illness.name}
-                      </p>
-                      <p className="text-red-700 text-xs">
-                        {rev.illness.details}
-                      </p>
-                    </div>
-
-                    {/* User Chat */}
-                    <div className="bg-gray-50 p-3 rounded">
-                      <p className="font-semibold text-gray-700 text-sm mb-1">
-                        Өвчтөний мессеж:
-                      </p>
-                      <p className="text-gray-600 text-xs italic">{rev.chat}</p>
-                    </div>
-
-                    {/* Advice Section */}
-                    <div>
-                      <label className="block font-semibold text-gray-700 text-sm mb-2">
-                        Таны мэргэжлийн зөвлөгөө:
-                      </label>
-                      <textarea
-                        placeholder="Өвчтөнд зориулсан зөвлөгөө бичнэ үү..."
-                        className="w-full border-2 border-gray-200 rounded p-2 text-sm min-h-[80px] focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none resize-none"
-                      />
-                      <button className="mt-2 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-3 rounded text-sm transition-colors duration-200">
-                        Зөвлөгөө илгээх
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                }
+              })}
             </div>
           </div>
         </motion.div>

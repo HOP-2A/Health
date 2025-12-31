@@ -15,6 +15,18 @@ export const POST = async (
       notes: body.notes,
     },
   });
+  if (createdReview) {
+    await prisma.userMessage.update({
+      where: {
+        id: body.messageId,
+      },
+      data: {
+        replied: true,
+      },
+    });
+  } else {
+    return NextResponse.json({ message: "didnt created review" });
+  }
   return NextResponse.json(createdReview);
 };
 export const GET = async (
