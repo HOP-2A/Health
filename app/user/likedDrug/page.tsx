@@ -1,5 +1,6 @@
 "use client";
 
+import Footer from "@/app/_components/Footer";
 import LikedDrugPage from "@/app/_components/LikedDrugCart";
 import MenuBar from "@/app/_components/MenuBar";
 import { motion } from "framer-motion";
@@ -26,6 +27,7 @@ const Page = () => {
           <LikedDrugPage />
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 };

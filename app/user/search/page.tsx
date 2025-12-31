@@ -8,6 +8,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import MedCard from "@/app/_components/MedCard";
 import { useUser } from "@clerk/nextjs";
 import { useAuth } from "@/providers/route";
+import Footer from "@/app/_components/Footer";
 
 type medicine = {
   id: string;
@@ -180,6 +181,7 @@ const Page = () => {
           </div>
         </motion.div>
       </AnimatePresence>
+      <Footer />
     </div>
   );
 };

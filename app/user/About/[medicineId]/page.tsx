@@ -6,6 +6,7 @@ import MenuBar from "../../../_components/MenuBar";
 import { toast } from "sonner";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import Footer from "@/app/_components/Footer";
 
 type Medicine = {
   id: string;
@@ -262,6 +263,7 @@ export default function MedicineDetail() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

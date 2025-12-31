@@ -8,6 +8,7 @@ import { useProvider } from "@/providers/AuthProvidor";
 import { User as userType } from "@/providers/AuthProvidor";
 import { CircleUser } from "lucide-react";
 import { toast } from "sonner";
+import Footer from "@/app/_components/Footer";
 export type reviews = {
   id: string;
   doctorId: string;
@@ -71,7 +72,7 @@ export default function Page() {
     findReviews();
   }, [doctor]);
   const [note, setNote] = useState("");
-  console.log(note);
+
   return (
     <div
       className="relative min-h-screen  overflow-hidden"
@@ -158,6 +159,7 @@ export default function Page() {
           </div>
         </motion.div>
       </AnimatePresence>
+      <Footer />
     </div>
   );
 }

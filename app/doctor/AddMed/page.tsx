@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
+import Footer from "@/app/_components/Footer";
 
 interface Medicine {
   id: string;
@@ -301,6 +302,7 @@ export default function MedicinesPage() {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

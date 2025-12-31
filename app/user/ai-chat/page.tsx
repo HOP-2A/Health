@@ -1,6 +1,7 @@
 import MenuBar from "@/app/_components/MenuBar";
 import DescriptionPrompt from "@/app/_components/ai/DescriptionPrompt";
 import AiResponse from "@/app/_components/ai/AiResponse";
+import Footer from "@/app/_components/Footer";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
           <AiResponse />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

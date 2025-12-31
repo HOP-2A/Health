@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import MenuBar from "@/app/_components/MenuBar";
 import UIProfilePage from "@/app/_components/UIProfilepage";
+import Footer from "@/app/_components/Footer";
 
 const Page = () => {
   return (
@@ -32,6 +33,7 @@ const Page = () => {
           </motion.div>
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 };
