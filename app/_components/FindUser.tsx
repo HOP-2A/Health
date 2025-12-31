@@ -140,7 +140,7 @@ export default function FindUser() {
                               input ? (
                                 <span
                                   key={i}
-                                  className="bg-yellow-400/40 rounded-sm px-[1px]"
+                                  className="bg-yellow-400/40 rounded-sm px-px"
                                 >
                                   {part}
                                 </span>
@@ -167,7 +167,7 @@ export default function FindUser() {
                               input ? (
                                 <span
                                   key={i}
-                                  className="bg-yellow-400/40 rounded-sm px-[1px]"
+                                  className="bg-yellow-400/40 rounded-sm px-px"
                                 >
                                   {part}
                                 </span>
@@ -227,7 +227,7 @@ export default function FindUser() {
                               input ? (
                                 <span
                                   key={i}
-                                  className="bg-yellow-400/40 rounded-sm px-[1px]"
+                                  className="bg-yellow-400/40 rounded-sm px-px"
                                 >
                                   {part}
                                 </span>

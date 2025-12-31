@@ -78,9 +78,9 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
             w-1/3 p-10 flex flex-col items-center text-center
             bg-green-50/70 
             bg-[radial-gradient(circle,rgba(0,80,40,0.10)_1px,transparent_1px)]
-            bg-[length:14px_14px]
+            bg-size-[14px_14px]
             border-r border-green-200/50
-    bg-cover bg-center bg-no-repeat
+  bg-center bg-no-repeat
           "
         >
           <div className="p-4 rounded-full bg-white/90 shadow-md">

@@ -1,7 +1,5 @@
 "use client";
 
-import { useProvider } from "@/providers/AuthProvidor";
-
 import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
@@ -92,9 +90,8 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
             w-1/3 p-10 flex flex-col items-center text-center
             bg-green-50/70 
             bg-[radial-gradient(circle,rgba(0,80,40,0.10)_1px,transparent_1px)]
-            bg-[length:14px_14px]
-            border-r border-green-200/50
-    bg-cover bg-center bg-no-repeat
+            bg-size-[14px_14px]
+            border-r border-green-200/50 bg-center bg-no-repeat
           "
         >
           <div className="p-4 rounded-full bg-white/90 shadow-md">
@@ -139,8 +136,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
                     key={index}
                     className="pl-2.5 md:basis-1/2 lg:basis-1/3"
                   >
-                    <div className="w-full h-[320px] bg-white rounded-2xl p-5 flex flex-col justify-between shadow-md">
-                      {/* Image */}
+                    <div className="w-full h-80 bg-white rounded-2xl p-5 flex flex-col justify-between shadow-md">
                       <div className="w-full h-[180px] flex items-center justify-center">
                         <img
                           className="max-w-full max-h-full object-contain"
@@ -149,7 +145,6 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
                         />
                       </div>
 
-                      {/* Info */}
                       <div className="w-full text-center mt-3">
                         <div className="text-lg font-semibold truncate text-gray-900">
                           {med.name}
@@ -171,7 +166,6 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
             </Carousel>
           </div>
 
-          {/* Ordered Medications */}
           <div>
             <h3 className="text-2xl font-semibold text-white mb-6">
               Захиалсан эмнүүд
@@ -187,8 +181,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
                     key={index}
                     className="pl-2.5 md:basis-1/2 lg:basis-1/3"
                   >
-                    <div className="w-full h-[320px] bg-white rounded-2xl p-5 flex flex-col justify-between shadow-md">
-                      {/* Image */}
+                    <div className="w-full h-80 bg-white rounded-2xl p-5 flex flex-col justify-between shadow-md">
                       <div className="w-full h-[180px] flex items-center justify-center">
                         <img
                           className="max-w-full max-h-full object-contain"
@@ -197,7 +190,6 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
                         />
                       </div>
 
-                      {/* Info */}
                       <div className="w-full text-center mt-3">
                         <div className="text-lg font-semibold truncate text-gray-900">
                           {med.name}
