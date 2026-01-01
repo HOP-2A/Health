@@ -118,12 +118,7 @@ export default function MedicineDetail() {
   return (
     <div
       className="relative min-h-screen bg-gray-100"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1551970634-747846a548cb?q=80&w=3270&auto=format&fit=crop')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      
     >
       <div className="absolute inset-0 bg-black/40"></div>
 
