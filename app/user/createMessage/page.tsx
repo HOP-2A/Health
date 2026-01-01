@@ -20,6 +20,16 @@ export default function Home() {
   }, []);
   const [chat, setChat] = useState("");
   const createUserMessage = async (doctorName: string, chat: string) => {
+    if (chat === "") {
+      toast.error("Мессеж бичнэ үү!", {
+        style: {
+          background: "rgba(239,68,68,0.95)",
+          color: "#fef2f2",
+          borderRadius: "10px",
+        },
+      });
+      return;
+    }
     const res = await fetch(`/api/user-message/${user?.id}`, {
       method: "POST",
       body: JSON.stringify({
@@ -28,9 +38,18 @@ export default function Home() {
       }),
     });
     if (res.ok) {
-      toast.success("Amjilttai");
+      toast.success("Амжилттай");
+    } else {
+      toast.error("Алдаа гарлаа", {
+        style: {
+          background: "rgba(239,68,68,0.95)",
+          color: "#fef2f2",
+          borderRadius: "10px",
+        },
+      });
     }
   };
+  console.log(dName);
   return (
     <div
       className="relative min-h-screen overflow-hidden w-[100vw] h-[100vh]"
@@ -65,16 +84,25 @@ export default function Home() {
           </h3>
 
           <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-green-700">
                 Эмчийн нэр
               </label>
-              <input
-                type="text"
-                placeholder="Эмчийн нэр сонгох..."
-                className="w-full border border-gray-300 rounded p-2 text-sm focus:border-green-500 focus:outline-none"
+
+              <select
                 onChange={(e) => setDName(e.target.value)}
-              />
+                className="w-full rounded-md border border-green-300 bg-white px-3 py-2 text-sm text-gray-800
+               focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400
+               transition"
+              >
+                <option value="">Эмч сонгох</option>
+
+                {doctors.map((doc) => (
+                  <option key={doc.id} value={doc.username}>
+                    {doc.username}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
