@@ -98,6 +98,7 @@ export default function Page() {
                 if (rev.replied == true) {
                   return <div key={index}></div>;
                 } else {
+                  console.log(rev.illness);
                   return (
                     <div
                       key={index}
@@ -118,10 +119,10 @@ export default function Page() {
                       <div className="space-y-2">
                         <div>
                           <p className="text-sm font-medium text-gray-900">
-                            {rev.illness.name}
+                            asdfasdfs{rev.illness?.name}
                           </p>
                           <p className="text-sm text-gray-600">
-                            {rev.illness.details}
+                            {rev.illness?.details}
                           </p>
                         </div>
 
