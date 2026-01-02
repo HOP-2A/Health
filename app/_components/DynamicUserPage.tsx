@@ -117,7 +117,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
           style={{ backgroundImage: `url('/path-to-your-image.jpg')` }}
         >
           <div>
-            <h3 className="text-2xl font-semibold text-white mb-6">
+            <h3 className="text-2xl font-semibold text-black mb-6">
               Таалагдсан эмнүүд
             </h3>
             <Carousel
@@ -162,7 +162,7 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
           </div>
 
           <div>
-            <h3 className="text-2xl font-semibold text-white mb-6">
+            <h3 className="text-2xl font-semibold text-black mb-6">
               Захиалсан эмнүүд
             </h3>
             <Carousel
