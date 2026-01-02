@@ -12,25 +12,26 @@ type medicine = {
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
-
-    const addMedicines = await prisma.medicine.createMany({
-      data: body.map((med: medicine) => ({
-        name: med.name,
-        description: med.description,
-        ageLimit: med.ageLimit,
-        price: med.price,
-        stock: med.stock,
-        imageUrls: med.imageUrls,
-        category: med.category,
-      })),
-      skipDuplicates: true,
+    const { name, description, ageLimit, price, stock, imageUrls, category } =
+      body;
+    const addMedicine = await prisma.medicine.create({
+      data: {
+        name,
+        description,
+        ageLimit,
+        price,
+        stock,
+        imageUrls,
+        category,
+      },
     });
-
+    console.log(body, "ajsidoajsdioajos");
     return NextResponse.json(
-      { message: "Success", addMedicines },
+      { message: "Success", addMedicine },
       { status: 200 }
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Failed to create" }, { status: 500 });
   }
 };
@@ -38,13 +39,23 @@ export const POST = async (req: Request) => {
 export const DELETE = async (req: Request) => {
   try {
     const body = await req.json();
-
+    const medicineId = body.id;
+    await prisma.orderItem.deleteMany({
+      where: { medicineId: medicineId },
+    });
+    await prisma.doctorReviewToMedicine.deleteMany({
+      where: { medicineId: medicineId },
+    });
+    await prisma.like.deleteMany({
+      where: { medicineId: medicineId },
+    });
     const deleted = await prisma.medicine.delete({
-      where: { id: body.id },
+      where: { id: medicineId },
     });
 
     return NextResponse.json(deleted);
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: "Failed to delete" }, { status: 500 });
   }
 };
