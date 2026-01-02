@@ -49,12 +49,9 @@ export default function Home() {
       });
     }
   };
-  console.log(dName);
+
   return (
-    <div
-      className="relative min-h-screen overflow-hidden w-[100vw] h-[100vh]"
-      
-    >
+    <div className="relative min-h-screen overflow-hidden w-[100vw] h-[100vh]">
       <MenuBar />
       <div className="w-[100%] h-[100%] flex justify-center items-center flex-col pb-[200px]">
         <div className="flex gap-[30px]">
