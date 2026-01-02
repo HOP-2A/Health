@@ -7,8 +7,6 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useRef, useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import { useAuth } from "@/providers/route";
 import { DoctorCard } from "./DoctorCard";
 
 type Doctor = {

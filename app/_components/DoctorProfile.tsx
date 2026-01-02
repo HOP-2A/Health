@@ -1,25 +1,10 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
-import { UserProfile, useUser } from "@clerk/nextjs";
-import {
-  Mail,
-  Phone,
-  Edit,
-  LogOut,
-  User,
-  Timer,
-  CircleUserRound,
-} from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { Mail, Phone, User, Timer, CircleUserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-type Medicine = {
-  id: string;
-  name: string;
-  price: number;
-  imageUrls: string[];
-  ageLimit: number;
-  category: string;
-};
+
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import type { User as userType } from "@/providers/AuthProvidor";
@@ -39,7 +24,7 @@ export default function UIProfilePage() {
 
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [doctorReviews, setDoctorReviews] = useState<reviews[]>([]);
-  const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
+
   const { doctor } = useProvider();
   useEffect(() => {
     if (doctor == null) return;

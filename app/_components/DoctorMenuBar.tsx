@@ -2,7 +2,6 @@ import { useProvider } from "@/providers/AuthProvidor";
 import {
   UserRoundSearch,
   Cross,
-  Heart,
   UserRound,
   MessageCircleReply,
 } from "lucide-react";

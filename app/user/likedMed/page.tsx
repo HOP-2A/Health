@@ -7,10 +7,7 @@ import { motion } from "framer-motion";
 
 const Page = () => {
   return (
-    <div
-      className="relative min-h-screen  overflow-hidden"
-      
-    >
+    <div className="relative min-h-screen  overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
