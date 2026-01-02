@@ -9,6 +9,3 @@
   );
   background-blend-mode: lighten;
 }
-body {
-  background: linear-gradient(135deg, #1a482c, #144630, #1a3d2a, #214e36);
-}
