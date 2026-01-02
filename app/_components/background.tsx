@@ -9,7 +9,7 @@ export default function GradientBackground({
       <div
         className="fixed inset-0 -z-10"
         style={{
-          background: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);",
+          background: "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
         }}
       />
 

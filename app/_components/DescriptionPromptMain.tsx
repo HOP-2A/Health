@@ -38,7 +38,7 @@ export default function DescriptionPromptMain({
           transition-all duration-300
         "
       >
-        <h2 className="text-4xl font-extrabold mb-6 text-gray-300 tracking-tight">
+        <h2 className="text-4xl font-extrabold mb-6 text-black tracking-tight">
           Өвчин эмгэгээ тодорхойл
         </h2>
 
