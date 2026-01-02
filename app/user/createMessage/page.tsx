@@ -51,9 +51,11 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden w-[100vw] h-[100vh]">
-      <MenuBar />
-      <div className="w-[100%] h-[100%] flex justify-center items-center flex-col pb-[200px]">
+    <div className="relative min-h-screen overflow-hidden w-[100vw] h-auto flex flex-col">
+      <div className="h-[10%]">
+        <MenuBar />
+      </div>
+      <div className="w-[100%] h-[70vh] flex justify-center items-center flex-col pb-[200px] pt-[200px]">
         <div className="flex gap-[30px]">
           {doctors.map((doc) => {
             return (
@@ -117,7 +119,9 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <Footer />
+      <div className="h-[20%]">
+        <Footer />
+      </div>
     </div>
   );
 }

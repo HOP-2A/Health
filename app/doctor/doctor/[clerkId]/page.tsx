@@ -6,6 +6,7 @@ import MenuBar from "@/app/_components/MenuBar";
 import { useParams } from "next/navigation";
 import DynamicDoctorPage from "@/app/_components/DynamicDoctorpage";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
+import Footer from "@/app/_components/Footer";
 
 const Page = () => {
   const { clerkId } = useParams<{ clerkId: string }>();
@@ -28,6 +29,7 @@ const Page = () => {
           </motion.div>
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 };
