@@ -133,7 +133,6 @@ export default function MedCard({
   return (
     <Card className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
       <CardContent className="p-0">
-        {/* Зургийн хэсэг */}
         <div className="relative overflow-hidden">
           <Link href={`/user/About/${med.id}`}>
             <div className="relative aspect-[4/3] bg-gray-100">
@@ -142,7 +141,7 @@ export default function MedCard({
                 alt={med.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-              {/* Stock overlay */}
+
               {med.stock === 0 && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                   <span className="text-white font-semibold text-lg">
@@ -153,7 +152,6 @@ export default function MedCard({
             </div>
           </Link>
 
-          {/* Like товч */}
           <button
             onClick={toggleLike}
             className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-md transition-all duration-200 active:scale-90"
@@ -166,7 +164,6 @@ export default function MedCard({
             />
           </button>
 
-          {/* Stock badge */}
           {med.stock > 0 && med.stock <= 10 && (
             <div className="absolute top-3 left-3 px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded-lg">
               {med.stock} үлдсэн
@@ -174,16 +171,13 @@ export default function MedCard({
           )}
         </div>
 
-        {/* Мэдээллийн хэсэг */}
         <div className="p-4">
-          {/* Нэр */}
           <Link href={`/user/About/${med.id}`}>
             <h3 className="font-semibold text-gray-900 text-base mb-2 line-clamp-2 hover:text-green-600 transition-colors">
               {med.name}
             </h3>
           </Link>
 
-          {/* Нэмэлт мэдээлэл - Stock болон насны хязгаар */}
           <div className="flex items-center gap-3 mb-3 text-xs text-gray-600">
             <div className="flex items-center gap-1">
               <Package className="w-3.5 h-3.5" />
@@ -197,16 +191,13 @@ export default function MedCard({
             )}
           </div>
 
-          {/* Үнэ */}
           <div className="flex items-baseline gap-2 mb-3">
             <span className="text-2xl font-bold text-green-600">
               {med.price.toLocaleString()}₮
             </span>
           </div>
 
-          {/* Тоо ширхэг болон үйлдлүүд */}
           <div className="space-y-3">
-            {/* Quantity selector */}
             <div className="flex items-center gap-2">
               <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
                 <button
@@ -230,7 +221,6 @@ export default function MedCard({
                 </button>
               </div>
 
-              {/* Дэлгэрэнгүй харах товч */}
               <Link
                 href={`/user/About/${med.id}`}
                 className="flex-1 h-10 flex items-center justify-center gap-2 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
@@ -240,7 +230,6 @@ export default function MedCard({
               </Link>
             </div>
 
-            {/* Сагсанд нэмэх товч */}
             <button
               onClick={addToCart}
               disabled={med.stock === 0}

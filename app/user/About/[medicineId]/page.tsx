@@ -2,11 +2,13 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import MenuBar from "../../../_components/MenuBar";
-import { toast } from "sonner";
-import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { toast } from "sonner";
+
+import MenuBar from "@/app/_components/MenuBar";
 import Footer from "@/app/_components/Footer";
+import MedCard from "@/app/_components/MedCard";
+import { useProvider } from "@/providers/AuthProvidor";
 
 type Medicine = {
   id: string;
@@ -22,57 +24,45 @@ type Medicine = {
 export default function MedicineDetail() {
   const { medicineId } = useParams<{ medicineId: string }>();
   const router = useRouter();
-  const { user, isLoaded } = useUser();
+  const { user } = useProvider();
 
   const [medicine, setMedicine] = useState<Medicine | null>(null);
+  const [relatedMedicines, setRelatedMedicines] = useState<Medicine[]>([]);
   const [liked, setLiked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const [relatedMedicines, setRelatedMedicines] = useState<Medicine[]>([]);
-
-  useEffect(() => {
-    if (!medicine || !medicine.category) return;
-
-    const fetchMedicineCategory = async () => {
-      const res = await fetch(
-        `/api/getMedicinesByCategory/${medicine.category}`
-      );
-      const data = await res.json();
-      const others = data.filter((m: Medicine) => m.id !== medicine.id);
-      setRelatedMedicines(others);
-    };
-
-    fetchMedicineCategory();
-  }, [medicine]);
-
+  // Fetch main medicine
   useEffect(() => {
     if (!medicineId) return;
-    const fetchMedicine = async () => {
-      const res = await fetch(`/api/getMedicineByid/${medicineId}`);
-      const data = await res.json();
-      setMedicine(data);
-    };
-    fetchMedicine();
+    fetch(`/api/getMedicineByid/${medicineId}`)
+      .then((res) => res.json())
+      .then(setMedicine)
+      .catch(console.error);
   }, [medicineId]);
 
+  // Fetch related medicines
   useEffect(() => {
-    if (!isLoaded || !user || !medicine) return;
+    if (!medicine?.category) return;
+    fetch(`/api/getMedicinesByCategory/${medicine.category}`)
+      .then((res) => res.json())
+      .then((data: Medicine[]) => {
+        setRelatedMedicines(data.filter((m) => m.id !== medicine.id));
+      })
+      .catch(console.error);
+  }, [medicine]);
 
+  // Fetch liked state
+  useEffect(() => {
+    if (!user || !medicine) return;
     fetch(`/api/liked-med?userId=${user.id}`)
       .then((res) => res.json())
       .then((likes: { medicine: { id: string } }[]) => {
-        const isLiked = likes.some((l) => l.medicine.id === medicine.id);
-        setLiked(isLiked);
-      })
-      .catch(console.error);
-  }, [isLoaded, user, medicine]);
+        setLiked(likes.some((l) => l.medicine.id === medicine.id));
+      });
+  }, [user, medicine]);
 
   const toggleLike = async () => {
-    if (!user || !medicine) {
-      console.error("User or Medicine not found");
-      return;
-    }
-
+    if (!user || !medicine) return;
     try {
       if (liked) {
         await fetch(`/api/liked-med?medicineId=${medicine.id}`, {
@@ -95,7 +85,6 @@ export default function MedicineDetail() {
 
   const addToCart = async () => {
     if (!user || !medicine) return;
-
     const res = await fetch("/api/create-orderItem", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -106,7 +95,6 @@ export default function MedicineDetail() {
         price: quantity * medicine.price,
       }),
     });
-
     if (res.ok) {
       toast.success("Амжилттай сагсанд нэмлээ!");
       router.push("/user/drugCart");
@@ -116,9 +104,7 @@ export default function MedicineDetail() {
   if (!medicine) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
-      <div className="absolute inset-0 bg-black/40"></div>
-
+    <div className="relative min-h-screen ">
       <MenuBar />
 
       <div className="relative max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -137,7 +123,7 @@ export default function MedicineDetail() {
             <div className="flex items-center gap-3 mb-5 relative">
               <button
                 onClick={toggleLike}
-                className="absolute top-0 right-0 w-11 h-11 flex items-center justify-center rounded-full border border-gray-100 bg-gray-200 backdrop-blur-md hover:bg-gray-300 hover:scale-110 transition-all shadow-md"
+                className="absolute top-0 right-0 w-11 h-11 flex items-center justify-center rounded-full border border-gray-100 bg-gray-200 hover:bg-gray-300 hover:scale-110 transition-all shadow-md"
               >
                 {liked ? (
                   <svg
@@ -146,12 +132,7 @@ export default function MedicineDetail() {
                     className="w-7 h-7 animate-heart"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-                5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
-                3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
-                6.86-8.55 11.54L12 21.35z"
-                    />
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                 ) : (
                   <svg
@@ -163,15 +144,11 @@ export default function MedicineDetail() {
                   >
                     <path
                       strokeWidth="2"
-                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-                  5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
-                  3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
-                  6.86-8.55 11.54L12 21.35z"
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                     />
                   </svg>
                 )}
               </button>
-
               <span className="text-sm bg-blue-200 text-blue-700 px-3 py-1 rounded-full">
                 {medicine.category}
               </span>
@@ -183,22 +160,21 @@ export default function MedicineDetail() {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               {medicine.name}
             </h1>
-
             <p className="text-gray-700 leading-relaxed mb-6">
               {medicine.description}
             </p>
-
-            <p className="text-3xl font-bold text-green-300 mb-4">
+            <p className="text-3xl font-bold text-green-900 mb-4">
               ₮{medicine.price}
             </p>
-
-            {medicine.stock > 0 ? (
-              <p className="text-green-200 font-medium mb-8">
-                Тоо ширхэг: ({medicine.stock} available)
-              </p>
-            ) : (
-              <p className="text-red-500 font-medium mb-8">Out of stock</p>
-            )}
+            <p
+              className={`mb-8 font-medium ${
+                medicine.stock > 0 ? "text-green-700" : "text-red-500"
+              }`}
+            >
+              {medicine.stock > 0
+                ? `Тоо ширхэг: (${medicine.stock} available)`
+                : "Out of stock"}
+            </p>
 
             <div className="flex items-center mt-2 w-36 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
               <button
@@ -220,41 +196,55 @@ export default function MedicineDetail() {
 
             <button
               className="w-full mt-5 py-3 rounded-xl text-lg font-semibold bg-green-500 text-white shadow-md hover:bg-green-600 hover:shadow-lg active:scale-95 transition-all duration-200"
-              onClick={() => addToCart()}
+              onClick={addToCart}
             >
               Сагсанд нэмэх
             </button>
           </div>
         </div>
 
-        {relatedMedicines.length > 0 && (
-          <div className="mt-10 md:col-span-2">
-            <h2 className="text-2xl font-bold text-gray-50 mb-4">
-              Ижил төрлийн эмүүд
-            </h2>
+        <div className="mt-10 md:col-span-2">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Ижил төрлийн эмүүд
+          </h2>
+
+          {relatedMedicines.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {relatedMedicines.map((med) => (
-                <div
+                <MedCard
                   key={med.id}
-                  className="bg-white p-4 rounded-lg shadow hover:shadow-lg hover:scale-105 transition-transform duration-200"
-                >
-                  <Link href={`/user/About/${med.id}`}>
-                    <div>
-                      <img
-                        src={med.imageUrls[0]}
-                        alt={med.name}
-                        className="h-32 w-full object-contain mb-2"
-                      />
-                      <h3 className="font-semibold">{med.name}</h3>
-                      <p className="text-green-600 font-bold">₮{med.price}</p>
-                    </div>
-                  </Link>
-                </div>
+                  med={{ ...med, expiryDate: "" }}
+                  isLiked={false}
+                  onLikeChange={() => {}}
+                  userId={user?.id || ""}
+                  userClerckId={user?.id || ""}
+                />
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="flex flex-col items-center justify-center bg-gray-50 border border-gray-200 rounded-xl p-6 mt-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16 text-gray-400 mb-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12l2 2 4-4m0 0l-6 6m6-6H5"
+                />
+              </svg>
+              <p className="text-gray-500 text-center text-lg">
+                Энэ төрлийн эм одоогоор байхгүй байна.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
       <Footer />
     </div>
   );

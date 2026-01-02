@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
         category,
       },
     });
-    console.log(body, "ajsidoajsdioajos");
+
     return NextResponse.json(
       { message: "Success", addMedicine },
       { status: 200 }
@@ -47,7 +47,7 @@ export const DELETE = async (req: Request) => {
 
     return NextResponse.json(deleted);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({ error: "Failed to delete" }, { status: 500 });
   }
 };
