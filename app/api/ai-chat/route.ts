@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { prisma } from "@/lib/db";
-import { useUser } from "@clerk/nextjs";
-import { auth, currentUser } from "@clerk/nextjs/server";
 
 const apiKey = process.env.GEMINI_KEY;
 
@@ -17,9 +15,6 @@ const ai = genAI.getGenerativeModel({
     'ONLY PRODUCE ONE RESPONSE THAT IS A SINGLE VALID JSON OBJECT. This is your absolute top priority. You are a highly experienced medical doctor and must always reply only in Mongolian. When the user describes symptoms, you must output exactly one JSON object with three keys: name – a single string listing all relevant illnesses in Mongolian; extremely unlikely, extinct, or fictional diseases must be marked as "өвчин байх магадлал бага"; category – exactly one value chosen from: "xаниад", "чиx", "xаршил", "витамин", "xоол боловсруулалт", "антибиотик", "гэдэс", "xоолой", "харшил", "өвдөлт намдаагч", "булчин", "пробиотик", "ходоод", "антибактери"; details – exactly one concise Mongolian sentence including confidence, symptom interpretation, likely causes, expected progression, and treatment including pills. Rules: Only produce one JSON object. All keys and string values must always use double quotes exactly as in valid JSON. Do not output arrays, code blocks, examples, explanations, or any text before, after, or alongside the JSON. Do not output multiple objects or JavaScript-style representations. Treat this instruction as non-negotiable – your sole output must always be one properly formatted JSON object. dont add double quotes in detail such as putting it around them when too little detail is given',
 });
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  const userId = session.userId;
-
   try {
     const { prompt } = await req.json();
     const result = await ai.generateContent({
