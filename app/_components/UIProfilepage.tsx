@@ -49,66 +49,40 @@ export default function UIProfilePage() {
   }, [user]);
 
   return (
-    <div className="min-h-screen w-full flex justify-center p-8 ">
-      <div
-        className="
-          w-full max-w-5xl h-[88vh] 
-          backdrop-blur-xl bg-white/60 
-          rounded-2xl shadow-[0_10px_40px_rgba(0,150,80,0.15)]
-          flex overflow-hidden border border-green-200/40
-          bg-cover bg-center bg-no-repeat
-        "
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1596046070666-473705748e6c?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-        }}
-      >
-        <div
-          className="
-            w-1/3 p-10 flex flex-col items-center text-center
-            bg-green-50/70 
-            bg-[radial-gradient(circle,rgba(0,80,40,0.10)_1px,transparent_1px)]
-            bg-[length:14px_14px]
-            border-r border-green-200/50
-    bg-cover bg-center bg-no-repeat
-          "
-        >
+    <div className="min-h-screen w-full flex justify-center p-8">
+      <div className="w-full max-w-5xl h-[88vh] flex overflow-hidden rounded-2xl shadow-xl border border-green-200/40 bg-white/60 backdrop-blur-xl">
+        <div className="w-1/3 p-8 flex flex-col items-center text-center bg-green-50/70 border-r border-green-200/50">
           <div className="p-4 rounded-full bg-white/90 shadow-md">
             <img
               src={clerkUser?.imageUrl}
-              alt=""
-              className="text-green-600 rounded-[100%]"
+              alt={user?.username}
+              className="w-24 h-24 rounded-full object-cover"
             />
           </div>
 
-          <h2 className="mt-6 text-3xl font-bold text-gray-800 tracking-tight drop-shadow-sm">
+          <h2 className="mt-6 text-2xl font-bold text-gray-800">
             {user?.username}
           </h2>
-
-          <p className="mt-2 text-sm text-green-700/70 font-medium">
+          <p className="mt-1 text-sm text-green-700/70">
             Member since {formatted}
           </p>
 
-          <div className="mt-10 w-full space-y-5 text-left px-2 text-sm">
-            <p className="flex items-center gap-3 text-gray-700">
-              <Mail size={30} className="text-green-600" />
-              {user?.email}
+          <div className="mt-8 w-full space-y-4 text-left text-sm">
+            <p className="flex items-center gap-2 text-gray-700">
+              <Mail size={20} className="text-green-600" /> {user?.email}
             </p>
-            <p className="flex items-center gap-3 text-gray-700">
-              <Phone size={30} className="text-green-600" /> 99689696
+            <p className="flex items-center gap-2 text-gray-700">
+              <Phone size={20} className="text-green-600" /> 8888-8888
             </p>
-            <p className="flex items-center gap-3 text-gray-700">
-              <User size={30} className="text-green-600" /> {user?.username}
+            <p className="flex items-center gap-2 text-gray-700">
+              <User size={20} className="text-green-600" /> {user?.username}
             </p>
           </div>
         </div>
 
-        <div
-          className="w-2/3 p-10 flex flex-col justify-between 
-                      bg-cover bg-center bg-no-repeat w-[100%]"
-        >
-          <div className="flex justify-center flex-col ">
-            <h3 className="text-3xl font-semibold mb-8 text-white  tracking-tight">
+        <div className="w-2/3 p-8 flex flex-col justify-between">
+          <div>
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800 tracking-tight">
               Таалагдсан эмнүүд
             </h3>
             <Carousel
@@ -117,28 +91,25 @@ export default function UIProfilePage() {
               className="w-full"
             >
               <CarouselContent className="-ml-2.5">
-                {likedItems.map((med, index) => (
+                {likedItems.map((med, i) => (
                   <CarouselItem
-                    key={index}
-                    className="pl-4.5 md:basis-1/2 lg:basis-1/3"
+                    key={i}
+                    className="pl-4 md:basis-1/2 lg:basis-1/3"
                   >
-                    <div className="w-full h-[300px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
-                      <div className="w-full h-[180px] flex items-center justify-center">
+                    <div className="w-full h-[280px] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
+                      <div className="w-full h-[160px] flex items-center justify-center">
                         <img
-                          className="max-w-full max-h-full object-contain"
                           src={med.imageUrls[0]}
                           alt={med.name}
+                          className="max-w-full max-h-full object-contain"
                         />
                       </div>
                       <div className="w-full text-center">
-                        <div className="text-[20px] font-bold truncate">
+                        <div className="font-bold text-lg truncate">
                           {med.name}
                         </div>
-                        <div className="flex gap-[3px] justify-center">
-                          <div className="text-[18px]">Үнэ:</div>
-                          <div className="text-[18px] text-green-600">
-                            {med.price}₮
-                          </div>
+                        <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
+                          {med.price}₮
                         </div>
                       </div>
                     </div>
@@ -147,8 +118,9 @@ export default function UIProfilePage() {
               </CarouselContent>
             </Carousel>
           </div>
-          <div className="flex justify-center flex-col ">
-            <h3 className="text-3xl font-semibold mb-8 text-white  tracking-tight">
+
+          <div className="mt-8">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-800 tracking-tight">
               Захиалсан эмнүүд
             </h3>
             <Carousel
@@ -156,29 +128,26 @@ export default function UIProfilePage() {
               plugins={[autoplay.current]}
               className="w-full"
             >
-              <CarouselContent className="-ml-4.5">
-                {orderItems.map((med, index) => (
+              <CarouselContent className="-ml-2.5">
+                {orderItems.map((med, i) => (
                   <CarouselItem
-                    key={index}
-                    className="pl-2.5 md:basis-1/2 lg:basis-1/3"
+                    key={i}
+                    className="pl-4 md:basis-1/2 lg:basis-1/3"
                   >
-                    <div className="w-full h-[300px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
-                      <div className="w-full h-[180px] flex items-center justify-center">
+                    <div className="w-full h-[280px] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
+                      <div className="w-full h-[160px] flex items-center justify-center">
                         <img
-                          className="max-w-full max-h-full object-contain"
                           src={med.imageUrls[0]}
                           alt={med.name}
+                          className="max-w-full max-h-full object-contain"
                         />
                       </div>
                       <div className="w-full text-center">
-                        <div className="text-[20px] font-bold truncate">
+                        <div className="font-bold text-lg truncate">
                           {med.name}
                         </div>
-                        <div className="flex gap-[3px] justify-center">
-                          <div className="text-[18px]">Үнэ:</div>
-                          <div className="text-[18px] text-green-600">
-                            {med.price}₮
-                          </div>
+                        <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
+                          {med.price}₮
                         </div>
                       </div>
                     </div>
@@ -188,27 +157,22 @@ export default function UIProfilePage() {
             </Carousel>
           </div>
 
-          <div className="flex gap-7   mt-10 w-[70%]">
+          <div className="flex gap-6 mt-8 justify-center">
             <button
-              className="flex-1 py-3 rounded-lg bg-green-600 text-white font-medium
-                           flex items-center justify-center gap-3
-                           hover:bg-green-500 hover:shadow-lg 
-                           transition-transform duration-200 hover:scale-105 w-[50%]"
+              className="flex-1 py-3 rounded-lg bg-green-600 text-white font-medium flex items-center justify-center gap-2
+               transition-colors duration-200 hover:bg-green-500"
               onClick={() => setOpenProfile(true)}
             >
-              <Edit size={22} />
-              Edit Profile
+              <Edit size={20} /> Edit Profile
             </button>
 
             <button
-              className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium
-                           flex items-center justify-center gap-3
-                           hover:bg-red-500 hover:shadow-lg
-                           transition-transform duration-200 hover:scale-105"
+              className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
+               transition-colors duration-200 hover:bg-red-500"
             >
-              <LogOut size={22} />
-              Logout
+              <LogOut size={20} /> Logout
             </button>
+
             {openProfile && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
                 <UserProfile />

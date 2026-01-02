@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
   id: string;
@@ -35,7 +35,6 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
-  const [openProfile, setOpenProfile] = useState(false);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [orderItems, setOrderItems] = useState<Medicine[]>([]);

@@ -2,10 +2,20 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { useProvider } from "@/providers/AuthProvidor";
+import {
+  Heart,
+  ShoppingCart,
+  Plus,
+  Minus,
+  Eye,
+  Package,
+  Calendar,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+
 type medicine = {
   id: string;
   name: string;
@@ -100,118 +110,147 @@ export default function MedCard({
     }
   };
 
+  const decrementQuantity = () => {
+    if (orderItem.quantity > 1) {
+      setOrderItem((prev) => ({
+        ...prev,
+        quantity: prev.quantity - 1,
+      }));
+      setPrice((orderItem.quantity - 1) * med.price);
+    }
+  };
+
+  const incrementQuantity = () => {
+    if (orderItem.quantity < med.stock) {
+      setOrderItem((prev) => ({
+        ...prev,
+        quantity: prev.quantity + 1,
+      }));
+      setPrice((orderItem.quantity + 1) * med.price);
+    }
+  };
+
   return (
-    <Card className="backdrop-blur-xl bg-white/20 rounded-2xl border border-white/30 shadow-md hover:shadow-xl hover:bg-white/30 transition-all duration-300">
-      <CardContent className="p-5 relative">
-        <Link href={`/user/About/${med.id}`}>
-          <div className="w-full">
-            <img
-              src={med.imageUrls[0]}
-              alt={med.name}
-              className="w-[400px] h-64 object-cover rounded-2xl shadow-lg"
-            />
-          </div>
-        </Link>
-
-        <button
-          onClick={toggleLike}
-          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full border border-gray-100 bg-gray-200 backdrop-blur-md hover:bg-gray-400 transition shadow-md"
-        >
-          {liked ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="red"
-              className="w-7 h-7 animate-heart"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-          5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
-          3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
-          6.86-8.55 11.54L12 21.35z"
+    <Card className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+      <CardContent className="p-0">
+        {/* Зургийн хэсэг */}
+        <div className="relative overflow-hidden">
+          <Link href={`/user/About/${med.id}`}>
+            <div className="relative aspect-[4/3] bg-gray-100">
+              <img
+                src={med.imageUrls[0]}
+                alt={med.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="white"
-              fill="none"
-              className="w-7 h-7"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeWidth="2"
-                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 
-            5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 
-            3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
-            6.86-8.55 11.54L12 21.35z"
-              />
-            </svg>
-          )}
-        </button>
-
-        <h2 className="text-[18px] font-semibold text-white mt-2">
-          {med.name}
-        </h2>
-        <span className="text-[22px] font-bold text-[#80FF9F] mt-1">
-          {med.price}₮
-        </span>
-
-        {med.stock > 0 ? (
-          <p className="text-green-200 font-medium mb-8">
-            тоо ширхэг: ({med.stock} available)
-          </p>
-        ) : (
-          <p className="text-red-200 font-medium mb-8"> Out of stock</p>
-        )}
-        <div className="flex place-content-between">
-          <div className="flex items-center w-36 mt-2 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
-            <button
-              className="w-12 h-10 bg-white/20 text-xl text-white"
-              onClick={() => {
-                setPrice(orderItem.quantity * med.price);
-                setOrderItem((prev) => {
-                  return { ...prev, quantity: orderItem.quantity - 1 };
-                });
-              }}
-            >
-              -
-            </button>
-
-            <button className="w-12 h-10 bg-white/20 text-xl text-white">
-              {orderItem.quantity}
-            </button>
-            <button
-              className="w-12 h-10 bg-white/20 text-xl text-white"
-              onClick={() => {
-                setPrice(orderItem.quantity * med.price);
-                setOrderItem((prev) => {
-                  return { ...prev, quantity: orderItem.quantity + 1 };
-                });
-              }}
-            >
-              +
-            </button>
-          </div>
-          <Link
-            href={`/user/About/${med.id}`}
-            className="inline-block px-4 py-2 mt-2 text-white bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 text-center hover:bg-white/30 transition-colors"
-          >
-            харах
+              {/* Stock overlay */}
+              {med.stock === 0 && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span className="text-white font-semibold text-lg">
+                    Дууссан
+                  </span>
+                </div>
+              )}
+            </div>
           </Link>
+
+          {/* Like товч */}
+          <button
+            onClick={toggleLike}
+            className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-md transition-all duration-200 active:scale-90"
+            aria-label={liked ? "Unlike" : "Like"}
+          >
+            <Heart
+              className={`w-5 h-5 transition-colors ${
+                liked ? "fill-red-500 text-red-500" : "text-gray-600"
+              }`}
+            />
+          </button>
+
+          {/* Stock badge */}
+          {med.stock > 0 && med.stock <= 10 && (
+            <div className="absolute top-3 left-3 px-2 py-1 bg-amber-500 text-white text-xs font-semibold rounded-lg">
+              {med.stock} үлдсэн
+            </div>
+          )}
         </div>
-        <button
-          type="submit"
-          className="
-            w-full mt-5 py-3 rounded-xl text-lg font-semibold
-            bg-green-500 text-white shadow-md
-            hover:bg-green-600 hover:shadow-lg
-            active:scale-95 transition-all duration-200
-          "
-          onClick={() => addToCart()}
-        >
-          Сагсанд нэмэх
-        </button>
+
+        {/* Мэдээллийн хэсэг */}
+        <div className="p-4">
+          {/* Нэр */}
+          <Link href={`/user/About/${med.id}`}>
+            <h3 className="font-semibold text-gray-900 text-base mb-2 line-clamp-2 hover:text-green-600 transition-colors">
+              {med.name}
+            </h3>
+          </Link>
+
+          {/* Нэмэлт мэдээлэл - Stock болон насны хязгаар */}
+          <div className="flex items-center gap-3 mb-3 text-xs text-gray-600">
+            <div className="flex items-center gap-1">
+              <Package className="w-3.5 h-3.5" />
+              <span>{med.stock > 0 ? `${med.stock} ширхэг` : "Дууссан"}</span>
+            </div>
+            {med.ageLimit && (
+              <div className="flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>нас:{med.ageLimit} </span>
+              </div>
+            )}
+          </div>
+
+          {/* Үнэ */}
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-2xl font-bold text-green-600">
+              {med.price.toLocaleString()}₮
+            </span>
+          </div>
+
+          {/* Тоо ширхэг болон үйлдлүүд */}
+          <div className="space-y-3">
+            {/* Quantity selector */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                <button
+                  onClick={decrementQuantity}
+                  disabled={orderItem.quantity <= 1}
+                  className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Тоог бууруулах"
+                >
+                  <Minus className="w-4 h-4 text-gray-600" />
+                </button>
+                <div className="w-12 h-10 flex items-center justify-center bg-white text-sm font-semibold">
+                  {orderItem.quantity}
+                </div>
+                <button
+                  onClick={incrementQuantity}
+                  disabled={orderItem.quantity >= med.stock}
+                  className="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Тоог нэмэгдүүлэх"
+                >
+                  <Plus className="w-4 h-4 text-gray-600" />
+                </button>
+              </div>
+
+              {/* Дэлгэрэнгүй харах товч */}
+              <Link
+                href={`/user/About/${med.id}`}
+                className="flex-1 h-10 flex items-center justify-center gap-2 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <Eye className="w-4 h-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">Харах</span>
+              </Link>
+            </div>
+
+            {/* Сагсанд нэмэх товч */}
+            <button
+              onClick={addToCart}
+              disabled={med.stock === 0}
+              className="w-full py-2.5 rounded-lg bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              {med.stock === 0 ? "Дууссан" : "Сагсанд нэмэх"}
+            </button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
