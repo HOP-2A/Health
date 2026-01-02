@@ -115,16 +115,11 @@ export default function MedicinesPage() {
   return (
     <div
       className="relative min-h-screen  overflow-hidden"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1488330890490-c291ecf62571?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      
     >
       <DoctorMenuBar />
       <div className="p-8 max-w-4xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold text-center text-green-700">
+        <h1 className="texmjhmt-4xl font-bold text-center text-green-700">
           эмийн сан
         </h1>
 

@@ -32,24 +32,25 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <Toaster
-              richColors
               position="top-right"
               toastOptions={{
                 style: {
-                  fontSize: "16px",
-                  padding: "20px 24px",
-                  minWidth: "420px",
-                  minHeight: "80px",
-                  background: "#00ba1c",
-                  color: "white",
-                  border: "2px solid #059669",
-                  borderRadius: "12px",
-                  boxShadow: "0 10px 25px rgba(16, 185, 129, 0.3)",
-                  fontWeight: "500",
+                  fontSize: "14px",
+                  padding: "12px 16px",
+                  minWidth: "320px",
+                  minHeight: "50px",
+                  background: "#ecfdf5",
+                  color: "#065f46",
+
+                  borderRadius: "8px",
+                  border: "1px solid #a7f3d0",
+
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 },
-                duration: 4000,
+                duration: 3000,
               }}
             />
+
             {children}
           </body>
         </AuthProvider>

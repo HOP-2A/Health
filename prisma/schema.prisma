@@ -55,7 +55,7 @@ model Illness {
   name      String
   details   String?
   createdAt DateTime      @default(now())
-  review    DoctorReview?
+  reviews    DoctorReview[]
   user      User          @relation(fields: [userId], references: [id])
   category  String
   userMessages UserMessage[]
@@ -64,13 +64,13 @@ model Illness {
 model DoctorReview {
   id        String                   @id @default(nanoid())
   doctorId  String
-  illnessId String                   @unique
+  illnessId String?                   
   userId    String
   notes     String
   createdAt DateTime                 @default(now())
   user      User                     @relation(fields: [userId], references: [id])
   doctor    Doctor                   @relation(fields: [doctorId], references: [id])
-  illness   Illness                  @relation(fields: [illnessId], references: [id])
+  illness   Illness?                  @relation(fields: [illnessId], references: [id])
   medicines DoctorReviewToMedicine[]
 }
 
