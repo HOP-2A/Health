@@ -100,10 +100,7 @@ export default function Page() {
     revs();
   }, [doctorReviews]);
   return (
-    <div
-      className="relative min-h-screen overflow-hidden"
-      
-    >
+    <div className="relative min-h-screen overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
@@ -118,7 +115,7 @@ export default function Page() {
             <div className="w-[90%] h-[80%] flex overflow-scroll flex-wrap gap-[50px] justify-around justify-center items-center">
               {reviews.length === 0 ? (
                 <div className="text-white  font-medium text-4xl mb-[150px]">
-                  No messages yet
+                  Одоогоор мессеж алга
                 </div>
               ) : (
                 <div className="w-[100%] h-[80%] flex overflow-scroll flex-wrap gap-[50px] justify-around justify-center items-center">
