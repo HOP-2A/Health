@@ -73,7 +73,7 @@ export default function Footer() {
           <ul className="flex flex-wrap justify-center gap-6 text-sm text-green-900 mb-6">
             {[
               "Бидний тухай",
-              "Пишүүнлэл",
+              "Гишүүнчлэл",
               "Сурталчилгаа байршуулах",
               "Үйлчилгээний нөхцөл",
               "Нууцлалын бодлого",
