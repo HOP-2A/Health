@@ -5,7 +5,7 @@ export const GET = async (
   req: NextRequest,
   context: { params: { doctorId: string } }
 ) => {
-  const { doctorId } = context.params;
+  const { doctorId } = await context.params;
   const messages = await prisma.userMessage.findMany({
     where: {
       doctorId,

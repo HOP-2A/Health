@@ -118,7 +118,7 @@ export default function Page() {
                   Одоогоор мессеж алга
                 </div>
               ) : (
-                <div className="w-[100%] h-[80%] flex overflow-scroll flex-wrap gap-[50px] justify-around justify-center items-center">
+                <div className="w-[100%] h-[100%] flex overflow-scroll flex-wrap gap-[50px] justify-around justify-center items-center">
                   {reviews.map((rev, index) => {
                     return (
                       <div

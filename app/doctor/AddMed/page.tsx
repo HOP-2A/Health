@@ -28,6 +28,7 @@ import { BadgeDollarSign } from "lucide-react";
 import { ImagePlus } from "lucide-react";
 import { TrendingUpDown } from "lucide-react";
 import { ChartGantt } from "lucide-react";
+import Footer from "@/app/_components/Footer";
 
 interface Medicine {
   id: string;
@@ -109,29 +110,22 @@ export default function MedicinesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    await fetch("/api/add-medicine", {
+    const res = await fetch("/api/add-medicine", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
     });
-    await fetchMedicines();
+    if (res.ok) {
+      await fetchMedicines();
+    }
   };
 
   return (
-    <div
-      className="relative min-h-screen  overflow-hidden"
-      // style={{
-      //   backgroundImage:
-      //   //   // "url('https://images.unsplash.com/photo-1488330890490-c291ecf62571?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-      //   // backgroundSize: "cover",
-      //   // backgroundPosition: "center",
-      // }}
-    >
+    <div className="relative min-h-screen  overflow-hidden">
       <DoctorMenuBar />
       <div className="p-8 max-w-4xl mx-auto space-y-8"></div>
-      <div className="min-h-screen bg-gradient-to-br from-emerald-500 via-teal-50 to-cyan-50 p-4 sm:p-8">
+      <div className="min-h-screen p-4 sm:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          {/* Header */}
           <div className="text-center space-y-2">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-lg mb-4">
               <Pill className="w-8 h-8 text-white" />
@@ -351,7 +345,7 @@ export default function MedicinesPage() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 h-[70vh] overflow-scroll">
             {medicines.map((med) => (
               <Card
                 key={med.id}
@@ -449,6 +443,7 @@ export default function MedicinesPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

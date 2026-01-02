@@ -31,7 +31,7 @@ export default function MenuBar() {
           {[
             { href: "/user/search", icon: <Search size={27} /> },
             { href: "/user/drugCart", icon: <ShoppingCart size={27} /> },
-            { href: "/user/likedDrug", icon: <Heart size={27} /> },
+            { href: "/user/likedMed", icon: <Heart size={27} /> },
             { href: "/user/createMessage", icon: <Send size={27} /> },
             { href: "/user/profile", icon: <UserRound size={27} /> },
           ].map((item, i) => (

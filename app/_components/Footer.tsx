@@ -42,11 +42,12 @@ export default function Footer() {
         className={`
           fixed right-6 bottom-6 z-50
           p-3 rounded-full
-          bg-white/30 backdrop-blur-md
-          border border-white/40
-          text-green-700
-          shadow-md
+          bg-gradient-to-br from-green-500/90 to-emerald-600/90
+          text-white
+          shadow-[0_6px_20px_rgba(0,120,80,0.45)]
+          backdrop-blur-md
           transition-all duration-300 ease-out
+          hover:scale-105 hover:shadow-[0_10px_30px_rgba(0,120,80,0.6)]
           ${
             visible
               ? "opacity-100 translate-y-0 pointer-events-auto"
@@ -59,18 +60,20 @@ export default function Footer() {
 
       <footer
         className="
-          relative mt-10
-          backdrop-blur-md bg-green-50/40
-          border-t border-green-300/40
-          shadow-[0_-4px_25px_rgba(0,200,120,0.25)]
+          relative mt-16
+          bg-gradient-to-r from-green-600/95 via-emerald-500/95 to-green-600/95
+          border-t border-green-700/40
+          shadow-[0_-8px_30px_rgba(0,120,80,0.45)]
         "
       >
-        <div className="max-w-6xl mx-auto px-6 py-10">
+        <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="flex justify-center mb-6">
-            <span className="text-3xl font-extrabold text-green-900">Mint</span>
+            <span className="text-3xl font-extrabold text-white drop-shadow-md">
+              Mint
+            </span>
           </div>
 
-          <ul className="flex flex-wrap justify-center gap-6 text-sm text-green-900 mb-6">
+          <ul className="flex flex-wrap justify-center gap-6 text-sm text-green-50 mb-6">
             {[
               "Бидний тухай",
               "Гишүүнчлэл",
@@ -79,7 +82,7 @@ export default function Footer() {
               "Нууцлалын бодлого",
             ].map((label, i) => (
               <li key={i}>
-                <Link href="#" className="hover:opacity-70">
+                <Link href="#" className="hover:opacity-80 transition-opacity">
                   {label}
                 </Link>
               </li>
@@ -93,10 +96,13 @@ export default function Footer() {
                   key={i}
                   className="
                     w-10 h-10 rounded-full
-                    bg-white/30 backdrop-blur-md
-                    border border-white/40
-                    text-green-700
+                    bg-white/20
+                    border border-white/30
+                    text-white
+                    backdrop-blur-lg
                     flex items-center justify-center
+                    transition-all duration-200
+                    hover:bg-white/35 hover:scale-110
                   "
                 >
                   <Icon className="w-5 h-5" />
@@ -105,7 +111,7 @@ export default function Footer() {
             )}
           </div>
 
-          <div className="flex justify-center gap-2 text-sm text-green-900">
+          <div className="flex justify-center gap-2 text-sm text-green-50">
             <MapPin className="w-4 h-4" />
             <span>Улаанбаатар • © Pinecone Mint LLC 2026</span>
           </div>
