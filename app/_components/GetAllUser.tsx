@@ -74,13 +74,13 @@ export default function GetAllUser() {
       <div className="relative z-10 px-6 pt-10 py-12">
         <div className="">
           <div className="mb-12 text-center">
-            <h2 className="text-5xl font-bold text-white mb-7 drop-shadow-lg">
+            <h2 className="text-5xl font-bold text-green-600 mb-7 drop-shadow-lg">
               Хэрэглэгчийн удирдлага
             </h2>
 
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/20 border border-white/30">
-              <Users className="w-5 h-5 text-white" />
-              <span className="text-white font-semibold">
+              <Users className="w-5 h-5 text-green-600" />
+              <span className="text-green-600 font-semibold">
                 Нийт хэрэглэгч: {users.length}
               </span>
             </div>
