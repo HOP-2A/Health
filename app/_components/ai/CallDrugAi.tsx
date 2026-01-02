@@ -25,6 +25,12 @@ interface Medicine {
   imageUrls: string[];
 }
 
+interface LikedItem {
+  medicine: {
+    id: string;
+  };
+}
+
 export default function CallDrugAi({ category }: CallDrugAiProps) {
   const [medData, setMedData] = useState<Medicine[]>([]);
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
@@ -34,38 +40,21 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
   const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading) {
       const fetchAll = async () => {
-        try {
-          let meds: Medicine[] = [];
+        const medsRes = await fetch("/api/add-medicine");
+        const meds = await medsRes.json();
+        setMedData(meds);
+        if (user) {
+          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
+          const likes = await likeRes.json();
 
-          if (category === "error") {
-            const res = await fetch("/api/add-medicine");
-            meds = await res.json();
-          } else {
-            const res = await fetch("/api/find-category-medicine", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ category }),
-            });
-            meds = await res.json();
-          }
-
-          setMedData(meds);
-
-          if (user?.id) {
-            const likeRes = await fetch(`/api/liked-med?userId=${user.id}`);
-            const likes = await likeRes.json();
-            setLikedItems(likes.map((l: any) => l.medicine.id));
-          }
-        } catch (err) {
-          console.error("Failed to fetch data:", err);
+          setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
         }
       };
       fetchAll();
     }
   }, [user, loading]);
-
   if (!medData.length) return <p className="text-center mt-30">Loading...</p>;
 
   return (
