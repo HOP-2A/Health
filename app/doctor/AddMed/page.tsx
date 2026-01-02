@@ -119,7 +119,7 @@ export default function MedicinesPage() {
     >
       <DoctorMenuBar />
       <div className="p-8 max-w-4xl mx-auto space-y-8">
-        <h1 className="text-4xl font-bold text-center text-green-700">
+        <h1 className="texmjhmt-4xl font-bold text-center text-green-700">
           эмийн сан
         </h1>
 
