@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
 
 type Doctor = {
   id: string;
@@ -16,8 +15,6 @@ type DoctorCardProps = {
 };
 
 export const DoctorCard = ({ doctor }: DoctorCardProps) => {
-  const router = useRouter();
-
   return (
     <Card className="backdrop-blur-xl bg-gradient-to-br from-white/5 via-white/10 to-white/5 rounded-3xl border border-white/20 shadow-lg hover:shadow-2xl hover:bg-gradient-to-br hover:from-white/10 hover:via-white/20 hover:to-white/10 transition-all duration-300 h-full">
       <CardContent className="p-6 relative flex flex-col">

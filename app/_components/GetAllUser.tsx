@@ -42,7 +42,7 @@ type User = {
   }[];
 };
 
-export default function UsersPage() {
+export default function GetAllUser() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {

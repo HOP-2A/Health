@@ -17,10 +17,7 @@ export default function Home() {
     router.push("/user/ai-chat");
   };
   return (
-    <div
-      className="relative min-h-screen overflow-hidden"
-      
-    >
+    <div className="relative min-h-screen overflow-hidden">
       <MenuBar />
 
       <div className="flex justify-center mt-36 px-4">

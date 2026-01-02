@@ -116,10 +116,7 @@ export default function MedicineDetail() {
   if (!medicine) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div
-      className="relative min-h-screen bg-gray-100"
-      
-    >
+    <div className="relative min-h-screen bg-gray-100">
       <div className="absolute inset-0 bg-black/40"></div>
 
       <MenuBar />
