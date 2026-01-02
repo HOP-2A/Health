@@ -116,7 +116,7 @@ export default function MedicinesPage() {
       body: JSON.stringify({ id }),
     });
     if (res.ok) {
-      fetchMedicines();
+      await fetchMedicines();
     }
   };
 
