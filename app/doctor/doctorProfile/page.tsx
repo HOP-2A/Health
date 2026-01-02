@@ -3,15 +3,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
+
 import UIProfilePage from "@/app/_components/DoctorProfile";
 import Footer from "@/app/_components/Footer";
 export default function Page() {
   const pathname = usePathname();
   return (
-    <div
-      className="relative min-h-screen  overflow-hidden"
-      
-    >
+    <div className="relative min-h-screen  overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
@@ -22,6 +20,7 @@ export default function Page() {
           className="relative z-10 "
         >
           <DoctorMenuBar />
+
           <div>
             <motion.div
               initial={{ opacity: 0, y: 10 }}

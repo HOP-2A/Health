@@ -4,7 +4,13 @@ import { prisma } from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-const genAI = new GoogleGenerativeAI("leaked");
+const apiKey = process.env.GEMINI_KEY;
+
+if (!apiKey) {
+  throw new Error("API_KEY is not defined");
+}
+
+const genAI = new GoogleGenerativeAI(apiKey);
 const ai = genAI.getGenerativeModel({
   model: "gemini-2.5-flash",
   systemInstruction:

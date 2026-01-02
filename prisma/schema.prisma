@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(nanoid())
-  username  String
-  email     String    @unique
-  createdAt DateTime  @default(now())
-  clerkId   String    @unique
-  illnesses Illness[]
-  orders    Order[]
-  likes         Like[]
+  id            String         @id @default(nanoid())
+  username      String
+  email         String         @unique
+  createdAt     DateTime       @default(now())
+  clerkId       String         @unique
   doctorReviews DoctorReview[]
-  userMessages UserMessage[]
+  illnesses     Illness[]
+  likes         Like[]
+  orders        Order[]
+  userMessages  UserMessage[]
 }
 
 model Doctor {
@@ -28,9 +28,9 @@ model Doctor {
   phoneNumber     String
   experienceYears Int
   clerkId         String         @unique
-  reviews         DoctorReview[]
   createdAt       DateTime       @default(now())
-  userMessages UserMessage[]
+  reviews         DoctorReview[]
+  userMessages    UserMessage[]
 }
 
 model Medicine {
@@ -41,12 +41,11 @@ model Medicine {
   price         Int
   stock         Int
   imageUrls     String[]
-  orderItems    OrderItem[]
   createdAt     DateTime                 @default(now())
   category      String
   recommendedBy DoctorReviewToMedicine[]
-
-  likes Like[]
+  likes         Like[]
+  orderItems    OrderItem[]
 }
 
 model Illness {
@@ -68,7 +67,6 @@ model DoctorReview {
   userId    String
   notes     String
   createdAt DateTime                 @default(now())
-  user      User                     @relation(fields: [userId], references: [id])
   doctor    Doctor                   @relation(fields: [doctorId], references: [id])
   illness   Illness?                  @relation(fields: [illnessId], references: [id])
   medicines DoctorReviewToMedicine[]
@@ -110,20 +108,20 @@ model Like {
   userId     String
   medicineId String
   createdAt  DateTime @default(now())
-
-  user     User     @relation(fields: [userId], references: [id])
-  medicine Medicine @relation(fields: [medicineId], references: [id])
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, medicineId])
 }
+
 model UserMessage {
-  id String @id @default(nanoid())
-  userId String
+  id        String   @id @default(nanoid())
+  userId    String
   illnessId String?
-  illness Illness? @relation(fields: [illnessId], references: [id])
-  replied Boolean @default(false)
-  chat String
-  user User @relation(fields: [userId] , references: [id])
-  doctorId String
-  doctor Doctor @relation(fields: [doctorId], references: [id])
+  chat      String
+  doctorId  String
+  replied   Boolean  @default(false)
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
+  illness   Illness? @relation(fields: [illnessId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }

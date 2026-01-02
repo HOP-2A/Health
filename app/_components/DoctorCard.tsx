@@ -16,13 +16,13 @@ type DoctorCardProps = {
 
 export const DoctorCard = ({ doctor }: DoctorCardProps) => {
   return (
-    <Card className="backdrop-blur-xl bg-gradient-to-br from-white/5 via-white/10 to-white/5 rounded-3xl border border-white/20 shadow-lg hover:shadow-2xl hover:bg-gradient-to-br hover:from-white/10 hover:via-white/20 hover:to-white/10 transition-all duration-300 h-full">
+    <Card className="backdrop-blur-xl bg-linear-to-br from-white/5 via-white/10 to-white/5 rounded-3xl border border-white/20 shadow-lg hover:shadow-2xl hover:bg-linear-to-br hover:from-white/10 hover:via-white/20 hover:to-white/10 transition-all duration-300 h-full">
       <CardContent className="p-6 relative flex flex-col">
         <div className="w-full overflow-hidden rounded-2xl shadow-md mb-4">
           <img
             src={doctor.profilePic}
             alt={doctor.username}
-            className="w-full aspect-[4/3] object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
+            className="w-full aspect-4/3 object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
           />
         </div>
 
