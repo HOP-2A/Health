@@ -157,18 +157,45 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
             </p>
           </div>
         </div>
-        {doctorReviews.map((rev, index) => {
-          return (
-            <div key={index} className="pl-4.5 md:basis-1/2 lg:basis-1/3">
-              <div className="w-[200px] h-[200px] bg-white/90 rounded-2xl p-6 flex flex-col items-center justify-between">
-                <CircleUserRound size={90} />
-                <div className="font-bold text-[30px] text-green-400">
-                  {rev.user?.username}
+        {/* Reviews Section */}
+        <div className="w-full lg:w-2/3 p-8 overflow-y-auto">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">
+            Reviewed Users
+          </h3>
+
+          <div className="flex flex-wrap gap-6">
+            {doctorReviews.map((rev: reviews) => (
+              <div
+                key={rev.id}
+                className="
+          w-full
+          sm:w-[calc(50%-12px)]
+          lg:w-[calc(33.333%-16px)]
+          bg-white/90
+          rounded-2xl
+          p-6
+          flex
+          flex-col
+          items-center
+          justify-between
+          shadow-md
+          transition
+          hover:shadow-lg
+        "
+              >
+                <CircleUserRound size={64} className="text-green-500" />
+
+                <div className="mt-4 font-semibold text-gray-800 text-lg">
+                  {rev.user.username}
                 </div>
+
+                <p className="mt-2 text-sm text-gray-600 text-center line-clamp-3">
+                  {rev.notes}
+                </p>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </div>
+        </div>
         <div
           className="w-full p-8 flex flex-col gap-12 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url('/path-to-your-image.jpg')` }}

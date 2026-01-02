@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import UIProfilePage from "@/app/_components/DoctorProfile";
 <<<<<<< HEAD
 import Footer from "@/app/_components/Footer";
@@ -19,6 +20,9 @@ import DoctorProfile from "../../_components/DoctorProfile";
 
 >>>>>>> 5f95440 (d)
 >>>>>>> c7aab63 (d)
+=======
+import DoctorProfile from "../../_components/DoctorProfile";
+>>>>>>> 89e9c1b (f)
 export default function Page() {
   const pathname = usePathname();
   return (
@@ -36,22 +40,7 @@ export default function Page() {
           className="relative z-10 "
         >
           <DoctorMenuBar />
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.15 }}
-            >
-              <UIProfilePage />
-            </motion.div>
-          </div>
-=======
           <DoctorProfile />
->>>>>>> 3fba245 (d)
-=======
->>>>>>> 5f95440 (d)
         </motion.div>
       </AnimatePresence>
       <Footer />
