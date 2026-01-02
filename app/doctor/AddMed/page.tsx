@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Card,
@@ -277,7 +276,7 @@ export default function MedicinesPage() {
                           <FormLabel>Ангилал</FormLabel>
                         </div>
                         <FormControl>
-                          <Input {...field} placeholder="example : drug" />
+                          <Input {...field} placeholder="example : Medicine" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

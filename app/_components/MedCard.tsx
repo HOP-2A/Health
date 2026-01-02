@@ -16,14 +16,6 @@ type medicine = {
   imageUrls: string[];
   expiryDate: string;
 };
-type Order = {
-  id: string;
-  userId: string;
-  totalPrice: number;
-  status: string;
-  discountApplied: boolean;
-  createdAt: Date;
-};
 
 interface MedCardProps {
   med: medicine;
