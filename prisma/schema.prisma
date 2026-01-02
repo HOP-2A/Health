@@ -49,7 +49,6 @@ model Medicine {
 }
 
 model Illness {
-<<<<<<< HEAD
   id        String        @id @default(nanoid())
   userId    String
   name      String
@@ -58,37 +57,18 @@ model Illness {
   reviews    DoctorReview[]
   user      User          @relation(fields: [userId], references: [id])
   category  String
-=======
-  id           String         @id @default(nanoid())
-  userId       String
-  name         String
-  details      String?
-  createdAt    DateTime       @default(now())
-  category     String
-  review       DoctorReview[]
-  user         User           @relation(fields: [userId], references: [id])
->>>>>>> 89e9c1b (f)
   userMessages UserMessage[]
 }
 
 model DoctorReview {
   id        String                   @id @default(nanoid())
   doctorId  String
-<<<<<<< HEAD
   illnessId String?                   
-=======
-  illnessId String?
->>>>>>> 89e9c1b (f)
   userId    String
   notes     String
   createdAt DateTime                 @default(now())
   doctor    Doctor                   @relation(fields: [doctorId], references: [id])
-<<<<<<< HEAD
   illness   Illness?                  @relation(fields: [illnessId], references: [id])
-=======
-  illness   Illness?                 @relation(fields: [illnessId], references: [id])
-  user      User                     @relation(fields: [userId], references: [id])
->>>>>>> 89e9c1b (f)
   medicines DoctorReviewToMedicine[]
 }
 
