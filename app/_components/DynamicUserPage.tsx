@@ -74,16 +74,11 @@ export default function DynamicUserPage({ clerkId }: ClerkId) {
     <div className="min-h-screen w-full flex justify-center p-8 ">
       <div
         className="
-          w-full max-w-5xl h-[88vh] 
-          backdrop-blur-xl bg-white/60 
-          rounded-2xl shadow-[0_10px_40px_rgba(0,150,80,0.15)]
-          flex overflow-hidden border border-green-200/40
-          bg-cover bg-center bg-no-repeat
-        "
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1596046070666-473705748e6c?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-        }}
+      w-full max-w-5xl h-[88vh]
+      backdrop-blur-xl bg-white/60
+      rounded-2xl shadow-[0_10px_40px_rgba(0,150,80,0.15)]
+      flex flex-row overflow-hidden border border-green-200/40
+    "
       >
         <div
           className="
