@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/providers/AuthProvidor";
+import GradientBackground from "./_components/background";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,27 +32,29 @@ export default function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                style: {
-                  fontSize: "14px",
-                  padding: "12px 16px",
-                  minWidth: "320px",
-                  minHeight: "50px",
-                  background: "#ecfdf5",
-                  color: "#065f46",
+            <GradientBackground>
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  style: {
+                    fontSize: "14px",
+                    padding: "12px 16px",
+                    minWidth: "320px",
+                    minHeight: "50px",
+                    background: "#ecfdf5",
+                    color: "#065f46",
 
-                  borderRadius: "8px",
-                  border: "1px solid #a7f3d0",
+                    borderRadius: "8px",
+                    border: "1px solid #a7f3d0",
 
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                },
-                duration: 3000,
-              }}
-            />
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                  },
+                  duration: 3000,
+                }}
+              />
 
-            {children}
+              {children}
+            </GradientBackground>
           </body>
         </AuthProvider>
       </html>

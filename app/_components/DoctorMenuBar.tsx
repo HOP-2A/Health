@@ -23,7 +23,7 @@ export default function DoctorMenuBar() {
         <Link href="/doctor/doctorMain">
           <div
             className="
-            text-4xl font-extrabold tracking-wide text-gray-300
+            text-4xl font-extrabold tracking-wide text-green-900
             drop-shadow-[0_0_10px_rgba(100,255,150,0.6)]
             transition-transform duration-200
             hover:scale-105 cursor-pointer

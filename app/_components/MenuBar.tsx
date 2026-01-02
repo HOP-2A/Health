@@ -14,7 +14,7 @@ export default function MenuBar() {
       "
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between h-25 px-6">
-        <Link href="/">
+        <Link href="/user">
           <div
             className="
               text-4xl font-extrabold tracking-wide text-green-900
