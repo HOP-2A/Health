@@ -1,13 +1,8 @@
 import { prisma } from "@/lib/db";
-import { auth } from "@clerk/nextjs/server";
 import CallDrugAi from "./CallDrugAi";
-
 import { Illness } from "@prisma/client";
 
 export default async function AiResponse() {
-  const session = await auth();
-  const userId = session.userId;
-
   const response: Illness[] = await prisma.illness.findMany({
     orderBy: {
       createdAt: "desc",

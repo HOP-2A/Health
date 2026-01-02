@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail, Phone, User, Clock, CircleUserRound } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { User as userType } from "@/providers/AuthProvidor";
 
 type ClerkId = {

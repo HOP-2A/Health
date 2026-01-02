@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+
 type medicine = {
   id: string;
   name: string;
@@ -13,14 +13,6 @@ type medicine = {
   stock: number;
   imageUrls: string[];
   expiryDate: string;
-};
-type Order = {
-  id: string;
-  userId: string;
-  totalPrice: number;
-  status: string;
-  discountApplied: boolean;
-  createdAt: Date;
 };
 
 interface MedCardProps {
@@ -38,13 +30,7 @@ export default function MedCardAi({
   onLikeChange,
   userId,
 }: MedCardProps) {
-  const [price, setPrice] = useState<number>(0);
   const [liked, setLiked] = useState(isLiked);
-  const [orderItem, setOrderItem] = useState({
-    orderId: "",
-    medicineId: med.id,
-    quantity: 1,
-  });
 
   const router = useRouter();
 
