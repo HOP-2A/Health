@@ -29,7 +29,6 @@ export default function DescriptionPromptMain({
   return (
     <div className="flex justify-center w-full px-4 ">
       <div className="w-full max-w-3xl">
-        {/* Гарчиг хэсэг */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-lg mb-4">
             <Stethoscope className="w-8 h-8 text-white" strokeWidth={2} />
@@ -43,12 +42,10 @@ export default function DescriptionPromptMain({
           </p>
         </div>
 
-        {/* Форм хэсэг */}
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 md:p-8"
         >
-          {/* Textarea */}
           <div className="mb-6">
             <label className="block mb-3 text-gray-700 font-semibold text-sm">
               Шинж тэмдгүүд ба мэдрэмж
@@ -72,7 +69,6 @@ export default function DescriptionPromptMain({
             </p>
           </div>
 
-          {/* Товч */}
           <button
             type="submit"
             disabled={!internalValue.trim()}
@@ -91,7 +87,6 @@ export default function DescriptionPromptMain({
           </button>
         </form>
 
-        {/* Анхааруулга */}
         <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
           <p className="text-sm text-amber-800 text-center">
             ⚠️ <strong>Анхааруулга:</strong> Энэхүү зөвлөгөө нь зөвхөн мэдээлэл

@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 interface Medicine {
+  description: string;
   id: string;
   name: string;
   price: number;
@@ -22,13 +23,11 @@ export default function LikedDrugPage() {
   useEffect(() => {
     if (!user) return;
 
-    const fetchLikes = async () => {
-      const res = await fetch(`/api/liked-med?userId=${user.id}`);
-      const data = await res.json();
-      setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
-    };
-
-    fetchLikes();
+    fetch(`/api/liked-med?userId=${user.id}`)
+      .then((res) => res.json())
+      .then((data) =>
+        setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine))
+      );
   }, [user]);
 
   const handleDelete = async (medicineId: string) => {
@@ -39,125 +38,128 @@ export default function LikedDrugPage() {
     await fetch(`/api/liked-med?medicineId=${medicineId}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-      }),
+      body: JSON.stringify({ userId: user.id }),
     });
   };
 
   return (
-    <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
-      <div className="w-full max-w-3xl relative z-10">
-        <h2 className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-          Таны дуртай эмийн жагсаалт
+    <div className="min-h-screen  px-4 pt-28 pb-32">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-4xl font-extrabold text-center text-green-700 mb-12 drop-shadow-sm">
+          Таалагдсан эмүүд
         </h2>
 
         <AnimatePresence mode="wait">
           {likedItems.length === 0 ? (
             <motion.div
               key="empty"
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.96 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
               transition={{ duration: 0.4 }}
-              className="flex flex-col items-center text-center mt-20"
+              className="flex flex-col items-center text-center mt-24"
             >
               <motion.div
-                animate={{ y: [0, -10, 0] }}
+                animate={{ y: [0, -12, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="p-6 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40"
+                className="p-8 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/70 shadow-2xl"
               >
-                <Heart
-                  size={60}
-                  className="text-green-600 opacity-80 animate-pulse-fast"
-                />
+                <Heart size={56} className="text-green-600" />
               </motion.div>
 
-              <p className="mt-6 text-xl font-semibold text-gray-300">
-                Таны жагсаалт хоосон байна
+              <h3 className="mt-8 text-2xl font-semibold text-gray-700">
+                Одоогоор таньд таалагдсан эм алга
+              </h3>
+
+              <p className="mt-2 text-gray-500 max-w-md">
+                Та эмийг зүрх дарж хадгалах боломжтой
               </p>
-              <p className="text-gray-50 max-w-sm mt-2">
-                Эм эсвэл эрүүл мэндийн бүтээгдэхүүнийг энд жагсаасан харагдуулна
-                уу.
-              </p>
+
               <Link href="/user/search">
-                <button className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300">
-                  Эмийг үзэх
+                <button
+                  className="
+                    mt-8 px-8 py-3 rounded-xl
+                    bg-green-600 text-white font-semibold
+                    shadow-lg hover:bg-green-700
+                    hover:shadow-green-300
+                    transition-all
+                  "
+                >
+                  Эм хайх
                 </button>
               </Link>
             </motion.div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {likedItems.map((item) => (
                 <motion.div
                   key={item.id}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.3 }}
                   className="
-        flex items-center gap-4
-        bg-white/70 backdrop-blur-2xl
-        border border-white/40
-        shadow-[0_8px_30px_rgb(0,0,0,0.08)]
-        rounded-2xl p-4
-        hover:scale-[1.01]
-        transition-all
-      "
+    flex flex-col sm:flex-row gap-4
+    bg-white/80 backdrop-blur-2xl
+    border border-white/60
+    rounded-3xl p-4
+    shadow-[0_10px_28px_rgba(0,120,80,0.22)]
+    hover:shadow-[0_14px_36px_rgba(0,120,80,0.32)]
+    transition-all
+  "
                 >
-                  <div className="relative">
-                    <img
-                      src={item.imageUrls?.[0]}
-                      alt={item.name}
-                      className="w-16 h-16 rounded-xl object-cover"
-                    />
-                    <span className="absolute -top-2 -right-2 text-[10px] px-2 py-0.5 rounded-full bg-green-600 text-white shadow">
-                      {item.ageLimit}
-                    </span>
-                  </div>
+                  <img
+                    src={item.imageUrls[0]}
+                    alt={item.name}
+                    className="w-24 h-24 object-cover rounded-xl"
+                  />
 
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      {item.category}
+                    <h3 className="text-lg font-semibold text-gray-800 leading-tight">
+                      {item.name}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+                      {item.description}
                     </p>
-                    <p className="text-lg font-bold text-green-600 mt-1">
-                      {item.price}₮
-                    </p>
+
+                    <div className="flex flex-wrap items-center gap-5 mt-3 text-sm text-gray-700">
+                      <span>Үнэ:</span>
+                      <span className="text-base font-semibold text-green-600">
+                        {item.price.toLocaleString()}₮
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <Link href={`/user/About/${item.id}`}>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className="
-        px-4 py-2
-        text-xs font-semibold
+        px-3 py-1.5
+        text-[11px] font-semibold
         rounded-full
         bg-green-100 text-green-700
         hover:bg-green-200
-        shadow-sm hover:shadow
         transition-all
       "
                       >
-                        харах
+                        Харах
                       </motion.button>
                     </Link>
 
                     <motion.button
-                      whileHover={{ scale: 1.1, rotate: -5 }}
+                      whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.9 }}
+                      onClick={() => handleDelete(item.id)}
                       className="
       p-3
-      rounded-full
-      bg-red-100
-      hover:bg-red-200
-      shadow-sm hover:shadow
+      rounded-2xl
+      bg-red-50 hover:bg-red-100
       transition-all
     "
-                      onClick={() => handleDelete(item.id)}
                     >
-                      <Trash2 size={22} className="text-red-600" />
+                      <Trash2 size={16} className="text-red-500" />
                     </motion.button>
                   </div>
                 </motion.div>

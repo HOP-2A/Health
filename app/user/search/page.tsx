@@ -27,155 +27,127 @@ interface LikedItem {
   };
 }
 
-const Page = () => {
+export default function Page() {
   const pathname = usePathname();
   const [medicines, setMedicines] = useState<medicine[]>([]);
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const [input, setInput] = useState("");
   const { user: clerkUser } = useUser();
-
   const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setInput(value);
+    setInput(e.target.value);
   };
+
   const findMecines = async () => {
     const res = await fetch("/api/find-med", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        input: input,
-      }),
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ input }),
     });
-    const meds: medicine[] = await res.json();
-    setMedicines(meds);
+    setMedicines(await res.json());
   };
 
   useEffect(() => {
     const findMecines = async () => {
       const res = await fetch("/api/find-med", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          input: input,
-        }),
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ input }),
       });
-      const meds: medicine[] = await res.json();
-      setMedicines(meds);
+      setMedicines(await res.json());
     };
 
     findMecines();
   }, [input]);
 
   useEffect(() => {
-    if (!loading) {
-      const fetchAll = async () => {
-        if (user) {
-          const likeRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
-          const likes = await likeRes.json();
-
-          setLikedItems(likes.map((l: LikedItem) => l.medicine.id));
-        }
-      };
-      fetchAll();
+    if (!loading && user) {
+      fetch(`/api/liked-med?userId=${user.clerkId}`)
+        .then((r) => r.json())
+        .then((likes) =>
+          setLikedItems(likes.map((l: LikedItem) => l.medicine.id))
+        );
     }
   }, [user, loading]);
 
   return (
-    <div className="w-[100vw] h-[100%] flex flex-col gap-[100px]">
+    <div className="min-h-screen flex flex-col ">
+      <MenuBar />
+
       <AnimatePresence mode="wait">
-        <motion.div
+        <motion.main
           key={pathname}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10 "
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="flex-1"
         >
-          <div>
-            <MenuBar />
-          </div>
-          <div>
-            <div className="flex justify-center mt-20 px-4">
-              <div className="w-full max-w-2xl">
-                <h2 className="text-4xl font-extrabold text-gray-300  mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-                  Эм хайх
-                </h2>
-                <div
-                  className="relative group 
-          backdrop-blur-xl bg-white/40 border border-white/60 
-          shadow-[0_0_20px_rgba(0,255,120,0.15)]
-          hover:shadow-[0_0_30px_rgba(0,255,120,0.3)]
-          rounded-2xl p-5 transition-all duration-500"
-                >
-                  <Search
-                    className="absolute left-6 top-1/2 -translate-y-1/2 text-green-600 group-hover:text-green-700 transition-colors duration-300"
-                    size={30}
-                  />
+          {/* 🔍 Search section */}
+          <section className="pt-28 pb-16 px-4">
+            <div className="max-w-2xl mx-auto">
+              <h2 className="text-4xl font-extrabold text-center text-green-700 mb-8 drop-shadow-sm">
+                Эм хайх
+              </h2>
 
-                  <input
-                    type="text"
-                    onChange={(e) => handleInputValue(e)}
-                    placeholder="Энд бичээд эмээ хайгаарай..."
-                    className="
-              pl-14 pr-4 py-3 w-full 
-              bg-transparent text-gray-800 placeholder-gray-800 text-lg
-              focus:outline-none 
-              group-hover:placeholder-gray-400 
-              transition-all duration-300
-            "
-                  />
-                </div>
-
-                <button
-                  className="
-            mt-6 w-full py-3 text-lg font-semibold rounded-xl
-            bg-gradient-to-br from-green-500 to-green-700 text-white
-            shadow-[0_4px_12px_rgba(0,150,80,0.35)]
-            hover:shadow-[0_0_20px_rgba(0,255,120,0.5)]
-            hover:scale-[1.02] active:scale-[0.97]
-            transition-all duration-300
-          "
-                  onClick={() => findMecines()}
-                >
-                  Хайх
-                </button>
+              <div className="relative group backdrop-blur-xl bg-white/60 border border-white/70 rounded-2xl p-5 shadow-[0_10px_30px_rgba(0,120,80,0.2)] transition-all">
+                <Search
+                  size={30}
+                  className="absolute left-6 top-1/2 -translate-y-1/2 text-green-600"
+                />
+                <input
+                  type="text"
+                  value={input}
+                  onChange={handleInputValue}
+                  placeholder="Энд бичээд эмээ хайгаарай..."
+                  className="pl-14 pr-4 py-3 w-full bg-transparent text-lg text-gray-800 placeholder-gray-500 focus:outline-none"
+                />
               </div>
+
+              <button
+                onClick={findMecines}
+                className="mt-6 w-full py-3 rounded-xl text-lg font-semibold text-white
+                bg-gradient-to-br from-green-500 to-emerald-700
+                shadow-[0_6px_18px_rgba(0,120,80,0.35)]
+                hover:shadow-[0_10px_30px_rgba(0,120,80,0.5)]
+                hover:scale-[1.02] active:scale-[0.97]
+                transition-all"
+              >
+                Хайх
+              </button>
             </div>
-          </div>
-          <div className="w-[100%] flex justify-center">
-            <div className="h-[80vh] w-[70vw] flex flex-wrap gap-[50px] overflow-scroll  justify-center mt-[50px]">
-              {medicines.map((med) => {
-                return (
-                  <div key={med.id}>
-                    <MedCard
-                      med={med}
-                      userId={user?.id || ""}
-                      userClerckId={user?.clerkId || ""}
-                      isLiked={likedItems.includes(med.id)}
-                      onLikeChange={(id: string, liked: boolean) => {
-                        setLikedItems((prev) =>
-                          liked
-                            ? [...prev, id]
-                            : prev.filter((item) => item !== id)
-                        );
-                      }}
-                    />
-                  </div>
-                );
-              })}
+          </section>
+
+          {/* 💊 Medicine list */}
+          <section className="px-4 pb-24">
+            <div
+              className="
+                max-w-7xl mx-auto
+                grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                gap-10
+              "
+            >
+              {medicines.map((med) => (
+                <MedCard
+                  key={med.id}
+                  med={med}
+                  userId={user?.id || ""}
+                  userClerckId={user?.clerkId || ""}
+                  isLiked={likedItems.includes(med.id)}
+                  onLikeChange={(id, liked) =>
+                    setLikedItems((prev) =>
+                      liked ? [...prev, id] : prev.filter((i) => i !== id)
+                    )
+                  }
+                />
+              ))}
             </div>
-          </div>
-        </motion.div>
+          </section>
+        </motion.main>
       </AnimatePresence>
+
       <Footer />
     </div>
   );
-};
-
-export default Page;
+}

@@ -52,7 +52,6 @@ export default function UIProfilePage() {
         }}
       >
         <div className="flex h-full">
-          {/* LEFT PANEL */}
           <div
             className="
               w-1/3 p-10 flex flex-col items-center text-center
@@ -96,7 +95,6 @@ export default function UIProfilePage() {
             </div>
           </div>
 
-          {/* RIGHT PANEL */}
           <div
             className="
               w-2/3 p-10 flex flex-col justify-between

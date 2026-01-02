@@ -36,39 +36,52 @@ export default function DrugCartPage() {
 
   useEffect(() => {
     if (!user) return;
+
     const findMedicines = async () => {
       const res = await fetch(`/api/find-order/${user?.id}`);
       const response = await res.json();
       setCartItems(response.items);
     };
+
     findMedicines();
   }, [user]);
 
   const totalP = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   const deleteMed = async (orderItemId: string) => {
-    await fetch(`/api/delete-orderItem/${orderItemId}`, {
-      method: "DELETE",
-    });
+    await fetch(`/api/delete-orderItem/${orderItemId}`, { method: "DELETE" });
     findMedicines();
   };
 
   return (
-    <div className="flex justify-center mt-20 px-4 min-h-[80vh] relative">
-      <div className="w-full max-w-3xl relative z-10 ">
-        <div className="h-[100px] flex justify-around items-center">
-          <div>
-            <p className="flex gap-[10px]">
-              <span className="text-4xl font-extrabold text-gray-300 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-                Нийт дүн:
-              </span>
-              <span className="text-4xl font-extrabold text-green-200 mb-6 text-center tracking-tight drop-shadow-[0_2px_4px_rgba(0,150,80,0.25)]">
-                {totalP}₮
-              </span>
-            </p>
-          </div>
-          <div>
-            <button className="mb-2.5 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl">
+    <div className="min-h-screen  px-4 pt-28 pb-32">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12">
+          <h1 className="text-4xl font-extrabold text-green-700 drop-shadow-sm">
+            Таны сагс
+          </h1>
+
+          <div className="flex items-center gap-6">
+            <div className="text-right">
+              <p className="text-sm text-gray-500">Нийт дүн</p>
+              <p className="text-3xl font-bold text-green-600">
+                {totalP.toLocaleString()}₮
+              </p>
+            </div>
+
+            <button
+              className="
+                flex items-center gap-2
+                bg-gradient-to-br from-green-500 to-emerald-700
+                text-white font-semibold
+                px-6 py-3 rounded-xl
+                shadow-[0_8px_20px_rgba(0,120,80,0.35)]
+                hover:shadow-[0_12px_30px_rgba(0,120,80,0.5)]
+                hover:scale-105 active:scale-95
+                transition-all
+              "
+              onClick={() => router.push("/user/search")}
+            >
               Захиалах
             </button>
           </div>
@@ -78,83 +91,96 @@ export default function DrugCartPage() {
           {cartItems.length === 0 ? (
             <motion.div
               key="empty-cart"
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.96 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
               transition={{ duration: 0.4 }}
-              className="flex flex-col items-center text-center mt-20"
+              className="flex flex-col items-center text-center mt-24"
             >
               <motion.div
-                animate={{ y: [0, -12, 0] }}
+                animate={{ y: [0, -14, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="p-6 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40"
+                className="p-8 rounded-3xl bg-white/70 backdrop-blur-xl border border-white/70 shadow-2xl"
               >
-                <ShoppingCart
-                  size={60}
-                  className="text-green-600 opacity-80 animate-pulse-fast"
-                />
+                <ShoppingCart size={64} className="text-green-600" />
               </motion.div>
 
-              <p className="mt-6 text-xl font-semibold text-gray-300">
+              <h2 className="mt-8 text-2xl font-semibold text-gray-700">
                 Таны сагс хоосон байна
-              </p>
+              </h2>
 
-              <p className="text-gray-50 max-w-sm mt-2">
-                Эм эсвэл эрүүл мэндийн бүтээгдэхүүнийг энд жагсаасан байдлаар
-                харахын тулд нэмнэ үү.
+              <p className="mt-2 text-gray-500 max-w-md">
+                Эм болон эрүүл мэндийн бүтээгдэхүүн нэмснээр энд харагдана.
               </p>
 
               <button
-                className="mt-6 bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 shadow-lg hover:shadow-green-300 transition-all duration-300"
                 onClick={() => router.push("/user/search")}
+                className="
+                  mt-8 px-8 py-3 rounded-xl
+                  bg-green-600 text-white font-semibold
+                  shadow-lg hover:bg-green-700
+                  hover:shadow-green-300
+                  transition-all
+                "
               >
-                Эмнүүдийг үзэх
+                Эм хайх
               </button>
             </motion.div>
           ) : (
-            <div className="space-y-6 max-w-4xl mx-auto">
+            <div className="space-y-8">
               {cartItems.map((item) => (
                 <motion.div
                   key={item.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="flex items-center gap-6 bg-white/80 backdrop-blur-2xl
-               border border-white/50 shadow-2xl rounded-3xl
-               p-6 min-h-[140px] hover:shadow-3xl transition-all"
+                  transition={{ duration: 0.3 }}
+                  className="
+    flex flex-col sm:flex-row gap-4
+    bg-white/80 backdrop-blur-2xl
+    border border-white/60
+    rounded-3xl p-4
+    shadow-[0_10px_28px_rgba(0,120,80,0.22)]
+    hover:shadow-[0_14px_36px_rgba(0,120,80,0.32)]
+    transition-all
+  "
                 >
                   <img
                     src={item.medicine.imageUrls[0]}
                     alt={item.medicine.name}
-                    className="w-28 h-28 object-cover rounded-2xl"
+                    className="w-24 h-24 object-cover rounded-xl"
                   />
 
                   <div className="flex-1">
-                    <h3 className="font-semibold text-2xl text-gray-800">
+                    <h3 className="text-lg font-semibold text-gray-800 leading-tight">
                       {item.medicine.name}
                     </h3>
 
-                    <p className="text-base text-gray-500 mt-1 line-clamp-2">
+                    <p className="mt-1 text-sm text-gray-500 line-clamp-2">
                       {item.medicine.description}
                     </p>
 
-                    <div className="flex items-center gap-8 mt-4 text-base text-gray-700">
+                    <div className="flex flex-wrap items-center gap-5 mt-3 text-sm text-gray-700">
                       <span>
-                        Тоо хэмжээ: <b>{item.quantity}</b>
+                        Тоо: <b>{item.quantity}</b>
                       </span>
-                      <span className="font-semibold text-lg">
-                        {item.price}₮
+                      <span className="text-base font-semibold text-green-600">
+                        {item.price.toLocaleString()}₮
                       </span>
                     </div>
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.08 }}
+                    whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="p-4 rounded-2xl bg-red-50 hover:bg-red-100 transition"
                     onClick={() => deleteMed(item.id)}
+                    className="
+      self-start sm:self-center
+      p-3 rounded-xl
+      bg-red-50 hover:bg-red-100
+      transition
+    "
                   >
-                    <Trash2 size={26} className="text-red-500" />
+                    <Trash2 className="w-5 h-5 text-red-500" />
                   </motion.button>
                 </motion.div>
               ))}

@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import MenuBar from "@/app/_components/MenuBar";
-
 import { useParams } from "next/navigation";
 import DynamicDoctorPage from "@/app/_components/DynamicDoctorpage";
 import DoctorMenuBar from "@/app/_components/DoctorMenuBar";

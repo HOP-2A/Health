@@ -15,9 +15,7 @@ const Page = () => {
       >
         <MenuBar />
 
-        <div>
-          <LikedDrugPage />
-        </div>
+        <LikedDrugPage />
       </motion.div>
       <Footer />
     </div>
