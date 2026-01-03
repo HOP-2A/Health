@@ -102,7 +102,7 @@ export default function UIProfilePage() {
             "
           >
             <div className="flex flex-col">
-              <h3 className="text-3xl font-bold mb-8 text-white tracking-tight drop-shadow-lg">
+              <h3 className="text-3xl font-bold mb-8 text-black tracking-tight drop-shadow-lg">
                 Таний үзсэн өвчтөнүүд
               </h3>
 

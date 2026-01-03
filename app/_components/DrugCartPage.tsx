@@ -68,22 +68,6 @@ export default function DrugCartPage() {
                 {totalP.toLocaleString()}₮
               </p>
             </div>
-
-            <button
-              className="
-                flex items-center gap-2
-                bg-gradient-to-br from-green-500 to-emerald-700
-                text-white font-semibold
-                px-6 py-3 rounded-xl
-                shadow-[0_8px_20px_rgba(0,120,80,0.35)]
-                hover:shadow-[0_12px_30px_rgba(0,120,80,0.5)]
-                hover:scale-105 active:scale-95
-                transition-all
-              "
-              onClick={() => router.push("/user/search")}
-            >
-              Захиалах
-            </button>
           </div>
         </div>
 

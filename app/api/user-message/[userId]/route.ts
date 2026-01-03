@@ -35,7 +35,7 @@ export const GET = async (
   context: { params: { userId: string } }
 ) => {
   const { userId } = await context.params;
-  const messages = await prisma.userMessage.findMany({
+  const messages = await prisma.doctorReview.findMany({
     where: {
       userId,
     },
@@ -44,4 +44,13 @@ export const GET = async (
     },
   });
   return NextResponse.json(messages);
+};
+export const DELETE = async (req: NextRequest) => {
+  const body = await req.json();
+  await prisma.doctorReview.delete({
+    where: {
+      id: body.id,
+    },
+  });
+  return NextResponse.json({ message: "Succesful" });
 };

@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import MenuBar from "../_components/MenuBar";
 import { useProvider } from "@/providers/AuthProvidor";
+import Footer from "../_components/Footer";
 
 const smooth: Transition = {
   type: "spring",
@@ -139,15 +140,7 @@ const Page = () => {
     });
   };
   return (
-    <div
-      className="w-screen h-screen flex items-center bg-gray-100 relative min-h-screen flex-col overflow-hidden gap-[30px]"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1551970634-747846a548cb?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="w-screen flex items-center relative min-h-screen flex-col overflow-hidden gap-[30px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
@@ -339,6 +332,9 @@ const Page = () => {
           </div>
         </motion.div>
       </AnimatePresence>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 };
