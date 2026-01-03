@@ -3,13 +3,16 @@
 import { useEffect, useState } from "react";
 import MenuBar from "@/app/_components/MenuBar";
 import { Doctor as dType, useProvider } from "@/providers/AuthProvidor";
-import { ShieldUser } from "lucide-react";
+import { ShieldUser, Send, Stethoscope } from "lucide-react";
 import { toast } from "sonner";
 import Footer from "@/app/_components/Footer";
+
 export default function Home() {
   const [doctors, setDoctors] = useState<dType[]>([]);
   const [dName, setDName] = useState("");
   const { user } = useProvider();
+  const [selectedDoctor, setSelectedDoctor] = useState<dType | null>(null);
+
   useEffect(() => {
     const findDoc = async () => {
       const res = await fetch("/api/find-all-doctor");
@@ -18,7 +21,9 @@ export default function Home() {
     };
     findDoc();
   }, []);
+
   const [chat, setChat] = useState("");
+
   const createUserMessage = async (doctorName: string, chat: string) => {
     if (chat === "") {
       toast.error("Мессеж бичнэ үү!", {
@@ -39,6 +44,9 @@ export default function Home() {
     });
     if (res.ok) {
       toast.success("Амжилттай");
+      setChat("");
+      setDName("");
+      setSelectedDoctor(null);
     } else {
       toast.error("Алдаа гарлаа", {
         style: {
@@ -50,76 +58,147 @@ export default function Home() {
     }
   };
 
+  const handleDoctorClick = (doc: dType) => {
+    setSelectedDoctor(doc);
+    setDName(doc.username);
+  };
   return (
-    <div className="relative min-h-screen overflow-hidden w-[100vw] h-auto flex flex-col">
-      <div className="h-[10%]">
+    <div className="relative   w-full flex flex-col">
+      <div className="h-16">
         <MenuBar />
       </div>
-      <div className="w-[100%] h-[70vh] flex justify-center items-center flex-col pb-[200px] pt-[200px]">
-        <div className="flex gap-[30px]">
-          {doctors.map((doc) => {
-            return (
-              <div
-                key={doc.clerkId}
-                className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-lg hover:border-green-500 hover:border-2 transition-colors cursor-pointer"
-              >
-                <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
-                  <ShieldUser size={24} className="text-green-600" />
-                </div>
-                <p className="font-medium text-gray-900">{doc.username}</p>
-              </div>
-            );
-          })}
-        </div>
 
-        <div className="mt-8 w-full max-w-2xl bg-white border border-gray-200 rounded-lg p-6 space-y-4">
-          <h3 className="text-lg font-medium text-gray-900">
-            Эмчид мессеж илгээх
-          </h3>
-
-          <div className="space-y-3">
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-green-700">
-                Эмчийн нэр
-              </label>
-
-              <select
-                onChange={(e) => setDName(e.target.value)}
-                className="w-full rounded-md border border-green-300 bg-white px-3 py-2 text-sm text-gray-800
-               focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400
-               transition"
-              >
-                <option value="">Эмч сонгох</option>
-
-                {doctors.map((doc) => (
-                  <option key={doc.id} value={doc.username}>
-                    {doc.username}
-                  </option>
-                ))}
-              </select>
+      <div className="flex-1 w-full flex justify-center items-center px-4 py-12 pt-[100px]">
+        <div className="w-full max-w-6xl space-y-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 justify-center">
+              <Stethoscope className="w-7 h-7 text-green-600" />
+              <h2 className="text-3xl font-bold text-gray-800">Эмч нар</h2>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Мессеж
-              </label>
-              <textarea
-                placeholder="Таны мессеж..."
-                className="w-full border border-gray-300 rounded p-2 text-sm min-h-[100px] focus:border-green-500 focus:outline-none resize-none"
-                onChange={(e) => setChat(e.target.value)}
-              />
+            <div className="relative">
+              <div
+                className="flex gap-6 overflow-x-auto pb-6 px-2 snap-x snap-mandatory scroll-smooth pt-[10px]"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
+                <style jsx>{`
+                  div::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+                {doctors.map((doc) => (
+                  <div
+                    key={doc.clerkId}
+                    onClick={() => handleDoctorClick(doc)}
+                    className={`min-w-[240px] snap-center cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                      selectedDoctor?.id === doc.id
+                        ? "ring-4 ring-green-500 shadow-2xl"
+                        : "hover:shadow-xl"
+                    }`}
+                  >
+                    <div className="bg-white rounded-2xl p-6 border-2 border-green-100 h-full">
+                      <div className="flex flex-col items-center gap-4">
+                        <div
+                          className={`w-20 h-20 rounded-full flex items-center justify-center transition-all ${
+                            selectedDoctor?.id === doc.id
+                              ? "bg-green-600"
+                              : "bg-gradient-to-br from-green-100 to-green-50"
+                          }`}
+                        >
+                          <ShieldUser
+                            size={40}
+                            className={
+                              selectedDoctor?.id === doc.id
+                                ? "text-white"
+                                : "text-green-600"
+                            }
+                          />
+                        </div>
+                        <div className="text-center">
+                          <p className="font-semibold text-gray-900 text-lg">
+                            {doc.username}
+                          </p>
+                          {selectedDoctor?.id === doc.id && (
+                            <p className="text-xs text-green-600 font-medium mt-1">
+                              Сонгогдсон
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <button
-            className="w-full bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2.5 rounded transition-colors"
-            onClick={() => createUserMessage(dName, chat)}
-          >
-            Илгээх
-          </button>
+          <div className="bg-white rounded-3xl shadow-2xl border-t-4 border-green-500 overflow-hidden">
+            <div className="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+              <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                <Send className="w-6 h-6" />
+                Эмчид мессеж илгээх
+              </h3>
+            </div>
+
+            <div className="p-8 space-y-6">
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <ShieldUser className="w-4 h-4 text-green-600" />
+                  Эмчийн нэр
+                </label>
+                <select
+                  value={dName}
+                  onChange={(e) => {
+                    setDName(e.target.value);
+                    const doc = doctors.find(
+                      (d) => d.username === e.target.value
+                    );
+                    setSelectedDoctor(doc || null);
+                  }}
+                  className="w-full rounded-xl border-2 border-green-200 bg-white px-4 py-3.5 text-gray-800
+                    focus:outline-none focus:ring-4 focus:ring-green-200 focus:border-green-500
+                    transition-all shadow-sm hover:border-green-300 text-base"
+                >
+                  <option value="">Эмч сонгох</option>
+                  {doctors.map((doc) => (
+                    <option key={doc.id} value={doc.username}>
+                      {doc.username}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <Send className="w-4 h-4 text-green-600" />
+                  Мессеж
+                </label>
+                <textarea
+                  placeholder="Өөрийн мессежээ энд бичнэ үү..."
+                  value={chat}
+                  className="w-full border-2 border-green-200 rounded-xl p-4 text-base min-h-[140px] 
+                    focus:border-green-500 focus:outline-none focus:ring-4 focus:ring-green-200 
+                    resize-none transition-all shadow-sm hover:border-green-300"
+                  onChange={(e) => setChat(e.target.value)}
+                />
+              </div>
+
+              <button
+                onClick={() => createUserMessage(dName, chat)}
+                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 
+                  hover:to-green-800 text-white text-base font-semibold py-4 rounded-xl 
+                  transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 
+                  active:translate-y-0 flex items-center justify-center gap-2 group"
+              >
+                <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Илгээх
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="h-[20%]">
+
+      <div className="h-20">
         <Footer />
       </div>
     </div>

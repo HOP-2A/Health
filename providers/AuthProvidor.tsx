@@ -1,5 +1,6 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   Dispatch,
@@ -67,6 +68,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     find();
   }, [clerkUser]);
+  const router = useRouter();
+  useEffect(() => {
+    if (doctor) {
+      router.push("/doctor");
+    }
+    if (user) {
+      router.push("/user");
+    }
+  }, [user, doctor]);
   const find = async () => {
     if (!clerkUser?.id) return;
     if (clerkUser.publicMetadata.role === "USER") {
