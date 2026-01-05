@@ -50,32 +50,44 @@ export default function MedicineDetail() {
 
   useEffect(() => {
     if (!user || !medicine) return;
-    fetch(`/api/liked-med?userId=${user.id}`)
+    fetch(`/api/liked-med?userId=${user.clerkId}`)
       .then((res) => res.json())
       .then((likes: { medicine: { id: string } }[]) => {
         setLiked(likes.some((l) => l.medicine.id === medicine.id));
-      });
+      })
+      .catch(console.error);
   }, [user, medicine]);
 
   const toggleLike = async () => {
     if (!user || !medicine) return;
+
     try {
       if (liked) {
-        await fetch(`/api/liked-med?medicineId=${medicine.id}`, {
+        const res = await fetch(`/api/liked-med?medicineId=${medicine.id}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.id }),
+          body: JSON.stringify({ userId: user.clerkId }),
         });
+
+        if (res.ok) {
+          setLiked(false);
+        }
       } else {
-        await fetch(`/api/liked-med`, {
+        const res = await fetch(`/api/liked-med`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ medicineId: medicine.id, userId: user.id }),
+          body: JSON.stringify({
+            userId: user.clerkId,
+            medicineId: medicine.id,
+          }),
         });
+
+        if (res.ok) {
+          setLiked(true);
+        }
       }
-      setLiked(!liked);
     } catch (err) {
-      console.error(err);
+      console.error("Like toggle error:", err);
     }
   };
 
@@ -213,7 +225,7 @@ export default function MedicineDetail() {
                   isLiked={false}
                   onLikeChange={() => {}}
                   userId={user?.id || ""}
-                  userClerckId={user?.id || ""}
+                  userClerckId={user?.clerkId || ""}
                 />
               ))}
             </div>
