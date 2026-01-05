@@ -23,10 +23,6 @@ export default function FindUser() {
   const [input, setInput] = useState("");
   const [users, setUsers] = useState<user[]>([]);
   const [doctors, setDoctors] = useState<doctor[]>([]);
-  const handleInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setInput(value);
-  };
 
   useEffect(() => {
     const findUsers = async () => {

@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/db";
 import CallDrugAi from "./CallDrugAi";
 import { Illness } from "@prisma/client";
-import { useProvider } from "@/providers/AuthProvidor";
 import { currentUser } from "@clerk/nextjs/server";
 
 export default async function AiResponse() {
@@ -15,12 +14,6 @@ export default async function AiResponse() {
       createdAt: "desc",
     },
     take: 1,
-    where: {
-      userId: user?.id,
-    },
-  });
-
-  const delte = await prisma.illness.deleteMany({
     where: {
       userId: user?.id,
     },
