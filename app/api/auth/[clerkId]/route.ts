@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   _req: NextRequest,
-  context: { params: { clerkId: string } }
+  context: { params: Promise<{ clerkId: string }> }
 ) => {
   const { clerkId } = await context.params;
 
@@ -22,4 +22,9 @@ export const GET = async (
   if (doctors) {
     return NextResponse.json(doctors);
   }
+
+  return NextResponse.json(
+    { error: "User or doctor not found" },
+    { status: 404 }
+  );
 };

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
   req: NextRequest,
-  context: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) => {
   const body = await req.json();
   const { userId } = await context.params;
@@ -32,7 +32,7 @@ export const POST = async (
 };
 export const GET = async (
   req: NextRequest,
-  context: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) => {
   const { userId } = await context.params;
   const messages = await prisma.doctorReview.findMany({

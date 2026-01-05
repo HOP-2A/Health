@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
-  context: { params: { doctorId: string } }
+  context: { params: Promise<{ doctorId: string }> }
 ) => {
   const { doctorId } = await context.params;
   const messages = await prisma.userMessage.findMany({

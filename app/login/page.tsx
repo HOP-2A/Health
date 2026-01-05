@@ -51,16 +51,16 @@ const Page = () => {
   const login = async () => {
     if (role === "user") {
     } else {
-      const res = await fetch("/api/doctor-login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: input.email,
-          password: input.password,
-        }),
-      });
+      // const res = await fetch("/api/doctor-login", {
+      //   method: "POST",
+      //   headers: {
+      //     "content-type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     email: input.email,
+      //     password: input.password,
+      //   }),
+      // });
     }
   };
   return (

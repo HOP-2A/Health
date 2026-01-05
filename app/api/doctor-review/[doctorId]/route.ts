@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (
   req: NextRequest,
-  context: { params: { doctorId: string } }
+  context: { params: Promise<{ doctorId: string }> }
 ) => {
   const body = await req.json();
   const { doctorId } = await context.params;
