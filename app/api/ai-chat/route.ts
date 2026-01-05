@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       .replace(/'/g, '"')
       .trim();
 
-    console.log(cleaned);
     const cooked = JSON.parse(cleaned);
 
     const { name, details, category } = cooked;
@@ -55,7 +54,7 @@ export async function POST(req: NextRequest) {
         category,
       },
     });
-    console.log("createdIllness:", createdIllness);
+
     return NextResponse.json(createdIllness);
   } catch (error: any) {
     console.error(error);
