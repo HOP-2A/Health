@@ -124,7 +124,7 @@ export default function Page() {
                     return (
                       <div
                         key={index}
-                        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-md space-y-4 h-fit"
+                        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-md space-y-4  w-[400px] h-[600px]"
                       >
                         <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
                           <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
