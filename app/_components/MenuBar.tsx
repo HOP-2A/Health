@@ -132,7 +132,7 @@ export default function MenuBar() {
                   shadow-lg
                   transition-all duration-200
                   hover:bg-white hover:scale-105
-                  active:scale-95
+                  active:scale-96
                 "
               >
                 Sign In
