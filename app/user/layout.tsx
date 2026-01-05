@@ -17,7 +17,10 @@ export default function RootLayout({
     if (doctor) {
       router.replace("/doctor");
     }
-  }, [doctor, router]);
+    if (!doctor && !user) {
+      router.replace("login");
+    }
+  }, [doctor, router, user]);
 
   // if (user === null) {
   //   return (

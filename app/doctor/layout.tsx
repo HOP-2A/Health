@@ -15,10 +15,13 @@ export default function DoctorLayout({
   useEffect(() => {
     if (user === null) return;
 
-    if (user) {
+    if (user && !doctor) {
       router.replace("/user");
     }
-  }, [user, router]);
+    if (!user && !doctor) {
+      router.replace("login");
+    }
+  }, [user, router, doctor]);
 
   // if (doctor === null) {
   //   return (
