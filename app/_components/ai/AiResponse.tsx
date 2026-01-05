@@ -19,12 +19,6 @@ export default async function AiResponse() {
     },
   });
 
-  const delte = await prisma.illness.deleteMany({
-    where: {
-      userId: user?.id,
-    },
-  });
-
   const isLoading = response.length === 0 || !response[0]?.category;
 
   return (
