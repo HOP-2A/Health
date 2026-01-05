@@ -37,15 +37,15 @@ export default function Home() {
   };
 
   return (
-    <div className=" relative overflow-hidden ">
+    <div className=" relative overflow-hidden flex flex-col w-[100vw] justify-center">
       <MenuBar />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[70vh] w-[100%] justify-center items-center p-[100px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[70vh] w-[90vw] justify-center items-center overflow-scroll p-[100px]">
         {replies.length === 0 ? (
-          <div className="text-white  font-medium text-2xl">
+          <div className="text-white  font-medium text-5xl">
             Одоогоор хариу алга
           </div>
         ) : (
-          <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3   w-[80vw] gap-[50px]">
             {replies.map((rep) => (
               <div
                 key={rep.id}
