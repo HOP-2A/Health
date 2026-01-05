@@ -69,14 +69,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     find();
   }, [clerkUser]);
   const router = useRouter();
-  useEffect(() => {
-    if (doctor && !user) {
-      router.push("/doctor");
-    }
-    if (user) {
-      router.push("/user");
-    }
-  }, []);
+  
 
   useEffect(() => {
     if (user) router.push("/user");
