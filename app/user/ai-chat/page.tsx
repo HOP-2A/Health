@@ -2,10 +2,11 @@ import DescriptionPrompt from "@/app/_components/ai/DescriptionPrompt";
 import AiResponse from "@/app/_components/ai/AiResponse";
 import { Heart, Search, Send, ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
+import Footer from "@/app/_components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col  overflow-hidden">
       <header
         className="
         w-full sticky top-0 z-50
@@ -65,6 +66,8 @@ export default function Home() {
           <AiResponse />
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
