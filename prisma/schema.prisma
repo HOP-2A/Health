@@ -61,16 +61,20 @@ model Illness {
 }
 
 model DoctorReview {
-  id        String                   @id @default(nanoid())
+  id        String   @id @default(nanoid())
   doctorId  String
-  illnessId String?                   
+  illnessId String?
   userId    String
   notes     String
-  createdAt DateTime                 @default(now())
-  doctor    Doctor                   @relation(fields: [doctorId], references: [id])
-  illness   Illness?                  @relation(fields: [illnessId], references: [id])
+  createdAt DateTime @default(now())
+
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
+  illness   Illness? @relation(fields: [illnessId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
   medicines DoctorReviewToMedicine[]
 }
+
 
 model DoctorReviewToMedicine {
   doctorReviewId String
