@@ -30,7 +30,8 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [likedItems, setLikedItems] = useState<string[]>([]);
   const { user: clerkUser } = useUser();
-  const { loading, user } = useAuth(clerkUser?.id);
+
+  const { loading, user } = useAuth(clerkUser?.id ?? "");
 
   useEffect(() => {
     if (!loading && user) {
@@ -84,7 +85,7 @@ export default function CallDrugAi({ category }: CallDrugAiProps) {
                 <MedCardAi
                   med={m}
                   userId={user?.id || ""}
-                  userClerckId={user?.clerkId}
+                  userClerckId={user?.clerkId || ""}
                   isLiked={likedItems.includes(m.id)}
                   onLikeChange={(id: string, liked: boolean) => {
                     setLikedItems((prev) =>

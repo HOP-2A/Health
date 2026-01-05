@@ -1,21 +1,28 @@
 import { prisma } from "@/lib/db";
 import CallDrugAi from "./CallDrugAi";
 import { Illness } from "@prisma/client";
+import { useProvider } from "@/providers/AuthProvidor";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default async function AiResponse() {
+  const clerkUser = await currentUser();
+
+  const user = await prisma.user.findUnique({
+    where: { clerkId: clerkUser?.id },
+  });
   const response: Illness[] = await prisma.illness.findMany({
     orderBy: {
       createdAt: "desc",
     },
     take: 1,
     where: {
-      userId: "test",
+      userId: user?.id,
     },
   });
 
   const delte = await prisma.illness.deleteMany({
     where: {
-      userId: "test",
+      userId: user?.id,
     },
   });
 
@@ -33,7 +40,7 @@ export default async function AiResponse() {
       transition-all duration-300
     "
       >
-        <h2 className="text-4xl font-extrabold mb-6 text-gray-300 tracking-tight">
+        <h2 className="text-4xl font-extrabold mb-6 text-black tracking-tight">
           AI-ийн хариу
         </h2>
 
