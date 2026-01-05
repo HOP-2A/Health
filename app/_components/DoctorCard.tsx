@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { User } from "lucide-react";
 
 type Doctor = {
   id: string;
@@ -16,14 +17,30 @@ type DoctorCardProps = {
 
 export const DoctorCard = ({ doctor }: DoctorCardProps) => {
   return (
-    <Card className="backdrop-blur-xl bg-linear-to-br from-white/5 via-white/10 to-white/5 rounded-3xl border border-white/20 shadow-lg hover:shadow-2xl hover:bg-linear-to-br hover:from-white/10 hover:via-white/20 hover:to-white/10 transition-all duration-300 h-full">
+    <Card
+      className="
+  bg-gray-700/40    
+  rounded-3xl 
+  border border-white/20 
+  shadow-lg 
+  hover:shadow-2xl 
+  transition-all duration-300 
+  h-full
+"
+    >
       <CardContent className="p-6 relative flex flex-col">
         <div className="w-full overflow-hidden rounded-2xl shadow-md mb-4">
-          <img
-            src={doctor.profilePic}
-            alt={doctor.username}
-            className="w-full aspect-4/3 object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
-          />
+          {doctor.profilePic ? (
+            <img
+              src={doctor.profilePic}
+              alt={doctor.username}
+              className="w-full aspect-4/3 object-cover rounded-2xl transition-transform duration-300 hover:scale-105"
+            />
+          ) : (
+            <div className="w-full aspect-4/3 flex items-center justify-center text-green-100 text-4xl font-bold">
+              <User size={30} />
+            </div>
+          )}
         </div>
 
         <h2 className="mt-2 text-2xl font-bold text-gray-100 line-clamp-2">

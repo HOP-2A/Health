@@ -2,14 +2,16 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 import CallDoctor from "../CallDoctor";
-
+import { useProvider } from "@/providers/AuthProvidor";
 export default function DescriptionPrompt() {
+  const { user: mainUser } = useProvider();
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
   };
+
   useEffect(() => {
     const storedPrompt = sessionStorage.getItem("prompt");
     if (storedPrompt) {
@@ -26,7 +28,7 @@ export default function DescriptionPrompt() {
       const res = await fetch("/api/ai-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, userId: mainUser?.id }),
       });
 
       if (!res.ok) throw new Error("Failed to get response");
@@ -62,7 +64,7 @@ export default function DescriptionPrompt() {
         transition-all duration-300
       "
         >
-          <h2 className="text-4xl font-extrabold mb-6 text-gray-300 tracking-tight">
+          <h2 className="text-4xl font-extrabold mb-6 text-black tracking-tight">
             Өвчний шинж тэмдгээ тайлбарлана уу
           </h2>
 

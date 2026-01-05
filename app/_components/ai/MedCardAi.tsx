@@ -12,7 +12,6 @@ type medicine = {
   price: number;
   stock: number;
   imageUrls: string[];
-  expiryDate: string;
 };
 
 interface MedCardProps {
@@ -41,7 +40,6 @@ export default function MedCardAi({
   useEffect(() => {
     setLiked(isLiked);
   }, [isLiked]);
-
   const toggleLike = async () => {
     if (!userId) {
       console.error("No userId");
@@ -59,7 +57,10 @@ export default function MedCardAi({
         await fetch(`/api/liked-med`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ medicineId: med.id, userId }),
+          body: JSON.stringify({
+            medicineId: med.id,
+            userId: userClerckId,
+          }),
         });
       }
 
