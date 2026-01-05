@@ -19,6 +19,12 @@ export default async function AiResponse() {
     },
   });
 
+  const delte = await prisma.illness.deleteMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+
   const isLoading = response.length === 0 || !response[0]?.category;
 
   return (
@@ -76,7 +82,7 @@ export default async function AiResponse() {
                 Үргэлжлүүлэхийн тулд өвчний тайлбараа бичнэ үү
               </div>
             ) : (
-              <div className="w-full text-center">
+              <div className="w-full text-center relative mt-20">
                 <h3 className="text-5xl text-amber-50 mb-2 leading-none">
                   Танд тус болж магадгүй эмүүд:
                 </h3>
