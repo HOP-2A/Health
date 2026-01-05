@@ -69,12 +69,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     find();
   }, [clerkUser]);
   const router = useRouter();
-  
 
-  useEffect(() => {
-    if (user) router.push("/user");
-    if (doctor) router.push("/doctor");
-  }, [user, doctor, router]);
   const find = async () => {
     if (!clerkUser?.id) return;
     if (clerkUser.publicMetadata.role === "USER") {
