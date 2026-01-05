@@ -164,30 +164,6 @@ export default function GetAllUser() {
                     </div>
                   )}
 
-                  {user.likes.length > 0 && (
-                    <div className="space-y-2 p-3 rounded-lg border border-pink-200 bg-pink-50 shadow-sm">
-                      <p className="text-sm font-bold text-pink-700 flex items-center gap-2">
-                        <Heart className="w-4 h-4" /> Таалагдсан эмүүд
-                      </p>
-
-                      <div className="max-h-64 overflow-y-auto space-y-2">
-                        {user.likes.map((like, index) => (
-                          <div
-                            key={like.id}
-                            className="flex justify-between items-center p-2.5 rounded-lg bg-white border border-pink-200"
-                          >
-                            <span className="text-sm font-semibold text-gray-700">
-                              {like.medicine.name}
-                            </span>
-                            <span className="text-sm font-bold text-pink-600">
-                              ₮{like.medicine.price.toLocaleString()}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
                   {user.orders.length > 0 && (
                     <div className="space-y-2 p-3 rounded-lg border border-gray-200 bg-gray-50 shadow-sm">
                       <p className="text-sm font-bold text-gray-700 flex items-center gap-2">

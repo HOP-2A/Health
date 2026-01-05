@@ -9,10 +9,7 @@ import Footer from "../_components/Footer";
 export default function Page() {
   const pathname = usePathname();
   return (
-    <div
-      className="relative min-h-screen  overflow-hidden"
-      
-    >
+    <div className="relative min-h-screen  overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}

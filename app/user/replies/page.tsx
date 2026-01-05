@@ -35,7 +35,7 @@ export default function Home() {
       toast.success("Устгагдсан");
     }
   };
-  console.log(replies);
+
   return (
     <div className=" relative overflow-hidden ">
       <MenuBar />
