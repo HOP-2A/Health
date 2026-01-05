@@ -9,7 +9,7 @@ import { User as userType } from "@/providers/AuthProvidor";
 import { CircleUser, Send } from "lucide-react";
 import { toast } from "sonner";
 import Footer from "@/app/_components/Footer";
-
+import { Doctor } from "@/providers/AuthProvidor";
 export type reviews = {
   id: string;
   doctorId: string;
@@ -17,6 +17,7 @@ export type reviews = {
   userId: string;
   notes: string;
   user: userType;
+  doctor: Doctor;
 };
 
 export type illness = {

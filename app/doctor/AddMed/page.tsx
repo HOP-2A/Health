@@ -189,7 +189,7 @@ export default function MedicinesPage() {
                           <FormLabel>Насний хязгаар</FormLabel>
                         </div>
                         <FormControl>
-                          <Input {...field} placeholder="18+" />
+                          <Input {...field} placeholder="18+" type="number" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
