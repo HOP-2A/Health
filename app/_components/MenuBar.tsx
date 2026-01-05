@@ -9,9 +9,40 @@ import {
   BookText,
 } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function MenuBar() {
   const { user } = useProvider();
+
+  const [cartCount, setCartCount] = useState<number>(0);
+  const [likedCount, setLikedCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchCounts = async () => {
+      try {
+        const cartRes = await fetch(`/api/find-order/${user.clerkId}`);
+        if (cartRes.ok) {
+          const cartData = await cartRes.json();
+          setCartCount(cartData.items?.length || 0);
+        }
+
+        const likedRes = await fetch(`/api/liked-med?userId=${user.clerkId}`);
+        if (likedRes.ok) {
+          const likedData = await likedRes.json();
+          setLikedCount(likedData?.length || 0);
+        }
+      } catch (error) {
+        console.error("Failed to fetch counts:", error);
+      }
+    };
+
+    fetchCounts();
+
+    const interval = setInterval(fetchCounts, 3000);
+    return () => clearInterval(interval);
+  }, [user]);
 
   return (
     <header
@@ -39,17 +70,29 @@ export default function MenuBar() {
 
         <div className="flex items-center gap-4">
           {[
-            { href: "/user/search", icon: <Search size={27} /> },
-            { href: "/user/drugCart", icon: <ShoppingCart size={27} /> },
-            { href: "/user/likedDrug", icon: <Heart size={27} /> },
-            { href: "/user/replies", icon: <BookText size={27} /> },
-            { href: "/user/createMessage", icon: <Send size={27} /> },
-            { href: "/user/profile", icon: <UserRound size={27} /> },
+            { href: "/user/search", icon: <Search size={27} />, badge: 0 },
+            {
+              href: "/user/drugCart",
+              icon: <ShoppingCart size={27} />,
+              badge: cartCount,
+            },
+            {
+              href: "/user/likedDrug",
+              icon: <Heart size={27} />,
+              badge: likedCount,
+            },
+            { href: "/user/replies", icon: <BookText size={27} />, badge: 0 },
+            {
+              href: "/user/createMessage",
+              icon: <Send size={27} />,
+              badge: 0,
+            },
+            { href: "/user/profile", icon: <UserRound size={27} />, badge: 0 },
           ].map((item, i) => (
             <Link key={i} href={item.href}>
               <button
                 className="
-                  p-2 rounded-full
+                  relative p-2 rounded-full
                   bg-white/20
                   backdrop-blur-lg
                   border border-white/30
@@ -60,6 +103,22 @@ export default function MenuBar() {
                 "
               >
                 {item.icon}
+                {item.badge > 0 && (
+                  <span
+                    className="
+                      absolute -top-1 -right-1
+                      min-w-[20px] h-5 px-1.5
+                      flex items-center justify-center
+                      bg-red-500 text-white text-xs font-bold
+                      rounded-full
+                      border-2 border-white
+                      shadow-lg
+                     
+                    "
+                  >
+                    {item.badge > 9 ? "9+" : item.badge}
+                  </span>
+                )}
               </button>
             </Link>
           ))}

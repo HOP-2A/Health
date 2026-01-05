@@ -2,7 +2,6 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { toast } from "sonner";
 
 import MenuBar from "@/app/_components/MenuBar";
@@ -31,7 +30,6 @@ export default function MedicineDetail() {
   const [liked, setLiked] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // Fetch main medicine
   useEffect(() => {
     if (!medicineId) return;
     fetch(`/api/getMedicineByid/${medicineId}`)
@@ -40,7 +38,6 @@ export default function MedicineDetail() {
       .catch(console.error);
   }, [medicineId]);
 
-  // Fetch related medicines
   useEffect(() => {
     if (!medicine?.category) return;
     fetch(`/api/getMedicinesByCategory/${medicine.category}`)
@@ -51,7 +48,6 @@ export default function MedicineDetail() {
       .catch(console.error);
   }, [medicine]);
 
-  // Fetch liked state
   useEffect(() => {
     if (!user || !medicine) return;
     fetch(`/api/liked-med?userId=${user.id}`)
