@@ -70,13 +70,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [clerkUser]);
   const router = useRouter();
   useEffect(() => {
-    if (doctor) {
+    if (doctor && !user) {
       router.push("/doctor");
     }
     if (user) {
       router.push("/user");
     }
-  }, [user, doctor]);
+  }, []);
   const find = async () => {
     if (!clerkUser?.id) return;
     if (clerkUser.publicMetadata.role === "USER") {
