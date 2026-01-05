@@ -41,7 +41,7 @@ export default async function AiResponse() {
           AI-ийн хариу:
         </label>
 
-        <div className="bg-gray-400 h-41 border border-white p-5 rounded-2xl w-200">
+        <div className="bg-gray-400  border h-[200px] border-white p-5 rounded-2xl w-200">
           {response.map((r) => {
             return (
               <div key={r.id}>
