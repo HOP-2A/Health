@@ -60,10 +60,9 @@ const Page = () => {
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
 
-        // Wait a bit for the session to be fully set
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        router.push("/"); // Change to your desired route
+        router.push("/");
       }
     } catch (err) {
       console.error("Error:", err);

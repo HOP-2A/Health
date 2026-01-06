@@ -56,11 +56,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       if (!clerkUser) {
         setLoading(false);
-        router.push("/login");
+
         return;
       }
 
-      // Fetch user/doctor data based on role
       if (clerkUser.publicMetadata.role === "USER") {
         const res = await fetch(`/api/find-user/${clerkUser.id}`, {
           method: "GET",

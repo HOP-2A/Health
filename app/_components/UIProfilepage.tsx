@@ -50,7 +50,15 @@ export default function UIProfilePage() {
     if (!user) return;
 
     const fetchLikes = async () => {
-      const res = await fetch(`/api/liked-med?userId=${clerkUser?.id}`);
+      if (!clerkUser?.id) return;
+
+      const res = await fetch(`/api/liked-med?userId=${clerkUser.id}`);
+
+      if (!res.ok) {
+        console.error("Failed to fetch likes:", res.status);
+        return;
+      }
+
       const data = await res.json();
       setLikedItems(data.map((d: { medicine: Medicine }) => d.medicine));
     };
@@ -64,7 +72,7 @@ export default function UIProfilePage() {
   }, [user]);
 
   return (
-    <div className="min-h-screen w-full flex justify-center p-8">
+    <div className="min-h-screen w-full flex justify-center p-8 bg-gray-100">
       <div className="w-full max-w-5xl h-[88vh] flex overflow-hidden rounded-2xl shadow-xl border border-green-200/40 bg-white/60 backdrop-blur-xl">
         <div className="w-1/3 p-8 flex flex-col items-center text-center bg-green-50/70 border-r border-green-200/50">
           <div className="p-4 rounded-full bg-white/90 shadow-md">
@@ -74,7 +82,6 @@ export default function UIProfilePage() {
               className="w-24 h-24 rounded-full object-cover"
             />
           </div>
-
           <h2 className="mt-6 text-2xl font-bold text-gray-800">
             {user?.username}
           </h2>
@@ -95,106 +102,108 @@ export default function UIProfilePage() {
           </div>
         </div>
 
-        <div className="w-2/3 p-8 flex flex-col justify-between">
-          <div>
-            <h3 className="text-2xl font-semibold mb-6 text-gray-800 tracking-tight">
-              Таалагдсан эмнүүд
-            </h3>
-            <Carousel
-              opts={{ loop: true }}
-              plugins={[autoplayy.current]}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2.5">
-                {likedItems.map((med, i) => (
-                  <CarouselItem
-                    key={i}
-                    className="pl-4 md:basis-1/2 lg:basis-1/3"
-                  >
-                    <div className="w-full h-[280px] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
-                      <div className="w-full h-[160px] flex items-center justify-center">
-                        <img
-                          src={med.imageUrls[0]}
-                          alt={med.name}
-                          className="max-w-full max-h-full object-contain"
-                        />
-                      </div>
-                      <div className="w-full text-center">
-                        <div className="font-bold text-lg truncate">
-                          {med.name}
+        <div className="w-2/3 p-8 flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            <div>
+              <h3 className="text-2xl font-semibold text-gray-800 tracking-tight mb-5">
+                Таалагдсан эмнүүд
+              </h3>
+              <Carousel
+                opts={{ loop: true }}
+                plugins={[autoplayy.current]}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2.5">
+                  {likedItems.map((med, i) => (
+                    <CarouselItem
+                      key={i}
+                      className="pl-4 flex-[1_0_100%] sm:flex-[1_0_65%] md:flex-[1_0_45%] lg:flex-[1_0_35%]"
+                    >
+                      <div className="w-full aspect-[4/5] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
+                        <div className="w-full flex-1 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={med.imageUrls[0]}
+                            alt={med.name}
+                            className="w-full h-full object-contain"
+                          />
                         </div>
-                        <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
-                          {med.price}₮
+
+                        <div className="w-full text-center mt-4 h-20">
+                          <div className="font-bold text-lg truncate">
+                            {med.name}
+                          </div>
+                          <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
+                            {med.price}₮
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-800">
+                Захиалсан эмнүүд
+              </h3>
+              <Carousel
+                opts={{ loop: true }}
+                plugins={[autoplay.current]}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2.5">
+                  {orderItems.map((med, i) => (
+                    <CarouselItem
+                      key={i}
+                      className="pl-4 flex-[1_0_100%] sm:flex-[1_0_65%] md:flex-[1_0_45%] lg:flex-[1_0_35%]"
+                    >
+                      <div className="w-full aspect-[4/5] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
+                        <div className="w-full flex-1 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={med.imageUrls[0]}
+                            alt={med.name}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+
+                        <div className="w-full text-center mt-4 h-20">
+                          <div className="font-bold text-lg truncate">
+                            {med.name}
+                          </div>
+                          <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
+                            {med.price}₮
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
           </div>
 
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold mb-6 text-gray-800 tracking-tight">
-              Захиалсан эмнүүд
-            </h3>
-            <Carousel
-              opts={{ loop: true }}
-              plugins={[autoplay.current]}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-2.5">
-                {orderItems.map((med, i) => (
-                  <CarouselItem
-                    key={i}
-                    className="pl-4 md:basis-1/2 lg:basis-1/3"
-                  >
-                    <div className="w-full h-[280px] bg-white/90 rounded-2xl p-4 flex flex-col items-center justify-between shadow-sm hover:shadow-md transition-all">
-                      <div className="w-full h-[160px] flex items-center justify-center">
-                        <img
-                          src={med.imageUrls[0]}
-                          alt={med.name}
-                          className="max-w-full max-h-full object-contain"
-                        />
-                      </div>
-                      <div className="w-full text-center">
-                        <div className="font-bold text-lg truncate">
-                          {med.name}
-                        </div>
-                        <div className="flex justify-center gap-1 mt-1 text-green-600 font-semibold">
-                          {med.price}₮
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
-
-          <div className="flex gap-6 mt-8 justify-center">
+          <div className="flex gap-6 mt-auto justify-center">
             <button
-              className="flex-1 py-3 rounded-lg bg-green-600 text-white font-medium flex items-center justify-center gap-2
-               transition-colors duration-200 hover:bg-green-500"
+              className="flex-1 py-3 rounded-lg bg-green-600 text-white font-medium flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-green-500"
               onClick={() => setOpenProfile(true)}
             >
               <Edit size={20} /> Edit Profile
             </button>
 
             <button
-              className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
-               transition-colors duration-200 hover:bg-red-500"
+              className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2 transition-colors duration-200 hover:bg-red-500"
               onClick={() => completelyLogout({ redirectUrl: "/user" })}
             >
               <LogOut size={20} /> Logout
             </button>
-
-            {openProfile && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                <UserProfile />
-              </div>
-            )}
           </div>
+
+          {openProfile && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <UserProfile />
+            </div>
+          )}
         </div>
       </div>
     </div>
