@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       // If no clerk user, redirect to login
       if (!clerkUser) {
         setLoading(false);
+        router.push("/login");
         return;
       }
 
