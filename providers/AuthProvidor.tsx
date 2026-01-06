@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       if (!clerkUser) {
         setLoading(false);
-        router.push("/login");
+        // router.push("/login");
         return;
       }
 

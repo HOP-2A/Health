@@ -2,29 +2,26 @@ import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
-  const { searchParams } = new URL(req.url);
-  const userId = searchParams.get("userId");
+  const userId = req.nextUrl.searchParams.get("userId");
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 400 });
   }
 
   const user = await prisma.user.findUnique({
-    where: {
-      clerkId: userId,
-    },
+    where: { clerkId: userId },
   });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
 
   const likes = await prisma.like.findMany({
-    where: {
-      userId: user?.id,
-    },
-    include: {
-      medicine: true,
-    },
+    where: { userId: user.id },
+    include: { medicine: true },
   });
 
-  return NextResponse.json(likes);
+  return NextResponse.json(likes ?? []);
 };
 
 export const POST = async (req: NextRequest) => {
