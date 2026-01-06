@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import MenuBar from "@/app/_components/MenuBar";
 import Footer from "@/app/_components/Footer";
-import { Mail, Phone, Award, GraduationCap } from "lucide-react";
+import { Mail, Phone, Award, GraduationCap, User } from "lucide-react";
 
 type doctor = {
   id: string;
@@ -42,7 +42,6 @@ export default function DoctorDetail() {
       <MenuBar />
 
       <main className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Hero Section */}
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
           <div className="relative h-48 bg-gradient-to-r from-green-500 via-green-300 to-green-500">
             <div className="absolute inset-0 bg-black opacity-10"></div>
@@ -52,14 +51,21 @@ export default function DoctorDetail() {
           <div className="px-6 md:px-12 pb-8">
             <div className="flex flex-col md:flex-row items-center md:items-end -mt-20 relative z-10">
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-green-600 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                <img
-                  src={doctor.profilePic || "/default-avatar.png"}
-                  alt={doctor.username}
-                  className="relative w-40 h-40 rounded-full border-8 border-white shadow-2xl object-cover"
-                />
-                <div className="absolute bottom-2 right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center">
-                  <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+
+                {doctor?.profilePic ? (
+                  <img
+                    src={doctor.profilePic}
+                    className="relative w-32 h-32 rounded-full border-8 border-white shadow-2xl object-cover bg-white"
+                  />
+                ) : (
+                  <div className="relative w-32 h-32 rounded-full border-8 border-white shadow-2xl bg-white flex items-center justify-center">
+                    <User className="w-16 h-16 text-green-600" />
+                  </div>
+                )}
+
+                <div className="absolute bottom-1 right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-white flex items-center justify-center">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                 </div>
               </div>
 

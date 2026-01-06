@@ -188,9 +188,8 @@ export default function GetAllUser() {
                                 ₮{order.totalPrice.toLocaleString()}
                               </span>
                             </div>
-
-                            <div className="max-h-64 overflow-y-auto space-y-2">
-                              {order.items.map((item, index) => (
+                            <div className="space-y-2 max-h-[220px] overflow-y-auto">
+                              {order.items.slice(0, 5).map((item) => (
                                 <div
                                   key={item.id}
                                   className="flex justify-between items-center text-xs bg-gray-50 p-2 rounded"
@@ -206,6 +205,26 @@ export default function GetAllUser() {
                                   </span>
                                 </div>
                               ))}
+                              {order.items.length > 5 && (
+                                <div>
+                                  {order.items.slice(5).map((item) => (
+                                    <div
+                                      key={item.id}
+                                      className="flex justify-between items-center text-xs bg-gray-50 p-2 rounded mt-2"
+                                    >
+                                      <span className="font-medium text-gray-700">
+                                        {item.medicine.name}{" "}
+                                        <span className="text-emerald-600 font-bold">
+                                          × {item.quantity}
+                                        </span>
+                                      </span>
+                                      <span className="font-semibold text-gray-600">
+                                        ₮{item.medicine.price.toLocaleString()}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           </div>
                         ))}
