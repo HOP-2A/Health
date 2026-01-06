@@ -1,7 +1,7 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
-import { useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Mail, Phone, User, Timer, CircleUserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -17,6 +17,7 @@ type reviews = {
   user: userType;
 };
 export default function UIProfilePage() {
+  const { signOut } = useClerk();
   const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
@@ -25,7 +26,14 @@ export default function UIProfilePage() {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [doctorReviews, setDoctorReviews] = useState<reviews[]>([]);
 
-  const { doctor } = useProvider();
+  const { doctor, setDoctor } = useProvider();
+  const Logout = async () => {
+    setDoctor(null);
+  };
+  const completelyLogout = async (p0: { redirectUrl: string }) => {
+    signOut();
+    Logout();
+  };
   useEffect(() => {
     if (doctor == null) return;
     const findReviews = async () => {
@@ -137,6 +145,13 @@ export default function UIProfilePage() {
               </Carousel>
             </div>
           </div>
+          <button
+            className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
+               transition-colors duration-200 hover:bg-red-500"
+            onClick={() => completelyLogout({ redirectUrl: "/user" })}
+          >
+            <LogOut size={20} /> Logout
+          </button>
         </div>
       </div>
     </div>
