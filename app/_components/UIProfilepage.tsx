@@ -1,9 +1,11 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
-import { UserProfile, useUser } from "@clerk/nextjs";
+import { useClerk, UserProfile, useUser } from "@clerk/nextjs";
 import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 type Medicine = {
   id: string;
   name: string;
@@ -18,9 +20,12 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { prisma } from "@/lib/db";
 export default function UIProfilePage() {
+  const router = useRouter();
   const [likedItems, setLikedItems] = useState<Medicine[]>([]);
-  const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
+  const { signOut } = useClerk();
+  const date = new Date("Tue Jan 08 2026 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
@@ -29,8 +34,18 @@ export default function UIProfilePage() {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const autoplayy = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [orderItems, setOrderItems] = useState<Medicine[]>([]);
-  const { user } = useProvider();
+  const { user, setUser } = useProvider();
   const { user: clerkUser } = useUser();
+
+  const Logout = async () => {
+    setUser(null);
+  };
+
+  const completelyLogout = async (p0: { redirectUrl: string }) => {
+    signOut();
+    Logout();
+    router.push("/");
+  };
   useEffect(() => {
     if (!user) return;
 
@@ -169,6 +184,7 @@ export default function UIProfilePage() {
             <button
               className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
                transition-colors duration-200 hover:bg-red-500"
+              onClick={() => completelyLogout({ redirectUrl: "/user" })}
             >
               <LogOut size={20} /> Logout
             </button>
