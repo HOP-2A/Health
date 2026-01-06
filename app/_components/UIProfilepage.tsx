@@ -1,7 +1,7 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
-import { UserProfile, useUser } from "@clerk/nextjs";
+import { useClerk, UserProfile, useUser } from "@clerk/nextjs";
 import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type Medicine = {
@@ -20,6 +20,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 export default function UIProfilePage() {
   const [likedItems, setLikedItems] = useState<Medicine[]>([]);
+  const { signOut } = useClerk();
   const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
@@ -169,6 +170,7 @@ export default function UIProfilePage() {
             <button
               className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
                transition-colors duration-200 hover:bg-red-500"
+              onClick={() => signOut({ redirectUrl: "/user" })}
             >
               <LogOut size={20} /> Logout
             </button>

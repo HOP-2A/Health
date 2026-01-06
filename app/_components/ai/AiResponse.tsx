@@ -2,9 +2,14 @@ import { prisma } from "@/lib/db";
 import CallDrugAi from "./CallDrugAi";
 import { Illness } from "@prisma/client";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function AiResponse() {
   const clerkUser = await currentUser();
+
+  if (!clerkUser) {
+    redirect("/login");
+  }
 
   const user = await prisma.user.findUnique({
     where: { clerkId: clerkUser?.id },
