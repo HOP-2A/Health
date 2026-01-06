@@ -50,16 +50,18 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const find = async () => {
+      // Wait for Clerk to load
       if (!isLoaded) {
         return;
       }
 
+      // If no clerk user, redirect to login
       if (!clerkUser) {
         setLoading(false);
-        router.push("/login");
         return;
       }
 
+      // Fetch user/doctor data based on role
       if (clerkUser.publicMetadata.role === "USER") {
         const res = await fetch(`/api/find-user/${clerkUser.id}`, {
           method: "GET",

@@ -59,8 +59,11 @@ const Page = () => {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
+
+        // Wait a bit for the session to be fully set
         await new Promise((resolve) => setTimeout(resolve, 500));
-        router.push("/");
+
+        router.push("/"); // Change to your desired route
       }
     } catch (err) {
       console.error("Error:", err);
@@ -151,7 +154,7 @@ const Page = () => {
                       </button>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Dont have an account?
+                      Don&apos;t have an account?{" "}
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}
@@ -214,7 +217,7 @@ const Page = () => {
                       <div className="absolute bottom-20 right-24 w-40 h-20 bg-green-600 rounded-full opacity-50"></div>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Dont have an account?
+                      Don&apos;t have an account?{" "}
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}
