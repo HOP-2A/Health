@@ -45,10 +45,21 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const { user: clerkUser } = useUser();
+  const { user: clerkUser, isLoaded } = useUser();
+  const router = useRouter();
+
   useEffect(() => {
     const find = async () => {
-      if (!clerkUser?.id) return;
+      if (!isLoaded) {
+        return;
+      }
+
+      if (!clerkUser) {
+        setLoading(false);
+        router.push("/login");
+        return;
+      }
+
       if (clerkUser.publicMetadata.role === "USER") {
         const res = await fetch(`/api/find-user/${clerkUser.id}`, {
           method: "GET",
@@ -67,8 +78,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     };
 
     find();
-  }, [clerkUser]);
-  const router = useRouter();
+  }, [clerkUser, isLoaded, router]);
 
   const find = async () => {
     if (!clerkUser?.id) return;
@@ -88,6 +98,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setDoctor(doctorData);
     }
   };
+
   const values = {
     user,
     setUser,

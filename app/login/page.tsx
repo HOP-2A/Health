@@ -2,9 +2,11 @@
 import { AnimatePresence, motion, Transition } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import { useSignIn } from "@clerk/nextjs";
 import MenuBar from "../_components/MenuBar";
 import { usePathname } from "next/navigation";
 import Footer from "../_components/Footer";
+
 const smooth: Transition = {
   type: "spring",
   stiffness: 90,
@@ -16,23 +18,20 @@ const Page = () => {
   const [role, setRole] = useState<"user" | "doctor">("user");
   const pathname = usePathname();
   const router = useRouter();
+  const { isLoaded, signIn, setActive } = useSignIn();
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
+
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "email") {
-      setInput((prev) => {
-        return { ...prev, email: value };
-      });
-    }
-    if (name === "password") {
-      setInput((prev) => {
-        return { ...prev, password: value };
-      });
-    }
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
   const changeRoleToDoc = () => {
     setRole("doctor");
     setInput({
@@ -40,6 +39,7 @@ const Page = () => {
       password: "",
     });
   };
+
   const changeRoleToUser = () => {
     setRole("user");
     setInput({
@@ -49,20 +49,24 @@ const Page = () => {
   };
 
   const login = async () => {
-    if (role === "user") {
-    } else {
-      // const res = await fetch("/api/doctor-login", {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     email: input.email,
-      //     password: input.password,
-      //   }),
-      // });
+    if (!isLoaded || !signIn) return;
+
+    try {
+      const result = await signIn.create({
+        identifier: input.email,
+        password: input.password,
+      });
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        router.push("/");
+      }
+    } catch (err) {
+      console.error("Error:", err);
     }
   };
+
   return (
     <div className="w-screen flex items-center  relative min-h-screen flex-col overflow-hidden gap-[30px]">
       <AnimatePresence mode="wait">
@@ -77,7 +81,7 @@ const Page = () => {
           <MenuBar />
           <div className="flex">
             <button
-              onClick={() => changeRoleToDoc()}
+              onClick={changeRoleToDoc}
               className="px-4 py-2 rounded-xl bg-green-600 text-white font-medium 
              hover:bg-green-700 active:scale-95 transition-all w-[150px] h-[50px]"
             >
@@ -85,7 +89,7 @@ const Page = () => {
             </button>
 
             <button
-              onClick={() => changeRoleToUser()}
+              onClick={changeRoleToUser}
               className="px-4 py-2 rounded-xl bg-gray-200 text-gray-800 font-medium
              hover:bg-gray-300 active:scale-95 transition-all ml-3  w-[150px] h-[50px]"
             >
@@ -126,6 +130,7 @@ const Page = () => {
                       <input
                         type="text"
                         name="email"
+                        value={input.email}
                         onChange={handleInput}
                         placeholder="Email"
                         className="p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -133,6 +138,7 @@ const Page = () => {
                       <input
                         type="password"
                         name="password"
+                        value={input.password}
                         onChange={handleInput}
                         placeholder="Password"
                         className="p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -145,7 +151,7 @@ const Page = () => {
                       </button>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Don’t have an account?
+                      Dont have an account?
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}
@@ -182,6 +188,7 @@ const Page = () => {
                       <input
                         type="email"
                         name="email"
+                        value={input.email}
                         onChange={handleInput}
                         placeholder="Email"
                         className="p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -189,6 +196,7 @@ const Page = () => {
                       <input
                         type="password"
                         name="password"
+                        value={input.password}
                         onChange={handleInput}
                         placeholder="Password"
                         className="p-3 rounded-xl border border-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -206,7 +214,7 @@ const Page = () => {
                       <div className="absolute bottom-20 right-24 w-40 h-20 bg-green-600 rounded-full opacity-50"></div>
                     </div>
                     <p className="text-sm mt-4 text-gray-600">
-                      Don’t have an account?
+                      Dont have an account?
                       <span
                         className="text-green-700 cursor-pointer"
                         onClick={() => router.push("/signup")}
