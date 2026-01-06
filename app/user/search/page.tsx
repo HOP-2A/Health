@@ -84,7 +84,6 @@ export default function Page() {
           transition={{ duration: 0.45, ease: "easeOut" }}
           className="flex-1"
         >
-          {/* 🔍 Search section */}
           <section className="pt-28 pb-16 px-4">
             <div className="max-w-2xl mx-auto">
               <h2 className="text-4xl font-extrabold text-center text-green-700 mb-8 drop-shadow-sm">
@@ -119,7 +118,6 @@ export default function Page() {
             </div>
           </section>
 
-          {/* 💊 Medicine list */}
           <section className="px-4 pb-24">
             <div
               className="

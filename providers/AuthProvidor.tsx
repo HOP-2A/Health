@@ -50,12 +50,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const find = async () => {
-      // Wait for Clerk to load
       if (!isLoaded) {
         return;
       }
 
-      // If no clerk user, redirect to login
       if (!clerkUser) {
         setLoading(false);
         // router.push("/login");
