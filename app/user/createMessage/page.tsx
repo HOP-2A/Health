@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import MenuBar from "@/app/_components/MenuBar";
 import { Doctor as dType, useProvider } from "@/providers/AuthProvidor";
-import { ShieldUser, Send, Stethoscope } from "lucide-react";
+import { ShieldUser, Send, Stethoscope, Eye } from "lucide-react";
 import { toast } from "sonner";
 import Footer from "@/app/_components/Footer";
+import Link from "next/link";
 
 export default function Home() {
   const [doctors, setDoctors] = useState<dType[]>([]);
@@ -125,6 +126,15 @@ export default function Home() {
                           )}
                         </div>
                       </div>
+                      <Link
+                        href={`/user/AboutDoctor/${doc.id}`}
+                        className="flex-1 h-10 flex items-center justify-center gap-2 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        <Eye className="w-4 h-4 text-gray-600" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Харах
+                        </span>
+                      </Link>
                     </div>
                   </div>
                 ))}
