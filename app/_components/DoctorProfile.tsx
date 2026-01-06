@@ -1,7 +1,7 @@
 "use client";
 
 import { useProvider } from "@/providers/AuthProvidor";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { useClerk, useUser, UserProfile } from "@clerk/nextjs";
 import {
   Mail,
   Phone,
@@ -11,6 +11,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
@@ -24,6 +25,7 @@ type reviews = {
   user: userType;
 };
 export default function UIProfilePage() {
+  const router = useRouter();
   const { signOut } = useClerk();
   const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -33,13 +35,15 @@ export default function UIProfilePage() {
   const autoplay = useRef(Autoplay({ delay: 1500, stopOnInteraction: false }));
   const [doctorReviews, setDoctorReviews] = useState<reviews[]>([]);
 
-  const { doctor, setDoctor } = useProvider();
+  const { doctor, setDoctor, setUser } = useProvider();
   const Logout = async () => {
     setDoctor(null);
+    setUser(null);
   };
   const completelyLogout = async (p0: { redirectUrl: string }) => {
     signOut();
     Logout();
+    router.push("/");
   };
   useEffect(() => {
     if (doctor == null) return;

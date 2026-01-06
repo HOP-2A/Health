@@ -4,6 +4,8 @@ import { useProvider } from "@/providers/AuthProvidor";
 import { useClerk, UserProfile, useUser } from "@clerk/nextjs";
 import { Mail, Phone, Edit, LogOut, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+
 type Medicine = {
   id: string;
   name: string;
@@ -20,9 +22,10 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import { prisma } from "@/lib/db";
 export default function UIProfilePage() {
+  const router = useRouter();
   const [likedItems, setLikedItems] = useState<Medicine[]>([]);
   const { signOut } = useClerk();
-  const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
+  const date = new Date("Tue Jan 08 2026 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
@@ -41,6 +44,7 @@ export default function UIProfilePage() {
   const completelyLogout = async (p0: { redirectUrl: string }) => {
     signOut();
     Logout();
+    router.push("/");
   };
   useEffect(() => {
     if (!user) return;
