@@ -6,9 +6,12 @@ export const DELETE = async (
   context: { params: Promise<{ id: string }> }
 ) => {
   const { id } = await context.params;
-  await prisma.order.delete({
+  await prisma.order.update({
     where: {
       id,
+    },
+    data: {
+      status: "delievered",
     },
   });
   return NextResponse.json("successful");
