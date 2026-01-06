@@ -10,6 +10,9 @@ export const GET = async (req: NextRequest) => {
         },
       },
       orders: {
+        where: {
+          status: "pending",
+        },
         include: {
           items: {
             include: {
