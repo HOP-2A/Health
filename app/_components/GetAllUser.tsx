@@ -10,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type User = {
   id: string;
@@ -48,7 +49,16 @@ export default function GetAllUser() {
     };
     fetchUsers();
   }, []);
-
+  console.log(users);
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("/api/get-all-user");
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  };
   const getStatusColor = (status: string) => {
     const colors = {
       delivered: "bg-emerald-500",
@@ -58,7 +68,15 @@ export default function GetAllUser() {
     };
     return colors[status as keyof typeof colors] || "bg-gray-500";
   };
-
+  const deleteOrder = async (id: string) => {
+    const res = await fetch(`/api/delete-order/${id}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      fetchUsers();
+      toast.success("Амжилттай");
+    }
+  };
   return (
     <div className="min-h-screen py-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -119,15 +137,6 @@ export default function GetAllUser() {
                       border: "border-emerald-200",
                       text: "text-emerald-700",
                       iconColor: "text-emerald-600",
-                    },
-                    {
-                      icon: Heart,
-                      count: user.likes.length,
-                      label: "Likes",
-                      bg: "bg-pink-50",
-                      border: "border-pink-200",
-                      text: "text-pink-700",
-                      iconColor: "text-pink-600",
                     },
                   ].map((item, i) => {
                     const Icon = item.icon;
@@ -228,6 +237,14 @@ export default function GetAllUser() {
                             </div>
                           </div>
                         ))}
+                      </div>
+                      <div className="p-[20px]">
+                        <button
+                          className="px-4 py-2 rounded-2xl bg-green-600 text-white font-semibold text-sm shadow-md cursor-default"
+                          onClick={() => deleteOrder(user.orders[0].id)}
+                        >
+                          Дуусгах
+                        </button>
                       </div>
                     </div>
                   )}

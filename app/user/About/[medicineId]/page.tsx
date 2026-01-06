@@ -186,16 +186,16 @@ export default function MedicineDetail() {
 
             <div className="flex items-center mt-2 w-36 border border-white/30 rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl">
               <button
-                className="w-12 h-10 bg-white/20 text-xl text-white hover:bg-white/30 transition"
+                className="w-12 h-10 bg-white/20 text-xl text-black hover:bg-white/30 transition"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
               >
                 −
               </button>
-              <span className="w-12 h-10 flex items-center justify-center bg-white/10 text-white">
+              <span className="w-12 h-10 flex items-center justify-center bg-white/10 text-black">
                 {quantity}
               </span>
               <button
-                className="w-12 h-10 bg-white/20 text-xl text-white hover:bg-white/30 transition"
+                className="w-12 h-10 bg-white/20 text-xl text-black hover:bg-white/30 transition"
                 onClick={() => setQuantity(quantity + 1)}
               >
                 +
@@ -206,7 +206,7 @@ export default function MedicineDetail() {
               className="w-full mt-5 py-3 rounded-xl text-lg font-semibold bg-green-500 text-white shadow-md hover:bg-green-600 hover:shadow-lg active:scale-95 transition-all duration-200"
               onClick={addToCart}
             >
-              Сагсанд нэмэх
+              Захиалах
             </button>
           </div>
         </div>
