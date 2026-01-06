@@ -2,7 +2,14 @@
 
 import { useProvider } from "@/providers/AuthProvidor";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { Mail, Phone, User, Timer, CircleUserRound } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  User,
+  Timer,
+  CircleUserRound,
+  LogOut,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import Autoplay from "embla-carousel-autoplay";
@@ -49,12 +56,12 @@ export default function UIProfilePage() {
     <div className="min-h-screen w-full flex justify-center p-8">
       <div
         className="
-          w-full max-w-5xl h-[88vh]
-          rounded-[28px] overflow-hidden
-          shadow-[0_25px_70px_rgba(0,120,80,0.45)]
-          border border-green-300/50
-          bg-cover bg-center bg-no-repeat
-        "
+      w-full max-w-5xl h-[88vh]
+      rounded-[28px] overflow-hidden
+      shadow-[0_25px_70px_rgba(0,120,80,0.45)]
+      border border-green-300/50
+      bg-cover bg-center bg-no-repeat
+    "
         style={{
           background: "linear-gradient(to top, #c1dfc4 0%, #deecdd 100%)",
         }}
@@ -62,10 +69,10 @@ export default function UIProfilePage() {
         <div className="flex h-full">
           <div
             className="
-              w-1/3 p-10 flex flex-col items-center text-center
-              bg-white/95
-              border-r border-green-300/50
-            "
+          w-1/3 p-10 flex flex-col items-center text-center
+          bg-white/95
+          border-r border-green-300/50
+        "
           >
             <div className="p-4 rounded-full bg-green-100 shadow-[0_6px_20px_rgba(0,120,80,0.25)]">
               <img
@@ -105,9 +112,8 @@ export default function UIProfilePage() {
 
           <div
             className="
-              w-2/3 p-10 flex flex-col justify-between
-              
-            "
+          w-2/3 p-10 flex flex-col justify-between
+        "
           >
             <div className="flex flex-col">
               <h3 className="text-3xl font-bold mb-8 text-black tracking-tight drop-shadow-lg">
@@ -124,15 +130,15 @@ export default function UIProfilePage() {
                     <div key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                       <div
                         className="
-                          w-[200px] h-[200px]
-                          bg-white/95
-                          rounded-2xl
-                          border border-green-200
-                          p-6
-                          flex flex-col items-center justify-between
-                          transition-all duration-300
-                          hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(0,120,80,0.5)]
-                        "
+                      w-[200px] h-[200px]
+                      bg-white/95
+                      rounded-2xl
+                      border border-green-200
+                      p-6
+                      flex flex-col items-center justify-between
+                      transition-all duration-300
+                      hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(0,120,80,0.5)]
+                    "
                       >
                         <CircleUserRound size={90} className="text-green-500" />
                         <div className="font-bold text-[22px] text-green-800">
@@ -144,14 +150,17 @@ export default function UIProfilePage() {
                 </CarouselContent>
               </Carousel>
             </div>
+
+            <div className="flex mt-8 justify-center">
+              <button
+                className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
+              transition-colors duration-200 hover:bg-red-500"
+                onClick={() => completelyLogout({ redirectUrl: "/user" })}
+              >
+                <LogOut size={20} /> Logout
+              </button>
+            </div>
           </div>
-          <button
-            className="flex-1 py-3 rounded-lg bg-red-600 text-white font-medium flex items-center justify-center gap-2
-               transition-colors duration-200 hover:bg-red-500"
-            onClick={() => completelyLogout({ redirectUrl: "/user" })}
-          >
-            <LogOut size={20} /> Logout
-          </button>
         </div>
       </div>
     </div>
