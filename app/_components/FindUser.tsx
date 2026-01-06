@@ -66,7 +66,6 @@ export default function FindUser() {
           Хүн хайх
         </h2>
 
-        {/* SEARCH */}
         <div className="relative max-w-2xl mx-auto bg-white/80 border border-green-300/60 rounded-2xl p-5 shadow-[0_10px_40px_rgba(0,150,90,0.25)] focus-within:shadow-[0_15px_55px_rgba(0,150,90,0.4)] transition-all duration-500">
           <Search
             className="absolute left-6 top-1/2 -translate-y-1/2 text-green-700"
@@ -91,7 +90,6 @@ export default function FindUser() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-10 mt-14">
-          {/* USERS */}
           <div className="w-full md:w-1/2">
             <div className="flex items-center gap-3 mb-3">
               <Users className="text-green-600" size={30} />
@@ -135,7 +133,6 @@ export default function FindUser() {
             </div>
           </div>
 
-          {/* DOCTORS */}
           <div className="w-full md:w-1/2">
             <div className="flex items-center gap-3 mb-3">
               <Stethoscope className="text-emerald-600" size={30} />

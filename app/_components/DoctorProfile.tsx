@@ -27,7 +27,7 @@ type reviews = {
 export default function UIProfilePage() {
   const router = useRouter();
   const { signOut } = useClerk();
-  const date = new Date("Tue Dec 09 2025 17:16:06 GMT+0800");
+  const date = new Date("Tue Jan 08 2026 17:16:06 GMT+0800");
   const formatted = `${date.getFullYear()}-${(date.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
