@@ -1,7 +1,5 @@
 import DescriptionPrompt from "@/app/_components/ai/DescriptionPrompt";
 import AiResponse from "@/app/_components/ai/AiResponse";
-import { Heart, Search, Send, ShoppingCart, UserRound } from "lucide-react";
-import Link from "next/link";
 import Footer from "@/app/_components/Footer";
 import MenuBar from "@/app/_components/MenuBar";
 

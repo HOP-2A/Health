@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, User, Clock, CircleUserRound } from "lucide-react";
+import { Mail, Phone, User, Clock, CircleUserRound, Award } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { User as userType } from "@/providers/AuthProvidor";
 
@@ -74,100 +74,159 @@ export default function DynamicDoctorPage({ clerkId }: ClerkId) {
     }
   }
 
+  if (!doctor)
+    return (
+      <div className="min-h-screen bg-gradient-to-br flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 text-lg">Ачааллаж байна...</p>
+        </div>
+      </div>
+    );
+
   return (
-    <div className="min-h-screen w-full flex justify-center p-8">
-      <div
-        className="
-      w-full max-w-5xl h-[88vh]
-      backdrop-blur-xl bg-white/60
-      rounded-2xl shadow-[0_10px_40px_rgba(0,150,80,0.15)]
-      flex flex-row overflow-hidden border border-green-200/40
-    "
-      >
-        <div
-          className="
-        w-1/3 p-10 flex flex-col items-center text-center
-        bg-green-50/70
-        border-r border-green-200/50
-      "
-        >
-          <div className="p-4 rounded-full bg-white/90 shadow-md">
-            {doctor?.profilePic ? (
-              <img
-                src={doctor.profilePic}
-                className="w-24 h-24 rounded-full object-cover"
-                alt="Doctor profile"
-              />
+    <div className="min-h-screen">
+      <main className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
+          <div className="relative h-48 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
+            <div className="absolute inset-0 bg-black/10" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+          </div>
+
+          <div className="px-6 md:px-12 pb-8">
+            <div className="flex flex-col md:flex-row items-center md:items-end -mt-20 relative z-10">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full blur-lg opacity-50" />
+                {doctor.profilePic ? (
+                  <img
+                    src={doctor.profilePic}
+                    className="relative w-32 h-32 rounded-full border-8 border-white shadow-2xl object-cover bg-white"
+                  />
+                ) : (
+                  <div className="relative w-32 h-32 rounded-full border-8 border-white shadow-2xl bg-white flex items-center justify-center">
+                    <User className="w-16 h-16 text-green-600" />
+                  </div>
+                )}
+                <div className="absolute bottom-1 right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-white">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                </div>
+              </div>
+
+              <div className="mt-6 md:mt-0 md:ml-8 text-center md:text-left flex-1">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                  {doctor.username}
+                </h1>
+
+                <p className="text-green-700 font-semibold text-lg mb-3">
+                  {doctor.experienceYears >= 10
+                    ? "Ахлах мэргэжилтэн эмч"
+                    : doctor.experienceYears >= 5
+                    ? "Туршлагатай эмч"
+                    : "Эмч"}
+                </p>
+
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  <span className="px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                    Идэвхтэй
+                  </span>
+                  <span className="px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                    Баталгаажсан
+                  </span>
+                  <span className="px-4 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-semibold">
+                    Member since {formatted}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Reviewed Users
+            </h2>
+
+            {uniqueReviewedUsers.length === 0 ? (
+              <p className="text-gray-500">Одоогоор үнэлгээ алга</p>
             ) : (
-              <User size={96} />
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {uniqueReviewedUsers.map(({ user, count }) => (
+                  <div
+                    key={user.email}
+                    className="bg-white border border-green-200 rounded-2xl p-6 flex flex-col items-center hover:shadow-lg transition"
+                  >
+                    <CircleUserRound size={64} className="text-green-500" />
+                    <p className="mt-3 font-semibold text-gray-800">
+                      {user.username}
+                    </p>
+                    <p className="text-sm text-gray-500">{user.email}</p>
+                    <p className="mt-2 text-sm text-green-600 font-medium">
+                      Reviewed {count} {count > 1 ? "times" : "time"}
+                    </p>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
-          <h2 className="mt-6 text-3xl font-bold text-gray-800">
-            {doctor?.username}
-          </h2>
-
-          <p className="mt-2 text-sm text-green-700/70">
-            Member since {formatted}
-          </p>
-
-          <div className="mt-10 w-full space-y-5 text-left text-sm">
-            <p className="flex items-center gap-3 text-gray-700">
-              <Mail size={22} className="text-green-600" />
-              {doctor?.email}
-            </p>
-            <p className="flex items-center gap-3 text-gray-700">
-              <Phone size={22} className="text-green-600" />
-              {doctor?.phoneNumber}
-            </p>
-            <p className="flex items-center gap-3 text-gray-700">
-              <Clock size={22} className="text-green-600" />
-              {doctor?.experienceYears} Жил
-            </p>
-          </div>
-        </div>
-
-        <div className="flex-1 p-8 overflow-y-auto bg-transparent">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">
-            Reviewed Users
-          </h3>
-
-          <div className="flex flex-wrap gap-6">
-            {uniqueReviewedUsers.map(({ user, count }) => (
-              <div
-                key={user.email}
-                className="
-              w-full
-              sm:w-[calc(50%-12px)]
-              xl:w-[calc(33.333%-16px)]
-              bg-white/90
-              rounded-2xl
-              p-6
-              flex
-              flex-col
-              items-center
-              justify-center
-              shadow-md
-              hover:shadow-lg
-              transition
-            "
-              >
-                <CircleUserRound size={64} className="text-green-500" />
-
-                <div className="mt-4 font-semibold text-gray-800 text-lg">
-                  {user.username}
+          <div className="space-y-8">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Phone className="w-6 h-6 text-indigo-600 mr-2" />
+                Холбоо барих
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
+                  <Phone className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500 font-medium mb-1">
+                      Утасны дугаар
+                    </p>
+                    <p className="text-gray-900 font-semibold">
+                      {doctor?.phoneNumber}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="mt-1 text-sm text-gray-500">{user.email}</div>
-
-                <div className="mt-3 text-sm font-medium text-green-600">
-                  Reviewed {count} {count === 1 ? "time" : "times"}
+                <div className="flex items-start space-x-3 p-3 bg-purple-50 rounded-lg">
+                  <Mail className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500 font-medium mb-1">
+                      И-мэйл хаяг
+                    </p>
+                    <p className="text-gray-900 font-semibold text-sm break-all">
+                      {doctor?.email}
+                    </p>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <Award className="w-6 h-6 text-indigo-600 mr-2" />
+                Мэргэжлийн ур чадвар
+              </h3>
+
+              <div className="space-y-3">
+                <div className="flex items-center p-3 bg-indigo-50 rounded-lg">
+                  <Award className="w-5 h-5 text-indigo-600 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">
+                    {doctor?.experienceYears}+ жилийн туршлага
+                  </span>
+                </div>
+                <div className="flex items-center p-3 bg-green-50 rounded-lg">
+                  <Award className="w-5 h-5 text-green-600 mr-3 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">
+                    Баталгаажсан мэргэжилтэн
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
