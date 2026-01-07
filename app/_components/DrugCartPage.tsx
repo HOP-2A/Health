@@ -31,7 +31,7 @@ export default function DrugCartPage() {
   const findMedicines = async () => {
     const res = await fetch(`/api/find-order/${user?.id}`);
     const response = await res.json();
-    setCartItems(response.items);
+    setCartItems(response.items ?? []);
   };
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function DrugCartPage() {
     findMedicines();
   }, [user]);
 
-  const totalP = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const totalP = (cartItems ?? []).reduce((sum, item) => sum + item.price, 0);
 
   const deleteMed = async (orderItemId: string) => {
     await fetch(`/api/delete-orderItem/${orderItemId}`, { method: "DELETE" });
@@ -72,7 +72,7 @@ export default function DrugCartPage() {
         </div>
 
         <AnimatePresence mode="wait">
-          {cartItems.length === 0 ? (
+          {(cartItems ?? []).length === 0 ? (
             <motion.div
               key="empty-cart"
               initial={{ opacity: 0, y: 24 }}

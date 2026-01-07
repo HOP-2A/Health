@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -15,6 +16,10 @@ export const GET = async (
       status: "pending",
     },
   });
+  console.log(order);
+  if (!order) {
+    return NextResponse.json("No order");
+  }
   const orderedItems = await prisma.orderItem.findMany({
     where: {
       orderId: order?.id,
