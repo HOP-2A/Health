@@ -6,6 +6,7 @@ import { useSignIn } from "@clerk/nextjs";
 import MenuBar from "../_components/MenuBar";
 import { usePathname } from "next/navigation";
 import Footer from "../_components/Footer";
+import { toast } from "sonner";
 
 const smooth: Transition = {
   type: "spring",
@@ -62,10 +63,17 @@ const Page = () => {
 
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        router.push("/");
+        router.push("/doctor");
       }
     } catch (err) {
       console.error("Error:", err);
+      toast.error("Алдаа гарлаа", {
+        style: {
+          background: "rgba(239,68,68,0.95)",
+          color: "#fef2f2",
+          borderRadius: "10px",
+        },
+      });
     }
   };
 

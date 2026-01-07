@@ -12,6 +12,7 @@ export const GET = async (
   const order = await prisma.order.findFirst({
     where: {
       userId: userId,
+      status: "pending",
     },
   });
   const orderedItems = await prisma.orderItem.findMany({
@@ -26,5 +27,5 @@ export const GET = async (
     items: orderedItems,
     order: order,
   };
-  return NextResponse.json(final);
+  if (order) return NextResponse.json(final);
 };
