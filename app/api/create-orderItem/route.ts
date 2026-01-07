@@ -6,6 +6,7 @@ export const POST = async (req: NextRequest) => {
   const previousOrder = await prisma.order.findFirst({
     where: {
       userId: body.userId,
+      status: "pending",
     },
   });
 
