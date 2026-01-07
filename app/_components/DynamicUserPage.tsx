@@ -69,6 +69,16 @@ export default function DynamicUserPage({ clerkId }: { clerkId: string }) {
     fetchOrders();
   }, [clerkId]);
 
+  if (!user)
+    return (
+      <div className="min-h-screen bg-gradient-to-br flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 text-lg">Ачааллаж байна...</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto px-4 py-8 max-w-7xl">

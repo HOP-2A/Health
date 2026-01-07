@@ -77,6 +77,17 @@ export default function GetAllUser() {
       toast.success("Амжилттай");
     }
   };
+
+  if (!users)
+    return (
+      <div className="min-h-screen bg-gradient-to-br flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 text-lg">Ачааллаж байна...</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="min-h-screen py-12 px-6">
       <div className="max-w-7xl mx-auto">
