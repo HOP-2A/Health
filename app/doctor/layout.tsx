@@ -23,6 +23,5 @@ export default function DoctorLayout({
     }
   }, [user, router, doctor]);
 
-
   return <div>{children}</div>;
 }
