@@ -96,9 +96,9 @@ export default function UIProfilePage() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
 
-                {clerkUser?.imageUrl ? (
+                {doctor?.profilePic ? (
                   <img
-                    src={clerkUser.imageUrl}
+                    src={doctor.profilePic}
                     alt={doctor?.username || "Profile"}
                     className="relative w-32 h-32 rounded-full border-8 border-white shadow-2xl object-cover bg-white"
                   />
