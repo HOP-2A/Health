@@ -1,15 +1,15 @@
 import { prisma } from "@/lib/db";
 import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
+import type { OrderItem, Medicine } from "@prisma/client";
 
 export const GET = async (
   req: NextRequest,
-  context: {
-    params: Promise<{ userId: string }>;
-  }
+  context: { params: Promise<{ userId: string }> }
 ) => {
   const params = await context.params;
   const { userId } = params;
+
   const order = await prisma.order.findFirst({
     where: {
       userId: userId,

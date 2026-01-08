@@ -22,7 +22,7 @@ export default function MenuBar() {
 
     const fetchCounts = async () => {
       try {
-        const cartRes = await fetch(`/api/find-order/${user.clerkId}`);
+        const cartRes = await fetch(`/api/find-order/${user.id}`);
         if (cartRes.ok) {
           const cartData = await cartRes.json();
           setCartCount(cartData.items?.length || 0);
