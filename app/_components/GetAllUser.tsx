@@ -73,7 +73,7 @@ export default function GetAllUser() {
       method: "DELETE",
     });
     if (res.ok) {
-      fetchUsers();
+      await fetchUsers();
       toast.success("Амжилттай");
     }
   };
