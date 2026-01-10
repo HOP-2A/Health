@@ -50,7 +50,7 @@ export default function WritePrompt() {
             active:scale-95 transition-all duration-200
           "
         >
-          Submit
+          Subm
         </button>
       </form>
     </div>
